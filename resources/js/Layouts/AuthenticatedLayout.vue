@@ -6,7 +6,12 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
+import Messager from '@/Components/Messager.vue';
+import { watchEffect } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 
+const page = usePage();
+watchEffect(()=>console.log(page.props))
 const showingNavigationDropdown = ref(false);
 </script>
 
@@ -30,7 +35,7 @@ const showingNavigationDropdown = ref(false);
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                    Tablica
                                 </NavLink>
                             </div>
                         </div>
@@ -64,9 +69,9 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
+                                        <DropdownLink :href="route('profile.edit')"> Profil </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
-                                            Log Out
+                                            Wyloguj
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
@@ -113,7 +118,7 @@ const showingNavigationDropdown = ref(false);
                 >
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                            Tablica
                         </ResponsiveNavLink>
                     </div>
 
@@ -129,7 +134,7 @@ const showingNavigationDropdown = ref(false);
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
-                                Log Out
+                               Wyloguj
                             </ResponsiveNavLink>
                         </div>
                     </div>
@@ -142,9 +147,11 @@ const showingNavigationDropdown = ref(false);
                     <slot name="header" />
                 </div>
             </header>
-
+           
             <!-- Page Content -->
-            <main>
+            <main> 
+                <!-- Messages -->
+                <Messager />
                 <slot />
             </main>
         </div>

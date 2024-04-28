@@ -27,6 +27,7 @@ class UserFactory extends Factory
         $role=Role::where("name","user")->firstOrFail();
         return [
             'name' => fake()->name(),
+            'surname' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),

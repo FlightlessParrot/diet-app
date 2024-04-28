@@ -3,6 +3,7 @@ import DangerButton from '@/Components/DangerButton.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import PrimeDropdown from '@/Components/PrimeDropdown.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { router, useForm } from '@inertiajs/vue3';
 
@@ -14,16 +15,20 @@ const props=defineProps({
     hasAddress:{
         type: Boolean,
         required: true
+    },
+    provinces:{
+        type: Array,
+        required: true , 
     }
 });
 
 
 const form = useForm({
-    province: props.address?.province,
-    city: props.address?.city,
-    code: props.address?.code,
-    line_1: props.address?.line_1,
-    line_2: props.address?.line_2
+    province_id: props.address?.province_id ? props.address.province_id : '',
+    city: props.address?.city ? props.address.city : '',
+    code: props.address?.code ? props.address.code  : '',
+    line_1: props.address?.line_1 ? props.address.line_1 : '' ,
+    line_2: props.address?.line_2 ? props.address?.line_2 : ''
 });
 </script>
 
@@ -71,15 +76,7 @@ const form = useForm({
             <div>
                 <InputLabel for="province" value="Województwo" />
 
-                <TextInput
-                    id="province"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.province"
-                    required
-                    autofocus
-                />
-
+                <PrimeDropdown v-model="form.province_id" required placeholder="Wybierz województwo" :options="provinces"/>
                 <InputError class="mt-2" :message="form.errors.province" />
             </div>
             <div class="grid grid-cols-2 gap-4">

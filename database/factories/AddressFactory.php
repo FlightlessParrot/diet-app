@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Province;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +19,7 @@ class AddressFactory extends Factory
     {
         return [
             'city'=>fake()->city(),
-            'province'=>fake()->state(),
+            'province_id'=>Province::first(),
             'code'=>fake()->postcode(),
             'line_1'=>fake()->streetAddress()
 

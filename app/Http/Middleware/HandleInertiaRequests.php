@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Province;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -29,11 +30,17 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user=$request->user();
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user,
+                'role' => $user!==null ? $user->role : null,
+                'specialist' => $user!==null && $user->specialist !==null ? $user->specialist : null,
+            ],'flash' => [
+                'message' => fn () => $request->session()->get('message')
             ],
+            
         ];
     }
 }

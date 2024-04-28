@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAddressRequest;
 use App\Http\Requests\UpdateAddressRequest;
 use App\Models\Address;
-use Illuminate\Auth\Events\Validated;
+use App\Models\Province;
+use App\Models\Specialist;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\UnauthorizedException;
+use Inertia\Inertia;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class AddressController extends Controller
 {
@@ -16,7 +20,7 @@ class AddressController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Specialist/CreateSpecialistAddress', ['provinces'=>Province::all()]);
     }
 
     /**
@@ -24,7 +28,7 @@ class AddressController extends Controller
      */
     public function create()
     {
-        //
+        // 
     }
 
     /**
@@ -33,7 +37,19 @@ class AddressController extends Controller
     public function store(StoreAddressRequest $request)
     {
         $address=$request->user()->address()->create($request->validated());
-        return redirect()->back()->with("success",true);
+        return redirect()->back();
+    }
+    public function storeForSpecialist(StoreAddressRequest $request, Specialist $specialist)
+    {
+        $user=$request->user();
+        if($user->can('update',$specialist) )
+        {
+        $address=$request->user()->specialist->address()->create($request->validated());
+        return to_route('service.form')->with('message',['text'=>'Udało się','status'=>'success']);
+        }else{
+        return redirect()->back()->with('message',['text'=>'Coś poszło nie tak.','status'=>'error']);
+        }
+        
     }
 
     /**
@@ -57,14 +73,14 @@ class AddressController extends Controller
      */
     public function update(UpdateAddressRequest $request, Address $address)
     {
-        if($request->user()->id===$address->user_id)
+        if($request->user()?->address?->id===$address->id)
         {
         $address->update($request->all());
         $address->save();
         
         return Redirect::route('profile.edit');
         }else{
-            return response(['message'=>'Nie masz uprawnień, aby wykonać tę akcję.'],401);
+            return response(['message'=>['text'=>'Nie masz uprawnień, aby wykonać tę akcję.','status'=>'error']],401);
         }
     }
 
@@ -79,7 +95,7 @@ class AddressController extends Controller
             $address->delete();
             return redirect(route('profile.edit'));
         }else{
-            return response(['message'=>'Nie masz uprawnień, aby wykonać tę akcję.'],401);
+            return response(['message'=>['text'=>'Nie masz uprawnień, aby wykonać tę akcję.','status'=>'error']],401);
         }
     }
 }

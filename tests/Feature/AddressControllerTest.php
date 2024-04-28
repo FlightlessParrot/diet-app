@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Address;
+use App\Models\Province;
 use App\Models\Role;
+use App\Models\Specialist;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -11,10 +13,15 @@ use Tests\TestCase;
 
 class AddressControllerTest extends TestCase
 {
-    
+    use RefreshDatabase;
     protected function setUp(): void
     {
         parent::setUp();
+        if(!Province::first()){
+            $province = new Province();
+            $province->name = "pomorskie";
+            $province->save();
+        }
         if(!Role::where("name","user")->exists())
         {
             Role::create(['name'=>'user']);
@@ -24,9 +31,10 @@ class AddressControllerTest extends TestCase
     
     public function test_user_can_create_address(): void
     {
+        $province_id=Province::first()->id;
         $addressData=[
             'city'=>'Gdańsk',
-            'province'=>'pomorskie',
+            'province_id'=>$province_id,
             'line_1'=>'linia_1',
             'line_2'=>'linia_2',
             'code'=>'00-000',
@@ -40,7 +48,7 @@ class AddressControllerTest extends TestCase
         
         $this->assertInstanceOf(Address::class, $address);
         $this->assertEquals($addressData["city"], $address->city);
-        $this->assertEquals($addressData["province"], $address->province);
+        $this->assertEquals($addressData["province_id"], $address->province_id);
         $this->assertEquals($addressData["line_1"], $address->line_1);
         $this->assertEquals($addressData["line_2"], $address->line_2);
         $this->assertEquals($addressData["code"], $address->code);
@@ -48,14 +56,19 @@ class AddressControllerTest extends TestCase
 
     public function test_user_can_update_address(): void
     {
+        $province_id=Province::first()->id;
         $addressData=[
             'city'=>'Gdańsk',
-            'province'=>'pomorskie',
+            'province_id'=>$province_id,
             'line_1'=>'linia_1',
             'line_2'=>'linia_2',
             'code'=>'00-000',
         ];
         $updatedData=array_map(fn ($value)=>substr($value,0,2),$addressData);
+        $updatedProvince=Province::make();
+        $updatedProvince->name='test province';
+        $updatedProvince->save();
+        $updatedData['province_id']=$updatedProvince->id;
         $user=User::factory()->create();
         $address=$user->address()->create($addressData);
         $response= $this->actingAs($user)->put(route("address.update",$address->id),$updatedData);
@@ -63,11 +76,11 @@ class AddressControllerTest extends TestCase
         $user->refresh();
         $address->refresh();
         
-        $response->assertRedirect();
+        $response->assertRedirect('/profil');
         
         $this->assertInstanceOf(Address::class, $address);
         $this->assertEquals($updatedData["city"], $address->city);
-        $this->assertEquals($updatedData["province"], $address->province);
+        $this->assertEquals($updatedData["province_id"], $address->province_id);
         $this->assertEquals($updatedData["line_1"], $address->line_1);
         $this->assertEquals($updatedData["line_2"], $address->line_2);
         $this->assertEquals($updatedData["code"], $address->code);
@@ -75,9 +88,10 @@ class AddressControllerTest extends TestCase
 
     public function test_user_cant_update_other_user_address(): void
     {
+        $province_id=Province::first()->id;
         $addressData=[
             'city'=>'Gdańsk',
-            'province'=>'pomorskie',
+            'province_id'=>$province_id,
             'line_1'=>'linia_1',
             'line_2'=>'linia_2',
             'code'=>'00-000',
@@ -92,9 +106,10 @@ class AddressControllerTest extends TestCase
 
     public function test_user_can_delete_address(): void
         {        
+            $province_id=Province::first()->id;
             $addressData=[
                 'city'=>'Gdańsk',
-                'province'=>'pomorskie',
+                'province_id'=>$province_id,
                 'line_1'=>'linia_1',
                 'line_2'=>'linia_2',
                 'code'=>'00-000',
@@ -108,9 +123,10 @@ class AddressControllerTest extends TestCase
     }
     public function test_user_cant_delete_other_user_address(): void
     {        
+        $province_id=Province::first()->id;
         $addressData=[
             'city'=>'Gdańsk',
-            'province'=>'pomorskie',
+            'province_id'=>$province_id,
             'line_1'=>'linia_1',
             'line_2'=>'linia_2',
             'code'=>'00-000',
@@ -122,5 +138,31 @@ class AddressControllerTest extends TestCase
         
         $response->assertUnauthorized();
         $this->assertModelExists($address);
-}
+    }
+
+    public function test_specialist_can_create_address(): void
+    {
+        $province_id=Province::first()->id;
+        $addressData=[
+            'city'=>'Gdańsk',
+            'province_id'=>$province_id,
+            'line_1'=>'linia_1',
+            'line_2'=>'linia_2',
+            'code'=>'00-000',
+        ];
+        $user=User::factory()->has(Specialist::factory())->create();
+        $specialist=$user->specialist;
+        $response= $this->actingAs($user)->post(route("specialist.address.store",$specialist->id),$addressData);
+
+        
+        $address=$specialist->address;
+
+        $response->assertRedirect();
+
+        $this->assertModelExists($address);
+        foreach($addressData as $key=>$value)
+        {
+            $this->assertEquals($value, $address->$key);
+        }
+    }
 }

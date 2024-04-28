@@ -1,0 +1,87 @@
+<script setup>
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import Tile from "@/Components/Tile.vue";
+import Title from "@/Components/Title.vue";
+import { Head } from "@inertiajs/vue3";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import TextInput from "@/Components/TextInput.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import InputError from "@/Components/InputError.vue";
+import { usePage, useForm } from "@inertiajs/vue3";
+
+const user = usePage().props.auth.user;
+const props = defineProps(['provinces'])
+const form = useForm({
+    title: "",
+    name: user.name,
+    surname: user.surname,
+});
+</script>
+<template>
+    <Head> <title>Utwórz profil specjalisty</title></Head>
+    <AuthenticatedLayout>
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Profil specjalisty
+            </h2>
+        </template>
+        <Tile>
+            <Title>
+                <template v-slot:h2Title> Utwórz profil specjalisty </template>
+                <template v-slot:desc>
+                    Wypełnij formularz, aby wwysłać prośbę o utworzenie profilu
+                    specjalisty. Po jego zaakceptowaniu możesz zacząć świadczyć
+                    usługi za pośrednictwem naszego serwisu.
+                </template>
+            </Title>
+            <form @submit.prevent="form.post(route('specialist.store'))" class="mt-6 space-y-6">
+                <div>
+                    <InputLabel for="title" value="Tytuł" />
+
+                    <TextInput
+                        id="title"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="form.title"
+                        autofocus
+                        
+                    />
+
+                    <InputError class="mt-2" :message="form.errors.title" />
+                </div>
+                <div>
+                    <InputLabel for="name" value="Imię" />
+
+                    <TextInput
+                        id="name"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="form.name"
+                        required
+                        autofocus
+                        autocomplete="name"
+                    />
+
+                    <InputError class="mt-2" :message="form.errors.name" />
+                </div>
+                <div>
+                    <InputLabel for="surname" value="Nazwisko" />
+
+                    <TextInput
+                        id="surname"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="form.surname"
+                        required
+                        autofocus
+                        autocomplete="surname"
+                    />
+
+                    <InputError class="mt-2" :message="form.errors.surname" />
+                </div>
+
+                <PrimaryButton> Dalej </PrimaryButton>
+            </form>
+        </Tile>
+    </AuthenticatedLayout>
+</template>

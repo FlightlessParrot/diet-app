@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -24,6 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'surname'
     ];
 
     /**
@@ -54,8 +56,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Role::class);
     }
 
-    public function address() : HasOne
+    public function address() : MorphOne
     {
-        return $this->hasOne(Address::class);
+        return $this->morphOne(Address::class,'addressable');
+    }
+
+    public function specialist() : HasOne
+    {
+        return $this->hasOne(Specialist::class);
     }
 }

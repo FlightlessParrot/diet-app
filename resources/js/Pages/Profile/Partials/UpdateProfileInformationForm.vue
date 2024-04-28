@@ -19,6 +19,7 @@ const user = usePage().props.auth.user;
 const form = useForm({
     name: user.name,
     email: user.email,
+    surname: user.surname
 });
 </script>
 
@@ -34,7 +35,7 @@ const form = useForm({
 
         <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
             <div>
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="Imię" />
 
                 <TextInput
                     id="name"
@@ -48,9 +49,24 @@ const form = useForm({
 
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
+            <div>
+                <InputLabel for="surname" value="Nazwisko" />
+
+                <TextInput
+                    id="surname"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.surname"
+                    required
+                    autofocus
+                    autocomplete="surname"
+                />
+
+                <InputError class="mt-2" :message="form.errors.surname" />
+            </div>
 
             <div>
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" value="Adres e-mail" />
 
                 <TextInput
                     id="email"
@@ -66,7 +82,7 @@ const form = useForm({
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
                 <p class="text-sm mt-2 text-gray-800">
-                    Twój adres e-mail nie został zweryfikowany.
+                    Twój adres e-mail nie został zweryfikowany.
                     <Link
                         :href="route('verification.send')"
                         method="post"
@@ -86,7 +102,7 @@ const form = useForm({
             </div>
 
             <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
+                <PrimaryButton :disabled="form.processing">Zapisz</PrimaryButton>
 
                 <Transition
                     enter-active-class="transition ease-in-out"

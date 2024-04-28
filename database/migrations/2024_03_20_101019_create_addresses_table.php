@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\Address;
-use App\Models\User;
+use App\Models\Province;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,12 +15,13 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignIdFor(User::class);
-            $table->string('province');
             $table->string('city');
             $table->string('code');
+            $table->foreignIdFor(Province::class);
             $table->string('line_1',250)->nullable();
             $table->string('line_2',250)->nullable();
+            $table->integer('addressable_id');
+            $table->string('addressable_type');
         });
     }
 

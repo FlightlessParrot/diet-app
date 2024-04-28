@@ -1,22 +1,22 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, router, usePage } from '@inertiajs/vue3';
+import Tile from "@/Components/Tile.vue"
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+const page = usePage()
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="Tablica" />
 
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Tablica</h2>
         </template>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">Jesteś zalogowany</div>
-                </div>
-            </div>
-        </div>
+       <Tile>
+                    <div class=" text-gray-900">Jesteś zalogowany</div>
+        </Tile>
+               
     </AuthenticatedLayout>
 </template>

@@ -14,7 +14,7 @@ const toggle = (event) => {
 </script>
 <template>
     <div class="card flex justify-content-center">
-        <Button type="button" icon = 'pi pi-bars' icon-class="text-xl" class="w-12"  @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" >
+        <Button type="button" icon = 'pi pi-bars' icon-class="text-xl"   @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" >
             <!-- <template #icon>
                 <BarsArrowDownIcon class="w-8" />
             </template> -->
