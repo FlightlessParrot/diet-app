@@ -86,6 +86,40 @@ class AddressControllerTest extends TestCase
         $this->assertEquals($updatedData["code"], $address->code);
     }
 
+    public function test_specialist_can_update_address(): void
+    {
+        $province_id=Province::first()->id;
+        $addressData=[
+            'city'=>'Gdańsk',
+            'province_id'=>$province_id,
+            'line_1'=>'linia_1',
+            'line_2'=>'linia_2',
+            'code'=>'00-000',
+        ];
+        $updatedData=array_map(fn ($value)=>substr($value,0,2),$addressData);
+        $updatedProvince=Province::make();
+        $updatedProvince->name='test province';
+        $updatedProvince->save();
+        $updatedData['province_id']=$updatedProvince->id;
+        $user=User::factory()->create();
+        $specialist=Specialist::factory()->make();
+        $user->specialist()->save($specialist);
+        $specialist->refresh();
+        $address=$specialist->addresses()->create($addressData);
+        $response= $this->actingAs($user)->put(route("specialist.address.update",[$specialist->id,$address->id]),$updatedData);
+        $response->dump();
+        $user->refresh();
+        $address->refresh();
+        
+        $response->assertRedirect(route("specialist.profile.edit",$specialist->id));
+        
+        $this->assertInstanceOf(Address::class, $address);
+        $this->assertEquals($updatedData["city"], $address->city);
+        $this->assertEquals($updatedData["province_id"], $address->province_id);
+        $this->assertEquals($updatedData["line_1"], $address->line_1);
+        $this->assertEquals($updatedData["line_2"], $address->line_2);
+        $this->assertEquals($updatedData["code"], $address->code);
+    }
     public function test_user_cant_update_other_user_address(): void
     {
         $province_id=Province::first()->id;
@@ -104,6 +138,23 @@ class AddressControllerTest extends TestCase
         $response->assertUnauthorized();
     }
 
+    public function test_specialist_cant_update_other_user_address(): void
+    {
+        $province_id=Province::first()->id;
+        $addressData=[
+            'city'=>'Gdańsk',
+            'province_id'=>$province_id,
+            'line_1'=>'linia_1',
+            'line_2'=>'linia_2',
+            'code'=>'00-000',
+        ];
+        $updatedData=array_map(fn ($value)=>substr($value,0,2),$addressData);
+        $user=User::factory()->has(Specialist::factory())->create();
+        $address=User::factory()->has(Specialist::factory())->create()->specialist->addresses()->create($addressData);
+        $response= $this->actingAs($user)->put(route("specialist.address.update",[$user->specialist->id,$address->id]),$updatedData);
+        
+        $response->assertUnauthorized();
+    }
     public function test_user_can_delete_address(): void
         {        
             $province_id=Province::first()->id;
@@ -155,7 +206,7 @@ class AddressControllerTest extends TestCase
         $response= $this->actingAs($user)->post(route("specialist.address.store",$specialist->id),$addressData);
 
         
-        $address=$specialist->address;
+        $address=$specialist->addresses->first();
 
         $response->assertRedirect();
 

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->text('notification');
             $table->string('notificable_string');
-            $table->integer('notificable_id')
+            $table->integer('notificable_id');
 
         });
     }

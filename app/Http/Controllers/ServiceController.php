@@ -14,44 +14,73 @@ use Inertia\Response;
 
 class ServiceController extends Controller
 {
-    public function index() : Response
+    public function index(): Response
     {
-        return Inertia::render('Specialist/SpecialistServices',['provinces'=>Province::all()]);
+        return Inertia::render('Specialist/SpecialistServices', ['provinces' => Province::all()]);
     }
-    public function store(StoreServiceRequest $request, Specialist $specialist) : RedirectResponse
+    public function store(StoreServiceRequest $request, Specialist $specialist): RedirectResponse
     {
-        $user=$request->user();
-        $onCond=(isset($request->online[0]) && $request->online[0]===true);
-        $statCond=isset($request->stationary[0]) && $request->stationary[0]===true;
-        $mobCond=(isset($request->serviceCities) && count($request->serviceCities)>0);
+        $user = $request->user();
+        $onCond = (isset($request->online[0]) && $request->online[0] === true);
+        $statCond = isset($request->stationary[0]) && $request->stationary[0] === true;
+        $mobCond = (isset($request->serviceCities) && count($request->serviceCities) > 0);
 
-        if($user->can('update',$specialist) && ($onCond || $mobCond || $statCond) )
-        {
-        if($onCond)
-        {
-            $online=ServiceKind::where('name','online')->firstOrFail();
-            $specialist->serviceKinds()->attach($online);
-        }
-        if($statCond)
-        {
-            $stationary=ServiceKind::where('name','stationary')->firstOrFail();
-            $specialist->serviceKinds()->attach($stationary);
-        }
-        if($mobCond)
-        {
-            $mobile=ServiceKind::where('name','mobile')->firstOrFail();
-            $specialist->serviceKinds()->attach($mobile);
-
-            foreach($request->serviceCities as $city)
-            {
-                $serviceCity = ServiceCity::firstOrCreate(['name'=>strtolower(trim($city['name']))],['province_id'=>$city['province_id']]);
-                $specialist->serviceCities()->attach($serviceCity);
+        if ($user->can('update', $specialist) && ($onCond || $mobCond || $statCond)) {
+            if ($onCond) {
+                $online = ServiceKind::where('name', 'online')->firstOrFail();
+                $specialist->serviceKinds()->attach($online);
             }
+            if ($statCond) {
+                $stationary = ServiceKind::where('name', 'stationary')->firstOrFail();
+                $specialist->serviceKinds()->attach($stationary);
+            }
+            if ($mobCond) {
+                $mobile = ServiceKind::where('name', 'mobile')->firstOrFail();
+                $specialist->serviceKinds()->attach($mobile);
+
+                foreach ($request->serviceCities as $city) {
+                    $serviceCity = ServiceCity::firstOrCreate(['name' => strtolower(trim($city['name']))], ['province_id' => $city['province_id']]);
+                    $specialist->serviceCities()->attach($serviceCity);
+                }
+            }
+
+            return to_route('category.attach')->with('message', ['text' => 'Udało się dodać formy świadczenia usług.', 'status' => 'success']);
+        } else {
+            return redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
         }
-        return to_route('category.attach')->with('message',['text'=>'Udało się dodać formy świadczenia usług.','status'=>'success']);
-        
-        }else{
-        return redirect()->back()->with('message',['text'=>'Coś poszło nie tak.','status'=>'error']);
+    }
+    public function update(StoreServiceRequest $request, Specialist $specialist): RedirectResponse
+    {
+        $user = $request->user();
+
+        $specialist->serviceKinds()->detach();
+
+        $onCond = (isset($request->online[0]) && $request->online[0] === true);
+        $statCond = isset($request->stationary[0]) && $request->stationary[0] === true;
+        $mobCond = (isset($request->serviceCities) && count($request->serviceCities) > 0);
+
+        if ($user->can('update', $specialist) && ($onCond || $mobCond || $statCond)) {
+            if ($onCond) {
+                $online = ServiceKind::where('name', 'online')->firstOrFail();
+                $specialist->serviceKinds()->attach($online);
+            }
+            if ($statCond) {
+                $stationary = ServiceKind::where('name', 'stationary')->firstOrFail();
+                $specialist->serviceKinds()->attach($stationary);
+            }
+            if ($mobCond) {
+                $mobile = ServiceKind::where('name', 'mobile')->firstOrFail();
+                $specialist->serviceKinds()->attach($mobile);
+
+                foreach ($request->serviceCities as $city) {
+                    $serviceCity = ServiceCity::firstOrCreate(['name' => strtolower(trim($city['name']))], ['province_id' => $city['province_id']]);
+                    $specialist->serviceCities()->attach($serviceCity);
+                }
+            }
+
+            return to_route('specialist.profile.edit',$specialist->id)->with('message', ['text' => 'Udało się dodać formy świadczenia usług.', 'status' => 'success']);
+        } else {
+            return redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
         }
     }
 }

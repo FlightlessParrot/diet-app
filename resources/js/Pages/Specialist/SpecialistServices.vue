@@ -63,7 +63,12 @@ const valid = computed(
         </Tile>
         <Tile>
             <form
-                @submit.prevent="form.post(route('store.services',page.props.auth.specialist.id), {})"
+                @submit.prevent="
+                    form.post(
+                        route('store.services', page.props.auth.specialist.id),
+                        {}
+                    )
+                "
                 class="mt-6 space-y-16"
             >
                 <Card>
@@ -197,6 +202,11 @@ const valid = computed(
                             </label>
                         </div>
                     </div>
+                    <InputError
+                        v-if="!valid"
+                        class="mt-2"
+                        message="Musisz podać przynajmniej jedną formę prowadzenia działalności."
+                    />
                 </div>
                 <PrimaryButton @click="(e) => !valid && e.preventDefault()">
                     Dalej

@@ -43,15 +43,29 @@ class AddressController extends Controller
     {
         $user=$request->user();
         if($user->can('update',$specialist) )
-        {
-        $address=$request->user()->specialist->address()->create($request->validated());
-        return to_route('service.form')->with('message',['text'=>'Udało się','status'=>'success']);
+        {            
+            $request->user()->specialist->addresses()->create($request->validated());
+            return to_route('service.form')->with('message',['text'=>'Udało się','status'=>'success']);
         }else{
         return redirect()->back()->with('message',['text'=>'Coś poszło nie tak.','status'=>'error']);
         }
         
     }
 
+    public function storeForSpecialistAndRedirectBack(StoreAddressRequest $request, Specialist $specialist)
+    {
+        $user=$request->user();
+        if($user->can('update',$specialist) )
+        {            
+            $request->user()->specialist->addresses()->create($request->validated());
+            return redirect()->back()->with('message',['text'=>'Udało się','status'=>'success']);
+        
+        
+        }else{
+        return redirect()->back()->with('message',['text'=>'Coś poszło nie tak.','status'=>'error']);
+        }
+        
+    }
     /**
      * Display the specified resource.
      */
@@ -83,7 +97,21 @@ class AddressController extends Controller
             return response(['message'=>['text'=>'Nie masz uprawnień, aby wykonać tę akcję.','status'=>'error']],401);
         }
     }
-
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updateForSpecialist(UpdateAddressRequest $request,Specialist $specialist, Address $address)
+    {
+        if($request->user()?->specialist->addresses()->first()?->id===$address->id && $specialist->id ===$request->user()->specialist->id)
+        {
+        $address->update($request->all());
+      
+        
+        return Redirect::route('specialist.profile.edit',$specialist->id)->with('message',['text'=>'Udało się zaktualizować adress','status'=>'success' ]);
+        }else{
+            return response(['message'=>['text'=>'Nie masz uprawnień, aby wykonać tę akcję.','status'=>'error']],401);
+        }
+    }
     /**
      * Remove the specified resource from storage.
      */

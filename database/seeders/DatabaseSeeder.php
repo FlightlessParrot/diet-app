@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Address;
+use App\Models\Role;
 use App\Models\Specialist;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -19,7 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call([RolesSeeder::class, ProvinceSeeder::class, CategorySeeder::class, ServiceKindSeeder::class]);
         
         User::factory(10)->create();
-        User::factory(10)->has(Specialist::factory())->create();
+        User::factory(10)->has(Specialist::factory())->create(['role_id'=>Role::where('name', 'specialist')->first()->id]);
         
         $user=User::factory()->has(Address::factory())->create([
             'name' => 'Test User',

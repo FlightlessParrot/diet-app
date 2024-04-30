@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateSpecialist;
+use App\Models\Province;
 use App\Models\Role;
+use App\Models\ServiceCity;
+use App\Models\ServiceKind;
 use App\Models\Specialist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,15 +65,30 @@ class SpecialistController extends Controller
      */
     public function edit(Specialist $specialist)
     {
-        //
+        if(Auth::user()->can('view',$specialist))
+        {
+            return Inertia::render('Specialist/Profile/EditSpecialist',['provinces'=>Province::All(), 'hasAddress'=> $specialist->addresses()->first()!==null, 'addresses'=> $specialist->addresses()->get(), 
+            'serviceCities'=>$specialist->serviceCities()->get(),'serviceKinds'=>$specialist->serviceKinds()->get(), 'categories'=>$specialist->categories()->get()]);
+        }else{
+            return response('Nie masz uprawnień, aby wykonać tę akcje.',401);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Specialist $specialist)
+    public function update(CreateSpecialist $request, Specialist $specialist)
     {
-        //
+        if($request->user()->can('update',$specialist))
+        {
+            $specialist->name=$request->name;
+            $specialist->surname = $request->surname;
+            $specialist->title = $request->title;
+            $specialist->update();
+            return redirect()->back()->with('message',['text'=>'Pomyśłnie edytowano dane.','status'=>'success']);
+        }else{
+            return redirect()->back()->withErrors(['text'=>'Coś poszło nie tak.']);
+        }
     }
 
     /**
@@ -81,7 +99,7 @@ class SpecialistController extends Controller
         $user=Auth::user();
         if($user->cannot('delete',$specialist)){
            
-        return to_route('dashboard')->withErrors(['text'=>'Nie udało się usunąć profilu']);
+        return to_route('specialist.dashboard')->withErrors(['text'=>'Nie udało się usunąć profilu']);
         }else{
            if($specialist->address!==null)
            {

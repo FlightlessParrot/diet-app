@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Role;
+use App\Models\Specialist;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -77,5 +78,28 @@ class SpecialistTest extends TestCase
         $response->assertRedirect(route('dashboard'));
         $this->assertModelMissing($specialist);
         $this->assertEquals(Role::where('name','user')->first()->id, $user->role->id);
+    }
+
+    public function test_specialist_can_update_data()
+    {
+        $this->seed();
+        $user=User::factory()->create();
+        $specialist=$user->specialist()->save(Specialist::make([
+            'title'=>'dietician',
+            'name' => 'John',
+            'surname' => 'Smith'
+        ]));
+
+        $response = $this->actingAs($user)->from(route('specialist.profile.edit',$specialist->id))->put(route('specialist.profile.update',$specialist->id),[
+            'title'=>'doctor',
+            'name' => 'Johannes',
+            'surname' => 'Smith',
+        ]);
+        $specialist=$specialist->refresh();
+        $response->assertRedirectToRoute('specialist.profile.edit',$specialist->id);
+        $this->assertSame($specialist->title,'doctor');
+        $this->assertSame($specialist->name,'Johannes');
+        $this->assertSame($specialist->surname,'Smith');
+
     }
 }

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -11,6 +11,7 @@ import { watchEffect } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 
 const page = usePage();
+const specialist = computed(()=>page.props.auth.specialist)
 watchEffect(()=>console.log(page.props))
 const showingNavigationDropdown = ref(false);
 </script>
@@ -18,14 +19,14 @@ const showingNavigationDropdown = ref(false);
 <template>
     <div>
         <div class="min-h-screen bg-gray-100">
-            <nav class="bg-brightGreen border-b border-gray-100">
+            <nav class="bg-whiteGreen border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
+                                <Link :href="route('specialist.dashboard')">
                                     <ApplicationLogo
                                         class="block h-9 w-auto fill-current text-gray-800"
                                     />
@@ -50,7 +51,7 @@ const showingNavigationDropdown = ref(false);
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                {{ $page.props.auth.user.name }}
+                                                {{ $page.props.auth.specialist.name }}
 
                                                 <svg
                                                     class="ms-2 -me-0.5 h-4 w-4"
@@ -69,7 +70,7 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('specialist.profile.edit')"> Profil </DropdownLink>
+                                        <DropdownLink :href="route('specialist.profile.edit',specialist.id)"> Profil </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Wyloguj
                                         </DropdownLink>
@@ -118,7 +119,7 @@ const showingNavigationDropdown = ref(false);
                 >
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('specialist.dashboard')" :active="route().current('specialist.dashboard')">
-                            Dashboard
+                            Tablica specjalisty
                         </ResponsiveNavLink>
                     </div>
 
@@ -132,7 +133,7 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('specialist.profile.edit')"> Profil </ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('specialist.profile.edit',specialist.id)"> Profil </ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
                                 Wyloguj
                             </ResponsiveNavLink>
