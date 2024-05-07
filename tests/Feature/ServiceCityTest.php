@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Province;
-use App\Models\Role;
+use App\Models\MyRole;
 use App\Models\ServiceKind;
 use App\Models\Specialist;
 use App\Models\User;
@@ -22,8 +22,9 @@ class ServiceCityTest extends TestCase
     {
 
         $this->seed();
-        $user = User::where('role_id',Role::where('name','specialist')->first()->id)->firstOrFail();
+        $user = User::where('my_role_id',MyRole::where('name','specialist')->first()->id)->firstOrFail();
         $specialist = $user->specialist;
+        $specialist->serviceCities()->detach();
         $specialist->serviceKinds()->attach(ServiceKind::where('name','mobile')->first()->id);
         $serviceCity=$specialist->serviceCities()->create(['name'=>'Warsaw','province_id'=>Province::first()->id]);
         

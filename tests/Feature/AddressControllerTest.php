@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Address;
 use App\Models\Province;
-use App\Models\Role;
+use App\Models\MyRole;
 use App\Models\Specialist;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -22,9 +22,9 @@ class AddressControllerTest extends TestCase
             $province->name = "pomorskie";
             $province->save();
         }
-        if(!Role::where("name","user")->exists())
+        if(!MyRole::where("name","user")->exists())
         {
-            Role::create(['name'=>'user']);
+            MyRole::create(['name'=>'user']);
         }
         
     }
@@ -107,7 +107,7 @@ class AddressControllerTest extends TestCase
         $specialist->refresh();
         $address=$specialist->addresses()->create($addressData);
         $response= $this->actingAs($user)->put(route("specialist.address.update",[$specialist->id,$address->id]),$updatedData);
-        $response->dump();
+        
         $user->refresh();
         $address->refresh();
         

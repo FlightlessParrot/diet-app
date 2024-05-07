@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AttachCategoriesToSpecialistRequest;
 use App\Models\Category;
 use App\Models\Specialist;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response as HttpResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -45,6 +47,23 @@ class CategoryController extends Controller
                 $request->user()->specialist->categories()->attach($category);
             }
             return to_route('dashboard')->with('message', ['text' => 'Uzupełniono dane specjalisty. Poczekaj na weryfikację profilu.', 'status' => 'success']);
+        } else {
+            return redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
+        }
+    }
+
+    public function updateSpecialistCategories(AttachCategoriesToSpecialistRequest $request,Specialist $specialist) : RedirectResponse
+    {
+        $user = $request->user();
+        if ($user->can('update', $specialist)) {
+            $user->specialist->categories()->detach();
+
+            foreach ($request->categories as $category_id) {
+                $category = Category::findOrFail($category_id);
+                $request->user()->specialist->categories()->attach($category);
+            }
+            
+            return redirect()->back()->with('message', ['text' => 'Zaktualizowano dane specjalisty. ', 'status' => 'success']);
         } else {
             return redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
         }

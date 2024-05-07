@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ServiceCityController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
@@ -20,6 +21,7 @@ Route::middleware(["auth", "spec"])->group(function () {
 
     Route::get('/wybierz-kategorie', [CategoryController::class, 'specialistCategoriesForm'])->name('category.attach');
     Route::post('/specialist/{specialist}/categories', [CategoryController::class, 'attachCategoriesToSpecialist'])->name('specialist.categories.store');
+    Route::put('/specialist/{specialist}/categories', [CategoryController::class, 'updateSpecialistCategories'])->name('specialist.categories.update');
 
     Route::get('/wybierz-miejsce-uslugi', [ServiceController::class, 'index'])->name('service.form');
     Route::post('/specialist/{specialist}/services', [ServiceController::class, 'store'])->name('store.services');
@@ -39,4 +41,8 @@ Route::middleware(["auth", "spec"])->group(function () {
 
     Route::delete('/specialist/serviceCity/{serviceCity}',[ServiceCityController::class,'destroy'])->name('specialist.serviceCity.delete');
     Route::put('/specialist/{specialist}/services', [ServiceController::class, 'update'])->name('update.services');
+
+    Route::post('/specialist/{specialist}/price',[PriceController::class, 'store'])->name('specialist.price.store');
+    Route::delete('/specialist/{specialist}/price/{price}',[PriceController::class, 'destroy'])->name('specialist.price.delete');
+    Route::put('/specialist/{specialist}/price/{price}',[PriceController::class, 'update'])->name('specialist.price.update');
 });

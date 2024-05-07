@@ -1,45 +1,38 @@
 <script setup>
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import Tile from "@/Components/Tile.vue";
 import Title from "@/Components/Title.vue";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, useForm, usePage } from "@inertiajs/vue3";
+
+import {  useForm, usePage } from "@inertiajs/vue3";
 import Checkbox from "primevue/checkbox";
-import Card from "primevue/card";
 import InputError from "@/Components/InputError.vue";
 import { computed } from "vue";
-const props = defineProps(["categories"]);
+const props = defineProps(["checkedCategories",'allCategories']);
 const page = usePage();
 const spec = computed(() => page.props.auth.specialist.id);
 const form = useForm({
-    categories: [],
+    categories: props.checkedCategories,
 });
 </script>
 <template>
-    <Head> <title>Utwórz profil specjalisty</title></Head>
-    <AuthenticatedLayout>
-        <Tile
-            ><Title>
+    <section >
+        <Title>
                 <template v-slot:h2Title> Wybierz kategorie </template>
                 <template v-slot:desc>
                     Wybierz kategorie, które odpowiadają Twojemu profilowi
                     działalności. Dzięki temu pozwolisz się znaleźć większej
                     liczbie klientów.
                 </template>
-            </Title>
+        </Title>
             <form
+            class="my-4 space-y-4"
                 @submit.prevent="
                     form.categories.length > 0 &&
-                        form.post(route('specialist.categories.store', spec))
-                "
-                class="m-6"
-            >
-                <Card>
-                    <template #content>
+                        form.put(route('specialist.categories.update', spec))">
+                
                         <div class="space-y-2">
                             <div
                                 class="flex align-items-center"
-                                v-for="category in categories"
+                                v-for="category in allCategories"
                             >
                                 <Checkbox
                                     v-model="form.categories"
@@ -60,10 +53,8 @@ const form = useForm({
                                 message="Musisz wybrać przynajmniej jedną kategorię."
                             ></InputError>
                         </div>
-                    </template>
-                </Card>
-                <PrimaryButton>Utwórz konto specjalisty</PrimaryButton>
+                   
+                <PrimaryButton>Edytuj</PrimaryButton>
             </form>
-        </Tile>
-    </AuthenticatedLayout>
+    </section>
 </template>

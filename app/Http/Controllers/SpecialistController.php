@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateSpecialist;
+use App\Models\MyRole;
 use App\Models\Province;
-use App\Models\Role;
-use App\Models\ServiceCity;
-use App\Models\ServiceKind;
 use App\Models\Specialist;
-use Illuminate\Http\Request;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -46,7 +44,7 @@ class SpecialistController extends Controller
         return to_route('specialist.create')->withErrors(['text'=>'Nie udało się utworzyć profilu']);
         }else{
            $user->specialist()->create($request->all());
-           $user->role()->associate(Role::where('name','specialist')->first());
+           $user->myRole()->associate(MyRole::where('name','specialist')->first());
            $user->save();
            return to_route('specialist.address.create')->with('message',['text'=>'Utworzono profil specjalisty.','status'=>'success']);
         }
@@ -67,8 +65,9 @@ class SpecialistController extends Controller
     {
         if(Auth::user()->can('view',$specialist))
         {
-            return Inertia::render('Specialist/Profile/EditSpecialist',['provinces'=>Province::All(), 'hasAddress'=> $specialist->addresses()->first()!==null, 'addresses'=> $specialist->addresses()->get(), 
-            'serviceCities'=>$specialist->serviceCities()->get(),'serviceKinds'=>$specialist->serviceKinds()->get(), 'categories'=>$specialist->categories()->get()]);
+            return Inertia::render('Specialist/Profile/EditSpecialist',['provinces'=>Province::All(), 'addresses'=> $specialist->addresses()->get(), 
+            'serviceCities'=>$specialist->serviceCities()->get(),'serviceKinds'=>$specialist->serviceKinds()->get(), 'checkedCategories'=>$specialist->categories()->get()->map(fn ($e) => $e->id),
+            'categories'=>Category::all()]);
         }else{
             return response('Nie masz uprawnień, aby wykonać tę akcje.',401);
         }
@@ -106,7 +105,7 @@ class SpecialistController extends Controller
             $specialist->address()->first()->delete();
            }
            $specialist->delete();
-           $user->role()->associate(Role::where('name','user')->first());
+           $user->myRole()->associate(MyRole::where('name','user')->first());
            $user->save();
            return to_route('dashboard')->with('message',['text'=>'Usunięto profil specjalisty.','status'=>'warn']);
         }

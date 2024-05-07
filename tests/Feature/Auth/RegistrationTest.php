@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Models\Role;
+use App\Models\MyRole;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -14,9 +14,9 @@ class RegistrationTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        if(!Role::where("name","user")->exists())
+        if(!MyRole::where("name","user")->exists())
         {
-            Role::create(['name'=>'user']);
+            MyRole::create(['name'=>'user']);
         }
         
     }
@@ -51,9 +51,9 @@ class RegistrationTest extends TestCase
             'password' => 'password',
             'password_confirmation' => 'password',
         ]);
-        $role=Role::where('name','user')->firstOrFail();
+        $role=MyRole::where('name','user')->firstOrFail();
         $user=User::where('email','test@example.com')->firstOrFail();
-        $this->assertSame($role->id,$user->role_id);
+        $this->assertSame($role->id,$user->my_role_id);
 
     }
 }

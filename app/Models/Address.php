@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Orchid\Screen\AsSource;
 
 class Address extends Model
 {
-    use HasFactory;
+    use HasFactory, AsSource;
     protected $fillable = ['city','province_id','code','line_1','line_2'];
 
     public function user() : BelongsTo

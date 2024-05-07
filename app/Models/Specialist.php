@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Orchid\Screen\AsSource;
 
 class Specialist extends Model
 {
-    use HasFactory;
+    use HasFactory, AsSource;
 
     protected $fillable= ['name','surname', 'title'];
 
@@ -39,5 +40,23 @@ class Specialist extends Model
     {
         return $this->belongsToMany(ServiceKind::class);
     }
+    public function prices() : HasMany
+    {
+        return $this->hasMany(Price::class);
+    }
+    public function cleanAndDelete() : void
+    {
+        
+        $this->user->my_role=MyRole::where('name','user')->first()->id;
+        foreach($this->addresses as $address)
+        {
+            $address->delete();
+        }
+        $this->delete();
+        
+    }
+
+   
+     
 
 }

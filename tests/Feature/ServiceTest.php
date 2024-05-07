@@ -43,13 +43,15 @@ class ServiceTest extends TestCase
             ];
         
         $user = User::has('specialist')->first();
+        $numberOfCities=count($user->specialist->serviceCities()->get());
+        $numberOfServiceKinds=count($user->specialist->serviceKinds()->get());
         $response = $this->actingAs($user)->post(route('store.services', $user->specialist->id), $data);
       
         $response->assertRedirectToRoute('category.attach');
         $this->assertNotEmpty(ServiceCity::where('name', 'Warsaw')->first());
         $this->assertNotEmpty(ServiceCity::where('name', 'Gdansk')->first());
-        $this->assertCount(2,$user->specialist->serviceCities()->get());
-        $this->assertCount(2,$user->specialist->serviceKinds()->get()); 
+        $this->assertCount($numberOfCities+2,$user->specialist->serviceCities()->get());
+        $this->assertCount($numberOfServiceKinds+2,$user->specialist->serviceKinds()->get()); 
     }
 
     public function test_specialist_cant_send_empty_store_request(): void
@@ -57,13 +59,15 @@ class ServiceTest extends TestCase
         $this->seed();
         
         $user = User::has('specialist')->first();
+        $numberOfCities=count($user->specialist->serviceCities()->get());
+        $numberOfServiceKinds=count($user->specialist->serviceKinds()->get());
         $response = $this->actingAs($user)->from(route('service.form'))->post(route('store.services', $user->specialist->id));
       
         $response->assertRedirectToRoute('service.form');
         $this->assertEmpty(ServiceCity::where('name', 'Warsaw')->first());
         $this->assertEmpty(ServiceCity::where('name', 'Gdansk')->first());
-        $this->assertCount(0,$user->specialist->serviceCities()->get());
-        $this->assertCount(0,$user->specialist->serviceKinds()->get()); 
+        $this->assertCount($numberOfCities,$user->specialist->serviceCities()->get());
+        $this->assertCount($numberOfServiceKinds,$user->specialist->serviceKinds()->get()); 
     }
     
 }

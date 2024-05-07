@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Models\Role;
+use App\Models\MyRole;
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,9 +16,9 @@ class EmailVerificationTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        if(!Role::where("name","user")->exists())
+        if(!MyRole::where("name","user")->exists())
         {
-            Role::create(['name'=>'user']);
+            MyRole::create(['name'=>'user']);
         }
         
     }

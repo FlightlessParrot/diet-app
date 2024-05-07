@@ -9,10 +9,6 @@ import { router, useForm, usePage } from '@inertiajs/vue3';
 
 
 const props=defineProps({
-    hasAddress: {
-        type: Boolean,
-        required: true 
-    },
     address: {
         type: Object,
     },
@@ -38,13 +34,12 @@ const form = useForm({
             <h2 class="text-lg font-medium text-gray-900">Adres</h2>
 
             <p class="mt-1 text-sm text-gray-600">
-                {{hasAddress ? "Edytuj swoje dane adresowe." : "Utwórz swoje dane adresowe."}}
+                Edytuj swoje dane adresowe.
             </p>
         </header>
 
         <form
-            @submit.prevent="hasAddress ? form.put(route('specialist.address.update',[specialist.id,address.id]),{ preserveScroll: true,}) 
-            : form.post(route('specialist.address.store.new',specialist.id),{ preserveScroll: true,})"
+            @submit.prevent="form.put(route('specialist.address.update',[specialist.id,address.id]),{ preserveScroll: true,})"
             class="mt-6 space-y-6"
         >
             <div>
@@ -110,9 +105,9 @@ const form = useForm({
             </div>
         </div>
 
-            <PrimaryButton :disabled="form.processing">{{ hasAddress ? 'Zapisz' : 'Utwórz'}}</PrimaryButton>
+            <PrimaryButton :disabled="form.processing">Zapisz</PrimaryButton>
 
-            <Transition
+                <Transition
                     enter-active-class="transition ease-in-out"
                     enter-from-class="opacity-0"
                     leave-active-class="transition ease-in-out"
@@ -123,7 +118,7 @@ const form = useForm({
             
         </form>
         <form class="mt-6 space-y-6" >
-        <DangerButton @click.prevent="router.delete(route('address.remove',address.id),{preserveScroll:true, preserveState: false})" v-if="hasAddress">Usuń adres</DangerButton>
+        <DangerButton @click.prevent="router.delete(route('address.remove',address.id),{preserveScroll:true, preserveState: false})">Usuń adres</DangerButton>
         </form>
         
     </section>

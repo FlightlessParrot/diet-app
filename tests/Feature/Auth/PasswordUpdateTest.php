@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Models\Role;
+use App\Models\MyRole;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -14,9 +14,9 @@ class PasswordUpdateTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        if(!Role::where("name","user")->exists())
+        if(!MyRole::where("name","user")->exists())
         {
-            Role::create(['name'=>'user']);
+            MyRole::create(['name'=>'user']);
         }
         
     }

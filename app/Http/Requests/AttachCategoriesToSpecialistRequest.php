@@ -12,7 +12,7 @@ class AttachCategoriesToSpecialistRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::user()->specialist !== null & Auth::user()->specialist->categories()->first() === null;
+        return Auth::user()->specialist !== null;
     }
 
     /**

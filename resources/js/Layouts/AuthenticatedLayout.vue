@@ -9,7 +9,7 @@ import { Link } from '@inertiajs/vue3';
 import Messager from '@/Components/Messager.vue';
 import { watchEffect } from 'vue';
 import { usePage } from '@inertiajs/vue3';
-
+import Divider from 'primevue/divider';
 const page = usePage();
 watchEffect(()=>console.log(page.props))
 const showingNavigationDropdown = ref(false);
@@ -72,6 +72,10 @@ const showingNavigationDropdown = ref(false);
                                         <DropdownLink :href="route('profile.edit')"> Profil </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Wyloguj
+                                        </DropdownLink>
+                                        <Divider />
+                                        <DropdownLink :href="route('specialist.dashboard')">
+                                        <i class="pi pi-user"></i>  Konto specjalisty
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
@@ -136,6 +140,10 @@ const showingNavigationDropdown = ref(false);
                             
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
                                Wyloguj
+                            </ResponsiveNavLink>
+                            <Divider />
+                            <ResponsiveNavLink  :href="route('specialist.dashboard')"> 
+                               <i class="pi pi-user"></i> Konto specjalisty
                             </ResponsiveNavLink>
                         </div>
                     </div>

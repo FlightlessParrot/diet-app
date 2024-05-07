@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\Province;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Orchid\Platform\Models\Role;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -35,7 +36,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $user,
-                'role' => $user!==null ? $user->role : null,
+                'role' => $user!==null ? $user->myRole : null,
                 'specialist' => $user!==null && $user->specialist !==null ? $user->specialist : null,
             ],'flash' => [
                 'message' => fn () => $request->session()->get('message')

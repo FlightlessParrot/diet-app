@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Role;
+use App\Models\MyRole;
 use App\Models\Specialist;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -46,7 +46,7 @@ class SpecialistTest extends TestCase
         $user->refresh();
         $response->assertRedirect(route('specialist.address.create'));
         $this->assertModelExists($user->specialist);
-        $this->assertEquals(Role::where('name','specialist')->first(), $user->role);
+        $this->assertEquals(MyRole::where('name','specialist')->first(), $user->myRole);
     }
 
     public function test_specialist_cant_create_specialist(): void
@@ -77,7 +77,7 @@ class SpecialistTest extends TestCase
         $user->refresh();
         $response->assertRedirect(route('dashboard'));
         $this->assertModelMissing($specialist);
-        $this->assertEquals(Role::where('name','user')->first()->id, $user->role->id);
+        $this->assertEquals(MyRole::where('name','user')->first()->id, $user->myRole->id);
     }
 
     public function test_specialist_can_update_data()
