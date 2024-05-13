@@ -23,7 +23,7 @@ class StoreServiceRequest extends FormRequest
     {
         return [
             'serviceCities'=>'array|nullable',
-            'serviceCities.*'=>'array:name,province_id',
+            'serviceCities.*'=>'array',
             'serviceCities.*.name'=>'string|max:255',
             'serviceCities.*.province_id'=>'integer|exists:App\Models\Province,id',
             'online'=>'array:0|nullable',

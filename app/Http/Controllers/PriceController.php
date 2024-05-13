@@ -33,10 +33,8 @@ class PriceController extends Controller
         $user=$request->user();
         if($user->can('create',Price::class))
         {
-            foreach($request->prices as $price)
-            {
-            $user->specialist->prices()->create($price);
-            }
+            $user->specialist->prices()->create($request->all());
+            
             return redirect()->back()->with('message',['text'=>'Pomyśłnie edytowano dane.','status'=>'success']);
         }else{
             return redirect()->back()->withErrors(['text'=>'Coś poszło nie tak']);

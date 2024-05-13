@@ -45,4 +45,5 @@ Route::middleware(["auth", "spec"])->group(function () {
     Route::post('/specialist/{specialist}/price',[PriceController::class, 'store'])->name('specialist.price.store');
     Route::delete('/specialist/{specialist}/price/{price}',[PriceController::class, 'destroy'])->name('specialist.price.delete');
     Route::put('/specialist/{specialist}/price/{price}',[PriceController::class, 'update'])->name('specialist.price.update');
+    Route::post('/specialist/{specialist}/avatar',[SpecialistController::class, 'storeAvatar'])->name('avatar.store');
 });

@@ -135,7 +135,7 @@ class AddressControllerTest extends TestCase
         $address=User::factory()->create()->address()->create($addressData);
         $response= $this->actingAs($user)->put(route("address.update",$address->id),$updatedData);
         
-        $response->assertUnauthorized();
+        $response->assertSessionHasErrors();
     }
 
     public function test_specialist_cant_update_other_user_address(): void
@@ -153,7 +153,7 @@ class AddressControllerTest extends TestCase
         $address=User::factory()->has(Specialist::factory())->create()->specialist->addresses()->create($addressData);
         $response= $this->actingAs($user)->put(route("specialist.address.update",[$user->specialist->id,$address->id]),$updatedData);
         
-        $response->assertUnauthorized();
+        $response->assertSessionHasErrors();
     }
     public function test_user_can_delete_address(): void
         {        
@@ -186,8 +186,7 @@ class AddressControllerTest extends TestCase
         $address=User::factory()->create()->address()->create($addressData);
         $response= $this->actingAs($user)->delete(route("address.remove",$address->id));
         
-        
-        $response->assertUnauthorized();
+        $response->assertSessionHasErrors();
         $this->assertModelExists($address);
     }
 
@@ -215,5 +214,40 @@ class AddressControllerTest extends TestCase
         {
             $this->assertEquals($value, $address->$key);
         }
+    }
+
+    public function test_specialist_can_delete_address(): void
+        {        
+            $province_id=Province::first()->id;
+            $addressData=[
+                'city'=>'Gdańsk',
+                'province_id'=>$province_id,
+                'line_1'=>'linia_1',
+                'line_2'=>'linia_2',
+                'code'=>'00-000',
+            ];
+            $user=User::factory()->has(Specialist::factory())->create();
+            $address=$user->specialist->addresses()->create($addressData);
+            $response= $this->actingAs($user)->delete(route("address.remove",$address->id));
+            
+            $response->assertRedirect();
+            $this->assertModelMissing($address);
+    }
+    public function test_specialist_cant_delete_other_user_address(): void
+    {        
+        $province_id=Province::first()->id;
+        $addressData=[
+            'city'=>'Gdańsk',
+            'province_id'=>$province_id,
+            'line_1'=>'linia_1',
+            'line_2'=>'linia_2',
+            'code'=>'00-000',
+        ];
+        $user=User::factory()->has(Specialist::factory())->create();
+        $address=User::factory()->has(Specialist::factory())->create()->specialist->addresses()->create($addressData);
+        $response= $this->actingAs($user)->delete(route("address.remove",$address->id));
+        
+        $response->assertSessionHasErrors();
+        $this->assertModelExists($address);
     }
 }

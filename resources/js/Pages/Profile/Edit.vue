@@ -72,12 +72,12 @@ defineProps({
                     <DeleteSpecialistForm class="max-w-xl" />
                 </div>
                 
-                <Tile v-if="page.props.auth.user?.specialist" >
+                <!-- <Tile v-if="page.props.auth.user?.specialist" >
                 <form class="space-y-4" @submit.prevent="router.delete(route('specialist.remove',page.props.auth.specialist.id))">
                     <p>Usuń specjalistę</p>
                     <PrimaryButton>Usuń</PrimaryButton>
                 </form>
-               </Tile>
+               </Tile> -->
             </div>
         </div>
     </AuthenticatedLayout>

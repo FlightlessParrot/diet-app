@@ -94,7 +94,7 @@ class AddressController extends Controller
         
         return Redirect::route('profile.edit');
         }else{
-            return response(['message'=>['text'=>'Nie masz uprawnień, aby wykonać tę akcję.','status'=>'error']],401);
+            return redirect()->back()->withErrors(['text'=>'Nie masz uprawnień, aby wykonać tę akcję.']);;
         }
     }
     /**
@@ -109,7 +109,7 @@ class AddressController extends Controller
         
         return Redirect::route('specialist.profile.edit',$specialist->id)->with('message',['text'=>'Udało się zaktualizować adress','status'=>'success' ]);
         }else{
-            return response(['message'=>['text'=>'Nie masz uprawnień, aby wykonać tę akcję.','status'=>'error']],401);
+            return redirect()->back()->withErrors(['text'=>'Nie masz uprawnień, aby wykonać tę akcję.']);;
         }
     }
     /**
@@ -117,13 +117,15 @@ class AddressController extends Controller
      */
     public function destroy(Address $address)
     {
+        
         $user=Auth::user();
-        if($user->address!==null && $user->address->id===$address->id)
+        if(($user->address!==null && $user->address->id===$address->id) || 
+        ($user->specialist !==null && $user->specialist->addresses()->find($address->id)!==null  ))
         {
             $address->delete();
-            return redirect(route('profile.edit'));
+            return redirect()->back();
         }else{
-            return response(['message'=>['text'=>'Nie masz uprawnień, aby wykonać tę akcję.','status'=>'error']],401);
+            return redirect()->back()->withErrors(['text'=>'Nie masz uprawnień, aby wykonać tę akcję.']);
         }
     }
 }

@@ -22,11 +22,8 @@ class StorePriceRequest extends FormRequest
     public function rules(): array
     {
         return [
-           
-            'prices'=>'array|required',
-            'prices.*.price'=>'numeric|required',
-            'prices.*.name'=>'string|required|max:255'
-
+            'price'=>'numeric|required',
+            'name'=>'string|required|max:255',
         ];
     }
 }

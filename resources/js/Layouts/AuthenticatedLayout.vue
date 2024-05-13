@@ -37,6 +37,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Tablica
                                 </NavLink>
+                                <NavLink :href="route('dashboard')" :active="route().current('/')">
+                                    Znajdź specjalistę
+                                </NavLink>
                             </div>
                         </div>
 
@@ -69,12 +72,14 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
+                                        <DropdownLink :href="route('profile.edit')"> Umówione wizyty </DropdownLink>
+                                        <DropdownLink :href="route('profile.edit')"> Historia wizyt </DropdownLink>
                                         <DropdownLink :href="route('profile.edit')"> Profil </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Wyloguj
                                         </DropdownLink>
-                                        <Divider />
-                                        <DropdownLink :href="route('specialist.dashboard')">
+                                        <Divider class='m-1'/>
+                                        <DropdownLink :href="route('specialist.dashboard')" v-if="page.props.auth.specialist!==null" >
                                         <i class="pi pi-user"></i>  Konto specjalisty
                                         </DropdownLink>
                                     </template>
@@ -136,13 +141,15 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="mt-3 space-y-1">
+                            <ResponsiveNavLink :href="route('profile.edit')">Umówione wizyty</ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('profile.edit')">Historia wizyt</ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
                             
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
                                Wyloguj
                             </ResponsiveNavLink>
                             <Divider />
-                            <ResponsiveNavLink  :href="route('specialist.dashboard')"> 
+                            <ResponsiveNavLink v-if="page.props.auth.specialist!==null" :href="route('specialist.dashboard')"> 
                                <i class="pi pi-user"></i> Konto specjalisty
                             </ResponsiveNavLink>
                         </div>

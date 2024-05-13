@@ -8,7 +8,8 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 class SpecialistTest extends TestCase
 {
     
@@ -101,5 +102,19 @@ class SpecialistTest extends TestCase
         $this->assertSame($specialist->name,'Johannes');
         $this->assertSame($specialist->surname,'Smith');
 
+    }
+
+    public function test_avatars_can_be_uploaded(): void
+    {
+        Storage::fake();
+        $this->seed();
+        $file = UploadedFile::fake()->image('avatar.jpg');
+        $user = User::has("specialist")->first();
+
+        $response = $this->actingAs($user)->post(route('avatar.store', $user->specialist->id), [
+            'avatar' => $file,
+        ]);
+        $response->assertOk();
+        $this->assertNotEmpty($user->specialist->attachment()->first());
     }
 }

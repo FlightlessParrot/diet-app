@@ -7,8 +7,11 @@ use App\Models\MyRole;
 use App\Models\Province;
 use App\Models\Specialist;
 use App\Models\Category;
+use App\Models\Price;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Orchid\Attachment\File;
 
 class SpecialistController extends Controller
 {
@@ -66,8 +69,9 @@ class SpecialistController extends Controller
         if(Auth::user()->can('view',$specialist))
         {
             return Inertia::render('Specialist/Profile/EditSpecialist',['provinces'=>Province::All(), 'addresses'=> $specialist->addresses()->get(), 
-            'serviceCities'=>$specialist->serviceCities()->get(),'serviceKinds'=>$specialist->serviceKinds()->get(), 'checkedCategories'=>$specialist->categories()->get()->map(fn ($e) => $e->id),
-            'categories'=>Category::all()]);
+            'serviceCities'=>$specialist->serviceCities()->get(),'serviceKinds'=>$specialist->serviceKinds()->get(), 
+            'checkedCategories'=>$specialist->categories()->get()->map(fn ($e) => $e->id),
+            'categories'=>Category::all(), 'prices'=>$specialist->prices()->get(), 'avatarUrl'=>Auth::user()->specialist->attachment()->first()?->url()]);
         }else{
             return response('Nie masz uprawnień, aby wykonać tę akcje.',401);
         }
@@ -109,5 +113,20 @@ class SpecialistController extends Controller
            $user->save();
            return to_route('dashboard')->with('message',['text'=>'Usunięto profil specjalisty.','status'=>'warn']);
         }
+    }
+
+    public function storeAvatar(Request $request, Specialist $specialist)
+    {
+        $user=$request->user();
+        $currentAttachment=$user->specialist->attachment()->first();
+        if($currentAttachment!==null)
+        {
+            $currentAttachment->delete();
+        }
+        $path='specialist/'.$specialist->id.'/avatar';
+        $file = new File($request->file('avatar'));
+        $attachment = $file->path($path)->load();
+        $user->specialist->attachment()->attach($attachment);
+        return redirect()->back()->with('message',['text'=>'Pomyśłnie edytowano dane.','status'=>'success']);
     }
 }

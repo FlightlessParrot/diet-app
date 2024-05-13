@@ -39,8 +39,8 @@ class ServiceController extends Controller
                 $specialist->serviceKinds()->attach($mobile);
 
                 foreach ($request->serviceCities as $city) {
-                    $serviceCity = ServiceCity::firstOrCreate(['name' => strtolower(trim($city['name']))], ['province_id' => $city['province_id']]);
-                    $specialist->serviceCities()->attach($serviceCity);
+                    $specialist->serviceCities()->firstOrCreate(['name' => strtolower(trim($city['name'])), 'province_id' => (int) $city['province_id']]);
+                 
                 }
             }
 
@@ -73,8 +73,8 @@ class ServiceController extends Controller
                 $specialist->serviceKinds()->attach($mobile);
 
                 foreach ($request->serviceCities as $city) {
-                    $serviceCity = ServiceCity::firstOrCreate(['name' => strtolower(trim($city['name']))], ['province_id' => $city['province_id']]);
-                    $specialist->serviceCities()->attach($serviceCity);
+                   $specialist->serviceCities()->firstOrCreate(['name' => strtolower(trim($city['name'])), 'province_id' => (int) $city['province_id']]);
+                 
                 }
             }
 

@@ -9,14 +9,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Orchid\Attachment\Attachable;
+use Orchid\Attachment\Models\Attachment;
 use Orchid\Screen\AsSource;
 
 class Specialist extends Model
 {
-    use HasFactory, AsSource;
+    use HasFactory, AsSource, Attachable;
 
     protected $fillable= ['name','surname', 'title'];
-
+    
     public function user():BelongsTo
     {
         return $this->belongsTo(User::class);

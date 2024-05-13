@@ -46,7 +46,6 @@ const capServiceCities = computed(() =>
 const serviceCity = ref({ name: "", province_id: null });
 const serviceCityError = ref(false);
 const checkboxes = ref(null);
-const removedCities = ref([]);
 
 const addServiceCityToFormData = () => {
     if (
@@ -62,10 +61,13 @@ const addServiceCityToFormData = () => {
 };
 
 const removeServiceCityFromFormData = (item, index) => {
-    if (item.id) {
-        removedCities.value.push(item.id);
+    console.log(item)
+    if(item?.id)
+    {
+    router.delete(route("specialist.serviceCity.delete", item.id),{preserveScroll: true, preserveState: true}) 
     }
-    form.serviceCities = serviceCities.value.filter((e, i) => i !== index);
+    form.serviceCities = form.serviceCities.filter((e,i)=>i!==index);
+    
 };
 const mobile = computed(() => serviceCities.value.length > 0);
 const valid = computed(
@@ -73,11 +75,6 @@ const valid = computed(
 );
 
 const submit = () => {
-    console.log(removedCities.value)
-    removedCities.value.forEach((id) =>
-        router.delete(route("specialist.serviceCity.delete", id))
-    );
-    removedCities.value = [];
     form.put(route("update.services", page.props.auth.specialist.id), {
         preserveScroll: false,
         preserveState: false,

@@ -10,6 +10,8 @@ import { computed } from "vue";
 import UpdateServicesForm from "./Partials/UpdateServicesForm.vue";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
+import PriceListForm from "./Partials/PriceListForm.vue";
+import UpdateImage from "./Partials/UpdateImage.vue";
 
 const page = usePage();
 const role = computed(() => page.props.auth.role);
@@ -33,6 +35,13 @@ defineProps({
     },
     checkedCategories: {
         type:Array
+    },
+    prices: {
+        type: Array,
+        required: true
+    },
+    avatarUrl: {
+        type: String
     }
 });
 
@@ -52,6 +61,9 @@ defineProps({
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <UpdateProfileInformationForm class="max-w-xl" />
+                </div>
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <UpdateImage class="max-w-xl" :image-url="avatarUrl"/>
                 </div>
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <TabView>
@@ -79,14 +91,19 @@ defineProps({
                     />
                 </div>
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <PriceListForm class="max-w-xl" :prices="prices"  />
+                </div>
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <CategoriesForm class="max-w-xl" :all-categories="categories" :checked-categories="checkedCategories"/>
                 </div>
+            
                 <div
                     v-if="role.name === 'specialist'"
                     class="p-4 sm:p-8 bg-white shadow sm:rounded-lg"
                 >
                     <DeleteSpecialistForm class="max-w-xl" />
                 </div>
+                
             </div>
         </div>
     </AuthenticatedLayout>
