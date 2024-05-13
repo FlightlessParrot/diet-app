@@ -106,7 +106,7 @@ class SpecialistTest extends TestCase
 
     public function test_avatars_can_be_uploaded(): void
     {
-        Storage::fake();
+        Storage::fake('local');
         $this->seed();
         $file = UploadedFile::fake()->image('avatar.jpg');
         $user = User::has("specialist")->first();
@@ -114,7 +114,7 @@ class SpecialistTest extends TestCase
         $response = $this->actingAs($user)->post(route('avatar.store', $user->specialist->id), [
             'avatar' => $file,
         ]);
-        $response->assertOk();
+        $response->assertRedirect();
         $this->assertNotEmpty($user->specialist->attachment()->first());
     }
 }
