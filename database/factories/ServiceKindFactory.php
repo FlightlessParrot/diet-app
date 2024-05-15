@@ -2,13 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Province;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ServiceCity>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ServiceKind>
  */
-class ServiceCityFactory extends Factory
+class ServiceKindFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,8 +17,7 @@ class ServiceCityFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->city(),
-            'province_id' =>Province::all()->random()->id
+            'name' => fake()->unique()->word()
         ];
     }
 }

@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\FindSpecialistController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Category;
+use App\Models\ServiceKind;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,6 +31,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/address',[AddressController::class,'store'])->name('address.store');
     Route::put('/address/{address}',[AddressController::class,'update'])->name('address.update');
     Route::delete('/address/{address}',[AddressController::class,'destroy'])->name('address.remove');
+
+    Route::get('/znajdz-specialiste',[FindSpecialistController::class, 'find']
+    
+    //fn () => Inertia::render('FindSpecialist',['categories'=>Category::all(),'services'=>ServiceKind::all()])
+    
+    )->name('specialist.index');
 });
 
 require __DIR__.'/auth.php';
