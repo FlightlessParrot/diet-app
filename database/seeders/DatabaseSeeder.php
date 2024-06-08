@@ -13,7 +13,8 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Http\UploadedFile;
+use Orchid\Attachment\File;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,16 +26,25 @@ class DatabaseSeeder extends Seeder
         $this->call([MyRolesSeeder::class, ProvinceSeeder::class, CategorySeeder::class, ServiceKindSeeder::class]);
         
         User::factory(30)->create();
-        $users=User::factory(10)->has(Specialist::factory()->has(Address::factory(2)))
+        $users=User::factory(20)->has(Specialist::factory()->has(Address::factory(2)))
         ->create(['my_role_id'=>MyRole::where('name', 'specialist')->first()->id]);
 
         $serviceKinds=ServiceKind::all();
         $categories = Category::all();
         foreach($users as $user)
         {
+            $file = new UploadedFile('storage/app/public/test/man.jpg', 'man.jpg');
+            $path='specialist/avatars';
+            $attachment = (new File($file))->path($path)->load();
+            $user->specialist->attachment()->attach($attachment);
             if(rand()%2===0)
             {
-               $user->specialist->serviceCities()->create(['name'=>fake()->city(),'province_id'=>Province::first()->id]);
+                for($i=0;$i<3;$i++)
+                {
+                   $user->specialist->serviceCities()->create(['name'=>fake()->city(),'province_id'=>Province::first()->id]); 
+                }
+               
+
                 $user->specialist->serviceKinds()->attach($serviceKinds->where('name','mobile'));
             }
             

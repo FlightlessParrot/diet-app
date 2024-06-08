@@ -35,9 +35,9 @@ class PriceController extends Controller
         {
             $user->specialist->prices()->create($request->all());
             
-            return redirect()->back()->with('message',['text'=>'Pomyśłnie edytowano dane.','status'=>'success']);
+            return redirect()->back()->with('message',['text'=>'Pomyślnie edytowano dane.','status'=>'success']);
         }else{
-            return redirect()->back()->withErrors(['text'=>'Coś poszło nie tak']);
+            return redirect()->back()->withErrors(['text'=>'Coś poszło nie tak']);
         }
     }
     
@@ -68,7 +68,7 @@ class PriceController extends Controller
             $price->name=$request->name;
             $price->price=$request->price;
             $price->save();
-            return redirect()->back()->with('message',['text'=>'Pomyśłnie edytowano dane.','status'=>'success']);
+            return redirect()->back()->with('message',['text'=>'Pomyślnie edytowano dane.','status'=>'success']);
         }else{
             return redirect()->back()->withErrors(['text'=>'Coś poszło nie tak']);
         }
@@ -83,7 +83,7 @@ class PriceController extends Controller
         if($user->can('delete',$price))
         {
             $price->delete();
-            return redirect()->back()->with('message',['text'=>'Pomyśłnie usunięto cenę.','status'=>'success']);
+            return redirect()->back()->with('message',['text'=>'Pomyślnie usunięto cenę.','status'=>'success']);
         }else{
             return redirect()->back()->withErrors(['text'=>'Nie masz uprawnień, aby usunąć cenę.']);
         }

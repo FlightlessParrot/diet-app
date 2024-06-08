@@ -7,7 +7,6 @@ use App\Models\MyRole;
 use App\Models\Province;
 use App\Models\Specialist;
 use App\Models\Category;
-use App\Models\Price;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -123,10 +122,11 @@ class SpecialistController extends Controller
         {
             $currentAttachment->delete();
         }
-        $path='specialist/'.$specialist->id.'/avatar';
+        $path='specialist/avatars';
         $file = new File($request->file('avatar'));
         $attachment = $file->path($path)->load();
         $user->specialist->attachment()->attach($attachment);
         return redirect()->back()->with('message',['text'=>'Pomyśłnie edytowano dane.','status'=>'success']);
     }
+
 }

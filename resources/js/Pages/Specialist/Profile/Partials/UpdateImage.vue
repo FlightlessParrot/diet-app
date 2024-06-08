@@ -20,7 +20,7 @@ const uploader = (event) => {
 <template>
 <section class="space-y-8">
         <header>
-            <h2 class="text-lg flex items-center gap-2 font-medium text-gray-900"><Avatar v-if="imageUrl"  :image="imageUrl" class="mr-2" size="xlarge" shape="circle" /> Zdjęcie profilowe</h2>
+            <h2 class="text-lg flex items-center gap-2 font-medium text-gray-900"><Avatar v-if="imageUrl"  :image="imageUrl" class="mr-2" size="xlarge"  /> Zdjęcie profilowe</h2>
 
             <p class="mt-2 text-sm text-gray-600">
                 Edytuj swoje zdjęcie profilowe.

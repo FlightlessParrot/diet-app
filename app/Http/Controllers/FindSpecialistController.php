@@ -25,6 +25,9 @@ class FindSpecialistController extends Controller
             ->orWhereHas('serviceCities',function (Builder $query) use ($search)  {
                 $query->where('name', 'like', $search);
             })
+            ->orWhereHas('addresses',function (Builder $query) use ($search)  {
+                $query->where('city', 'like', $search);
+            })
         );
         
         $categories=$request->categories;
@@ -50,10 +53,16 @@ class FindSpecialistController extends Controller
 
         
         //------
-        $paginatedResults=$myQuery->paginate(15);
-        
-
-        return  Inertia::render('FindSpecialist',['categories'=>Category::all(),'services'=>ServiceKind::all(),'paginatedSpecialists'=>$paginatedResults]);
+        $paginatedResults=$myQuery->paginate(16);
+        $results=$paginatedResults->map(function (Specialist $specialist){
+            $specialist->services = $specialist->serviceKinds()->get();
+            $specialist->cities = $specialist->serviceCities()->limit(6)->get();
+            $specialist->addresses = $specialist->addresses()->limit(6)->get();
+            $specialist->image = $specialist->attachment->first();
+            return $specialist;
+        });
+        $paginatedResults->data=$results;
+        return  Inertia::render('User/FindSpecialist',['categories'=>Category::all(),'services'=>ServiceKind::all(),'paginatedSpecialists'=>$paginatedResults]);
         
     }
 }

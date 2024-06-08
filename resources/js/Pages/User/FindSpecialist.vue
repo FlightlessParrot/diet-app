@@ -8,7 +8,8 @@ import InputText from "primevue/inputtext";
 import FloatLabel from "primevue/floatlabel";
 import Checkbox from "primevue/checkbox";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-
+import SpecialistCard from '@/Components/SpecialistCard.vue';
+import Pager from '@/Components/Pager/Pager.vue'
 const form = useForm({
     searchTerm: "",
     categories: [],
@@ -22,8 +23,8 @@ const props = defineProps({
     services: {
         type: Array,
     },
-    specialists: {
-        type: Array
+    paginatedSpecialists: {
+        type: Object
     }
 });
 </script>
@@ -53,8 +54,8 @@ const props = defineProps({
                     </FloatLabel>
                     <div>
                         <InputLabel class="mb-2">Kategorie</InputLabel>
-                        <div class="flex flex-wrap items-center gap-4">
-                            <div v-for="category in categories">
+                        <div class="flex flex-wrap  gap-4">
+                            <div v-for="category in categories" class="items-center flex">
                                 <Checkbox
                                     v-model="form.categories"
                                     :inputId="'kategoria-' + category.id"
@@ -90,8 +91,14 @@ const props = defineProps({
                     <PrimaryButton>Wyszukaj</PrimaryButton>
                 </form>
             </Tile>
-            <Tile>  </Tile>
-            <Tile> as </Tile>
+           
+            <div class="grid gird-cols-1 lg:grid-cols-2 gap-4 max-w-7xl mx-auto sm:p-6 lg:p-8">
+                <SpecialistCard class="h-full" v-for="specialist in paginatedSpecialists.data" :specialist="specialist" />
+            </div>
+        
+            <Pager v-if="paginatedSpecialists.links.length>3" :last-page-url="paginatedSpecialists.last_page_url" 
+            :links="paginatedSpecialists.links" 
+            :first-page-url="paginatedSpecialists.first_page_url" />
         </section>
     </AuthenticatedLayout>
 </template>

@@ -13,6 +13,7 @@ use Orchid\Attachment\Attachable;
 use Orchid\Attachment\Models\Attachment;
 use Orchid\Screen\AsSource;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 class Specialist extends Model
 {
     use HasFactory, AsSource, Attachable;
@@ -57,7 +58,37 @@ class Specialist extends Model
         $this->delete();
         
     }
+    /**
+     * Get and set the specialist's first name.
+     */
+    public function name()
+    {
+        return Attribute::make(
+            get: fn (string $value) => ucfirst($value),
+            set: fn (string $value) => strtolower($value),
+        );
+    }
 
+    /**
+     * Get and set the specialist's last name.
+     */
+    public function surname()
+    {
+        return Attribute::make(
+            get: fn (string $value) => ucfirst($value),
+            set: fn (string $value) => strtolower($value),
+        );
+    }
+
+    /**
+     * Set the specialist's title.
+     */
+    public function title()
+    {
+        return Attribute::make(
+            set: fn (string $value) => strtolower($value),
+        );
+    }
    
      
 
