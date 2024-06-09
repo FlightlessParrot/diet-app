@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ServiceCityController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\IconController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -45,5 +46,10 @@ Route::middleware(["auth", "spec"])->group(function () {
     Route::post('/specialist/{specialist}/price',[PriceController::class, 'store'])->name('specialist.price.store');
     Route::delete('/specialist/{specialist}/price/{price}',[PriceController::class, 'destroy'])->name('specialist.price.delete');
     Route::put('/specialist/{specialist}/price/{price}',[PriceController::class, 'update'])->name('specialist.price.update');
+    
+});
+Route::middleware(["auth", "spec"])->group(function () {
     Route::post('/specialist/{specialist}/avatar',[SpecialistController::class, 'storeAvatar'])->name('avatar.store');
+    Route::post('/specialist/{specialist}/icon',[IconController::class, 'store'])->name('icon.store');
+    Route::delete('icon/{icon}',[IconController::class, 'destroy'])->name('icon.delete');
 });
