@@ -84,7 +84,7 @@ class IconTest extends TestCase
     {
         $this->seed();
         Storage::fake();
-        $file=UploadedFile::fake()->image('avatar.jpg', 250, 250)->size(2000);
+        $file=UploadedFile::fake()->image('avatar.jpg', 250, 250)->size(200000);
         $user = User::has('specialist')->first();
         $response = $this->actingAs($user)->post(route('icon.store',[$user->specialist->id]), [
             'icon' => $file,

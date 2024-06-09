@@ -28,7 +28,7 @@ class StoreIconRequest extends FormRequest
             'icon'=>[
                 'required',
                 File::image()
-                    ->max(1024)
+                    ->max(100000)
                     ->dimensions(Rule::dimensions()->maxWidth(250)->maxHeight(250)),
             ],
         ];

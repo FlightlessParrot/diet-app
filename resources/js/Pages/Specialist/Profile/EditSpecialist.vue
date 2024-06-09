@@ -12,6 +12,7 @@ import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
 import PriceListForm from "./Partials/PriceListForm.vue";
 import UpdateImage from "./Partials/UpdateImage.vue";
+import UpdateIcon from "./Partials/UpdateIcon.vue";
 
 const page = usePage();
 const role = computed(() => page.props.auth.role);
@@ -42,6 +43,9 @@ defineProps({
     },
     avatarUrl: {
         type: String
+    },
+    iconUrl: {
+        type:String
     }
 });
 
@@ -61,6 +65,9 @@ defineProps({
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <UpdateProfileInformationForm class="max-w-xl" />
+                </div>
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <UpdateIcon class="max-w-xl" :image-url="iconUrl"/>
                 </div>
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <UpdateImage class="max-w-xl" :image-url="avatarUrl"/>
