@@ -14,6 +14,8 @@ use Orchid\Attachment\Models\Attachment;
 use Orchid\Screen\AsSource;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
 class Specialist extends Model
 {
     use HasFactory, AsSource, Attachable;
@@ -88,6 +90,11 @@ class Specialist extends Model
         return Attribute::make(
             set: fn (string $value) => strtolower($value),
         );
+    }
+
+    public function icon() :HasOne
+    {
+        return $this->hasOne(Icon::class);
     }
    
      

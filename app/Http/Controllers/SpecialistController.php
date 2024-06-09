@@ -65,12 +65,18 @@ class SpecialistController extends Controller
      */
     public function edit(Specialist $specialist)
     {
+        $iconUrl=null;
+        if(isset($specialist->icon))
+        {
+            $iconUrl = $specialist->icon->url;
+        }
         if(Auth::user()->can('view',$specialist))
         {
             return Inertia::render('Specialist/Profile/EditSpecialist',['provinces'=>Province::All(), 'addresses'=> $specialist->addresses()->get(), 
             'serviceCities'=>$specialist->serviceCities()->get(),'serviceKinds'=>$specialist->serviceKinds()->get(), 
             'checkedCategories'=>$specialist->categories()->get()->map(fn ($e) => $e->id),
-            'categories'=>Category::all(), 'prices'=>$specialist->prices()->get(), 'avatarUrl'=>Auth::user()->specialist->attachment()->first()?->url()]);
+            'categories'=>Category::all(), 'prices'=>$specialist->prices()->get(), 'avatarUrl'=>Auth::user()->specialist->attachment()->first()?->url(),
+        'iconUrl'=>$iconUrl]);
         }else{
             return response('Nie masz uprawnień, aby wykonać tę akcje.',401);
         }
