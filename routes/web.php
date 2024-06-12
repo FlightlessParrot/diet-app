@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/znajdz-specialiste',[FindSpecialistController::class, 'find'])->name('specialist.index');
     
     //fn () => Inertia::render('FindSpecialist',['categories'=>Category::all(),'services'=>ServiceKind::all()])
-    Route::get('/specialista/{specialist}', SpecialistViewController::class);
+    Route::get('/specialista/{specialist}', SpecialistViewController::class)->name('specialist.visit');
 });
 
 require __DIR__.'/auth.php';
