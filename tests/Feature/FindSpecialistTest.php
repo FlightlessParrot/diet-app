@@ -31,7 +31,7 @@ class FindSpecialistTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(
             fn (Assert $page)  => $page
-                ->component('FindSpecialist')
+                ->component('User/FindSpecialist')
         );
     }
 
@@ -50,7 +50,7 @@ class FindSpecialistTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(
             fn (Assert $page)  => $page
-                ->component('FindSpecialist')
+                ->component('User/FindSpecialist')
                 ->has('paginatedSpecialists.data.0', fn (Assert $page) => $page
                     ->where('id', $specialist->id)
                     ->etc()
@@ -71,7 +71,7 @@ class FindSpecialistTest extends TestCase
         //$responseSpecialistId = $response['props']['paginatedSpecialists']['data'][0]->id;
         $response->assertInertia(
             fn (Assert $page)  => $page
-                ->component('FindSpecialist')
+                ->component('User/FindSpecialist')
                 ->has('paginatedSpecialists.data.0', fn (Assert $page) => $page
                     ->where('id', $specialist->id)
                     ->etc()
@@ -94,7 +94,7 @@ class FindSpecialistTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(
             fn (Assert $page)  => $page
-                ->component('FindSpecialist')
+                ->component('User/FindSpecialist')
                 ->has('paginatedSpecialists.data', 0
                 )
         );
@@ -115,7 +115,7 @@ class FindSpecialistTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(
             fn (Assert $page)  => $page
-                ->component('FindSpecialist')
+                ->component('User/FindSpecialist')
                 ->has('paginatedSpecialists.data', 0)
         );
     }

@@ -20,7 +20,7 @@ class IconTest extends TestCase
         $this->seed();
         Storage::fake();
         $file=UploadedFile::fake()->image('avatar.jpg', 250, 250)->size(1000);
-        $user = User::has('specialist')->first();
+        $user = User::factory()->has(Specialist::factory())->create();
         $response = $this->actingAs($user)->post(route('icon.store',[$user->specialist->id]), [
             'icon' => $file,
         ]);
@@ -35,7 +35,7 @@ class IconTest extends TestCase
         $this->seed();
         Storage::fake();
         $file=UploadedFile::fake()->image('avatar.jpg', 250, 250)->size(1000);
-        $user = User::has('specialist')->first();
+        $user = User::factory()->has(Specialist::factory())->create();
         
         $path = Storage::disk('public')->putFile('specialist/icons', $file);  
         $url = Storage::url($path);
@@ -53,7 +53,7 @@ class IconTest extends TestCase
         $this->seed();
         Storage::fake();
         $file=UploadedFile::fake()->image('avatar.jpg', 300, 250)->size(1000);
-        $user = User::has('specialist')->first();
+        $user = User::factory()->has(Specialist::factory())->create();
         $response = $this->actingAs($user)->post(route('icon.store',[$user->specialist->id]), [
             'icon' => $file,
         ]);
@@ -69,7 +69,7 @@ class IconTest extends TestCase
         $this->seed();
         Storage::fake();
         $file=UploadedFile::fake()->image('avatar.jpg', 250, 300)->size(1000);
-        $user = User::has('specialist')->first();
+        $user = User::factory()->has(Specialist::factory())->create();
         $response = $this->actingAs($user)->post(route('icon.store',[$user->specialist->id]), [
             'icon' => $file,
         ]);
@@ -85,7 +85,7 @@ class IconTest extends TestCase
         $this->seed();
         Storage::fake();
         $file=UploadedFile::fake()->image('avatar.jpg', 250, 250)->size(200000);
-        $user = User::has('specialist')->first();
+        $user = User::factory()->has(Specialist::factory())->create();
         $response = $this->actingAs($user)->post(route('icon.store',[$user->specialist->id]), [
             'icon' => $file,
         ]);

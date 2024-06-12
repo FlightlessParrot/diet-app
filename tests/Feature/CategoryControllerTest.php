@@ -32,6 +32,7 @@ class CategoryControllerTest extends TestCase
         $user = User::has('specialist')->first();
         $specialist = $user->specialist;
         $categories=Category::all();
+        $specialist->categories()->detach();
         $categoriesArray=[$categories[0]->id, $categories[1]->id];
         $response = $this->actingAs($user)->post(route('specialist.categories.store', $specialist->id),['categories' => $categoriesArray]);
         $specialist->refresh();
