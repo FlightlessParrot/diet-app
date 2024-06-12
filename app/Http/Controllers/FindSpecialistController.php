@@ -58,7 +58,7 @@ class FindSpecialistController extends Controller
             $specialist->services = $specialist->serviceKinds()->get();
             $specialist->cities = $specialist->serviceCities()->limit(6)->get();
             $specialist->addresses = $specialist->addresses()->limit(6)->get();
-            $specialist->image = $specialist->attachment->first();
+            $specialist->image = $specialist->icon;
             return $specialist;
         });
         $paginatedResults->data=$results;

@@ -14,6 +14,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Orchid\Attachment\File;
 
 class DatabaseSeeder extends Seeder
@@ -37,6 +38,10 @@ class DatabaseSeeder extends Seeder
             $path='specialist/avatars';
             $attachment = (new File($file))->path($path)->load();
             $user->specialist->attachment()->attach($attachment);
+
+            $path = Storage::disk('public')->putFile('specialist/icons', $file);  
+            $url = Storage::url($path);
+            $icon=$user->specialist->icon()->create(['path' => $path, 'url' => $url]);
             if(rand()%2===0)
             {
                 for($i=0;$i<3;$i++)
