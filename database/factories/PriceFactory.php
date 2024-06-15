@@ -17,7 +17,8 @@ class PriceFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->sentence(),
+            'price' => fake()->randomFloat(2,1,2000)
         ];
     }
 }

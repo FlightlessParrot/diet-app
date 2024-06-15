@@ -13,6 +13,11 @@ class SpecialistViewController extends Controller
      */
     public function __invoke(Specialist $specialist)
     {
+        $specialist->imageUrl=$specialist->attachment[0]?->url;
+        $specialist->services = $specialist->serviceKinds()->get();
+        $specialist->cities = $specialist->serviceCities()->get();
+        $specialist->stationaryAddresses = $specialist->addresses()->get();
+        $specialist->servicePrices = $specialist->prices()->get();
         return Inertia::render('User/SpecialistView',['specialist'=>$specialist]);
     }
 }
