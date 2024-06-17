@@ -13,7 +13,8 @@ import TabPanel from "primevue/tabpanel";
 import PriceListForm from "./Partials/PriceListForm.vue";
 import UpdateImage from "./Partials/UpdateImage.vue";
 import UpdateIcon from "./Partials/UpdateIcon.vue";
-
+import StoreDescription from "./Partials/StoreDescription.vue";
+import UpdateDescription from "./Partials/UpdateDescription.vue";
 const page = usePage();
 const role = computed(() => page.props.auth.role);
 defineProps({
@@ -46,6 +47,9 @@ defineProps({
     },
     iconUrl: {
         type:String
+    },
+    description: {
+        type: Object
     }
 });
 
@@ -103,7 +107,10 @@ defineProps({
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <CategoriesForm class="max-w-xl" :all-categories="categories" :checked-categories="checkedCategories"/>
                 </div>
-            
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <UpdateDescription v-if="description" :description='description' class="max-w-xl"/>
+                    <StoreDescription v-else  class="max-w-xl"/>
+                </div>
                 <div
                     v-if="role.name === 'specialist'"
                     class="p-4 sm:p-8 bg-white shadow sm:rounded-lg"

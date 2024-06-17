@@ -1,10 +1,10 @@
 <script setup>
-import DangerButton from '@/Components/DangerButton.vue';
+
 import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
+
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
-import { router, useForm, usePage } from '@inertiajs/vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
 import Title from "@/Components/Title.vue";
 import Editor from 'primevue/editor';
 
@@ -28,7 +28,6 @@ const form = useForm({
             class="mt-6 space-y-6"
         >
             <div>
-                <InputLabel for="line_1" value="Adres - pierwsza linia" />
 
                 <Editor v-model="form.full" editorStyle="height: 320px" />
 
@@ -47,9 +46,6 @@ const form = useForm({
                     <p v-if="form.recentlySuccessful" class="text-sm text-gray-600">Zapisano zmiany.</p>
                 </Transition>
             
-        </form>
-        <form class="mt-6 space-y-6" >
-        <DangerButton @click.prevent="router.delete(route('address.remove',address.id),{preserveScroll:true, preserveState: false})">Usuń adres</DangerButton>
         </form>
         
     </section>

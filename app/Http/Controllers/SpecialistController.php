@@ -76,7 +76,7 @@ class SpecialistController extends Controller
             'serviceCities'=>$specialist->serviceCities()->get(),'serviceKinds'=>$specialist->serviceKinds()->get(), 
             'checkedCategories'=>$specialist->categories()->get()->map(fn ($e) => $e->id),
             'categories'=>Category::all(), 'prices'=>$specialist->prices()->get(), 'avatarUrl'=>Auth::user()->specialist->attachment()->first()?->url(),
-        'iconUrl'=>$iconUrl]);
+        'iconUrl'=>$iconUrl, 'description'=>$specialist->description]);
         }else{
             return response('Nie masz uprawnień, aby wykonać tę akcje.',401);
         }

@@ -18,6 +18,7 @@ class SpecialistViewController extends Controller
         $specialist->cities = $specialist->serviceCities()->get();
         $specialist->stationaryAddresses = $specialist->addresses()->get();
         $specialist->servicePrices = $specialist->prices()->get();
+        $specialist->fullDescription = $specialist?->description?->full;
         return Inertia::render('User/SpecialistView',['specialist'=>$specialist]);
     }
 }

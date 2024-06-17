@@ -29,7 +29,7 @@ const editForm = useForm({
 });
 const selectedPrice = ref(null)
 
-watch(selectedPrice,()=>{editForm.price=selectedPrice.value.price; editForm.name=selectedPrice.value.name;})
+watch(selectedPrice,()=>{editForm.price=Number(selectedPrice.value.price); editForm.name=selectedPrice.value.name;})
 
 const editString=slotProps=>Number(slotProps.data.price).toFixed(2).toString()+' zł' 
 </script>

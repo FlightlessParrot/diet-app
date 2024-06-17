@@ -17,7 +17,7 @@ class DescriptionFactory extends Factory
     public function definition(): array
     {
         return [
-           'full'=>fake()->text(),
+           'full'=>'<p>'.fake()->text().'</p>',
            'short'=>fake()->sentence(),
         ];
     }

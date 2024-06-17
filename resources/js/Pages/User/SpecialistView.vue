@@ -126,8 +126,8 @@ const title = computed(
                            
                         </DataTable>
                     </AccordionTab>
-                    <AccordionTab header="O mnie">
-                       
+                    <AccordionTab v-if="specialist.fullDescription" header="O mnie">
+                       <div v-html="specialist.fullDescription"></div>
                     </AccordionTab>
                 </Accordion>
             </section>

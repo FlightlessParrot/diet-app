@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Address;
 use App\Models\Category;
+use App\Models\Description;
 use App\Models\MyRole;
 use App\Models\Price;
 use App\Models\Province;
@@ -28,7 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call([MyRolesSeeder::class, ProvinceSeeder::class, CategorySeeder::class, ServiceKindSeeder::class]);
         
         User::factory(30)->create();
-        $users=User::factory(20)->has(Specialist::factory()->has(Address::factory(2))->has(Price::factory(random_int(0,20))))
+        $users=User::factory(20)->has(Specialist::factory()->has(Address::factory(2))->has(Price::factory(random_int(0,20)))->has(Description::factory()))
         ->create(['my_role_id'=>MyRole::where('name', 'specialist')->first()->id]);
 
         $serviceKinds=ServiceKind::all();
@@ -43,9 +44,6 @@ class DatabaseSeeder extends Seeder
             $path = Storage::disk('public')->putFile('specialist/icons', $file);  
             $url = Storage::url($path);
             $icon=$user->specialist->icon()->create(['path' => $path, 'url' => $url]);
-
-
-            
 
             if(rand()%2===0)
             {
