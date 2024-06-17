@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->float('price');
+            $table->float('price',2);
             $table->foreignIdFor(Specialist::class);
           
         });

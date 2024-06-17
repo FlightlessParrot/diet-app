@@ -2,7 +2,7 @@
 import FileUpload from 'primevue/fileupload';
 import Image from 'primevue/image';
 import { computed } from 'vue';
-import { router, useForm, usePage } from '@inertiajs/vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
 
 const props = defineProps(['imageUrl',])
 const page = usePage()

@@ -4,6 +4,7 @@ import { useCapitalizeFirstLetterOfEveryWord } from "@/Composables/useCapitalize
 import { computed } from "vue";
 import Rating from "primevue/rating";
 import Avatar from "primevue/avatar";
+import { useTranslateServicesLabel } from "@/Composables/useTranslateServicesLabel";
 const props = defineProps({
     specialist: {
         type: Object,
@@ -14,16 +15,7 @@ const props = defineProps({
 const unmodifiedFullName = computed(
     () => props.specialist.name + " " + props.specialist.surname
 );
-const serviceName = function (name) {
-    switch (name) {
-        case "mobile":
-            return "Z dojazdem";
-        case "stationary":
-            return "stacjonarnie";
-        default:
-            return "online";
-    }
-};
+
 const fullName = useCapitalizeFirstLetterOfEveryWord(unmodifiedFullName.value);
 const url = computed(()=>"/specialista/"+props.specialist.id)
 </script>
@@ -32,8 +24,8 @@ const url = computed(()=>"/specialista/"+props.specialist.id)
         <Card class="h-full">
             <template #title>
                 <div class="my-2 flex align-center gap-2">
-                    <Avatar
-                        :image="specialist.attachment[0].url"
+                    <Avatar 
+                        :image="specialist.image.url"
                         size="xlarge"
                     />
                     <div>
@@ -48,7 +40,7 @@ const url = computed(()=>"/specialista/"+props.specialist.id)
                         <div v-for="service in specialist.services">
                             <div class="space-x-2">
                                 <i class="pi pi-check-square"></i
-                                ><span>{{ serviceName(service.name) }}</span>
+                                ><span>{{ useTranslateServicesLabel(service.name) }}</span>
                             </div>
                         </div>
                     </div>
