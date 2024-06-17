@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDescriptionRequest;
 use App\Http\Requests\UpdateDescriptionRequest;
 use App\Models\Description;
+use App\Models\Specialist;
 
 class DescriptionController extends Controller
 {
@@ -27,10 +28,17 @@ class DescriptionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreDescriptionRequest $request)
+    public function store(StoreDescriptionRequest $request, Specialist $specialist)
     {
-        //
+        if ($request->user()->can('update', $specialist) && $specialist->description === null) {
+            $specialist->description()->create($request->all());
+            return  redirect()->back()->with('message', ['text' => 'Zmieniono ikonę.', 'status' => 'success']);
+          
+        } else {
+            return  redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
+        }
     }
+    
 
     /**
      * Display the specified resource.
