@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateDescriptionRequest;
 use App\Models\Description;
 use App\Models\Specialist;
 
+use function PHPUnit\Framework\isInstanceOf;
+
 class DescriptionController extends Controller
 {
     /**
@@ -32,7 +34,7 @@ class DescriptionController extends Controller
     {
         if ($request->user()->can('update', $specialist) && $specialist->description === null) {
             $specialist->description()->create($request->all());
-            return  redirect()->back()->with('message', ['text' => 'Zmieniono ikonę.', 'status' => 'success']);
+            return  redirect()->back()->with('message', ['text' => 'Utworzono opis.', 'status' => 'success']);
           
         } else {
             return  redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
@@ -59,9 +61,18 @@ class DescriptionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDescriptionRequest $request, Description $description)
+    public function update(UpdateDescriptionRequest $request,Specialist $specialist, Description $description)
     {
-        //
+        
+        if ($specialist->description->id === $description->id  && $request->user()->can('update', $specialist) ) {
+            $description->full = $request->full;
+            $description->short = $request->short;
+            $description->save();
+            return  redirect()->back()->with('message', ['text' => 'Zmieniono opis.', 'status' => 'success']);
+          
+        } else {
+           // return  redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
+        }
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateDescriptionRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateDescriptionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::user()->specialist !== null;
     }
 
     /**
@@ -22,7 +23,8 @@ class UpdateDescriptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'full'=>'nullable|string|max:65500',
+            'short'=>'nullable|string|max:255'
         ];
     }
 }

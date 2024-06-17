@@ -56,4 +56,5 @@ Route::middleware(["auth", "spec"])->group(function () {
     Route::delete('icon/{icon}',[IconController::class, 'destroy'])->name('icon.delete');
 
     Route::post('/specialist/{specialist}/description',[DescriptionController::class, 'store'])->name('description.store');
+    Route::put('/specialist/{specialist}/description/{description}',[DescriptionController::class, 'update'])->name('description.update');
 });
