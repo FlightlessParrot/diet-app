@@ -36,7 +36,8 @@ class DescriptionTest extends TestCase
         $full=fake()->text();
         $short = fake()->sentence();
         $user = User::factory()->has(Specialist::factory()->has(Description::factory()))->create();
-        $response = $this->actingAs($user)->put(route('description.update',[$user->specialist->id,$user->specialist->description->id]),['full'=>$full,'short'=>$short]);
+        $response = $this->actingAs($user)->put(route('description.update',[$user->specialist->id,$user->specialist->description->id]),
+        ['full'=>$full,'short'=>$short]);
         
         $response->assertRedirect();
         $desc=$user->specialist->description;
@@ -45,5 +46,17 @@ class DescriptionTest extends TestCase
         $this->assertModelExists($desc);
         $this->assertSame($full,$desc->full);
         $this->assertSame($short, $desc->short);
+    }
+
+    public function test_specialist_can_destroy_description(): void
+    {
+        $this->seed();
+        $user = User::factory()->has(Specialist::factory()->has(Description::factory()))->create();
+        $desc=$user->specialist->description;
+        $response = $this->actingAs($user)->delete(route('description.destroy',[$desc->id]));
+        
+        $response->assertRedirect();
+        
+        $this->assertModelMissing($desc);
     }
 }

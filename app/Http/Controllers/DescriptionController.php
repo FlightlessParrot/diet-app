@@ -6,6 +6,8 @@ use App\Http\Requests\StoreDescriptionRequest;
 use App\Http\Requests\UpdateDescriptionRequest;
 use App\Models\Description;
 use App\Models\Specialist;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 use function PHPUnit\Framework\isInstanceOf;
 
@@ -71,15 +73,22 @@ class DescriptionController extends Controller
             return  redirect()->back()->with('message', ['text' => 'Zmieniono opis.', 'status' => 'success']);
           
         } else {
-           // return  redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
+            return  redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Description $description)
+    public function destroy(Description $description) : RedirectResponse
     {
-        //
+        $specialist = Auth::user()->specialist;
+        if ($specialist->description->id === $description->id  && Auth::user()->can('update', $specialist) ) {
+            $description->delete();
+            return  redirect()->back()->with('message', ['text' => 'Usunięto opis.', 'status' => 'success']);
+          
+        } else {
+            return  redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
+        }
     }
 }

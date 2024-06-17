@@ -57,4 +57,5 @@ Route::middleware(["auth", "spec"])->group(function () {
 
     Route::post('/specialist/{specialist}/description',[DescriptionController::class, 'store'])->name('description.store');
     Route::put('/specialist/{specialist}/description/{description}',[DescriptionController::class, 'update'])->name('description.update');
+    Route::delete('/description/{description}',[DescriptionController::class, 'destroy'])->name('description.destroy');
 });
