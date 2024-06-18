@@ -7,7 +7,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import PrimeVue from "primevue/config"
 import 'primevue/resources/themes/aura-light-green/theme.css';
-//import 'primevue/resources/themes/aura-light-blue/theme.css'
+import { setupCalendar } from 'v-calendar';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
@@ -18,6 +18,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(PrimeVue)
+            .use(setupCalendar, {})
             .mount(el);
     },
     progress: {
