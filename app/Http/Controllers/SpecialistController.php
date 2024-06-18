@@ -75,8 +75,9 @@ class SpecialistController extends Controller
             return Inertia::render('Specialist/Profile/EditSpecialist',['provinces'=>Province::All(), 'addresses'=> $specialist->addresses()->get(), 
             'serviceCities'=>$specialist->serviceCities()->get(),'serviceKinds'=>$specialist->serviceKinds()->get(), 
             'checkedCategories'=>$specialist->categories()->get()->map(fn ($e) => $e->id),
-            'categories'=>Category::all(), 'prices'=>$specialist->prices()->get(), 'avatarUrl'=>Auth::user()->specialist->attachment()->first()?->url(),
-        'iconUrl'=>$iconUrl]);
+            'categories'=>Category::all(), 'prices'=>$specialist->prices()->get(), 
+            'avatarUrl'=>Auth::user()->specialist->attachment()->first()?->url(),
+            'iconUrl'=>$iconUrl]);
         }else{
             return response('Nie masz uprawnień, aby wykonać tę akcje.',401);
         }
@@ -133,6 +134,7 @@ class SpecialistController extends Controller
         $attachment = $file->path($path)->load();
         $user->specialist->attachment()->attach($attachment);
         return redirect()->back()->with('message',['text'=>'Pomyśłnie edytowano dane.','status'=>'success']);
+        
     }
 
 }

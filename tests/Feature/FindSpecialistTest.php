@@ -7,6 +7,7 @@ use App\Models\ServiceCity;
 use App\Models\ServiceKind;
 use App\Models\Specialist;
 use App\Models\User;
+use Database\Seeders\TestSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -18,7 +19,7 @@ class FindSpecialistTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
+        $this->seed(TestSeeder::class);
     }
     /**
      * A basic feature test example.

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Database\Seeders\TestSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -22,7 +23,7 @@ class PriceTest extends TestCase
             'name'=>'cuccumber'
             ]]
         ];
-        $this->seed();
+        $this->seed(TestSeeder::class);
 
         $user = User::has('specialist')->first();
         $prices=$user->specialist->prices()->get();
@@ -51,7 +52,7 @@ class PriceTest extends TestCase
             'name'=>'cuccumber'
             ]]
         ];
-        $this->seed();
+        $this->seed(TestSeeder::class);
 
         $user = User::has('specialist')->first();
         $prices=$user->specialist->prices()->get();
@@ -85,7 +86,7 @@ class PriceTest extends TestCase
             'name'=>'cuccumber'
             ]]
         ];
-        $this->seed();
+        $this->seed(TestSeeder::class);
 
         $user = User::has('specialist')->first();
         $fraud=User::has('specialist')->where('id','!=',$user->id)->first();
@@ -120,7 +121,7 @@ class PriceTest extends TestCase
             'name'=>'cuccumber'
             ]]
         ];
-        $this->seed();
+        $this->seed(TestSeeder::class);
 
         $user = User::has('specialist')->first();
         $price=$user->specialist->prices()->create($data['prices'][0]);

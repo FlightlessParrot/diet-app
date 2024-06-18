@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\User;
+use Database\Seeders\TestSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -16,7 +17,7 @@ class CategoryControllerTest extends TestCase
      */
     public function test_specialist_can_get_categories_form(): void
     {
-        $this->seed();
+        $this->seed(TestSeeder::class);
 
         $user = User::has('specialist')->first();
 
@@ -27,7 +28,7 @@ class CategoryControllerTest extends TestCase
 
     public function test_specialist_can_store_categories(): void
     {
-        $this->seed();
+        $this->seed(TestSeeder::class);
 
         $user = User::has('specialist')->first();
         $specialist = $user->specialist;
@@ -44,7 +45,7 @@ class CategoryControllerTest extends TestCase
     }
     public function test_specialist_can_update_categories(): void
     {
-        $this->seed();
+        $this->seed(TestSeeder::class);
 
         $user = User::has('specialist')->first();
         $specialist = $user->specialist;
