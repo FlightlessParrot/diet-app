@@ -75,7 +75,9 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
-        $user=User::factory()->has(Address::factory(2))->create([
+        $user=User::factory()->has(Address::factory(2))->has(Specialist::factory(['title'=>'dietetyk','name'=>'Konrad','surname'=>'Strauss'])
+        ->has(Address::factory(2))->has(Price::factory(random_int(0,20)))->has(Description::factory()))
+        ->create([
             'name' => 'Konrad',
             'surname' => 'Strauss',
             'email' => 'shrimpinweb@gmail.com',
