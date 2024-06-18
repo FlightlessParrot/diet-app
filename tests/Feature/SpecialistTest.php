@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\MyRole;
 use App\Models\Specialist;
 use App\Models\User;
+use Database\Seeders\TestSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -19,7 +20,7 @@ class SpecialistTest extends TestCase
      */
     public function test_user_can_get_specialist_view(): void
     {
-        $this->seed();
+        $this->seed(TestSeeder::class);
         $user = User::doesntHave("specialist")->first();
         $response = $this->actingAs($user)->get(route("specialist.create"));
         
@@ -28,7 +29,7 @@ class SpecialistTest extends TestCase
 
     public function test_specialist_cannot_see_specialist_view(): void
     {
-        $this->seed();
+        $this->seed(TestSeeder::class);
         $user = User::has("specialist")->first();
         $response = $this->actingAs($user)->get(route("specialist.create"));
 
@@ -37,7 +38,7 @@ class SpecialistTest extends TestCase
 
     public function test_user_can_create_specialist(): void
     {
-        $this->seed();
+        $this->seed(TestSeeder::class);
         $user = User::doesntHave("specialist")->first();
         $response = $this->actingAs($user)->post(route("specialist.store"),[
             'title'=>'dietician',
@@ -52,7 +53,7 @@ class SpecialistTest extends TestCase
 
     public function test_specialist_cant_create_specialist(): void
     {
-        $this->seed();
+        $this->seed(TestSeeder::class);
         $user = User::has("specialist")->first();
         $response = $this->actingAs($user)->post(route("specialist.store"),[
             'title'=>'dietician',
@@ -66,7 +67,7 @@ class SpecialistTest extends TestCase
     }
     public function test_specialist_can_remove_specialist(): void
     {
-        $this->seed();
+        $this->seed(TestSeeder::class);
         $user = User::has("specialist")->first();
         $specialist=$user->specialist;
         $response = $this->actingAs($user)->delete(route("specialist.remove",$specialist->id),[
@@ -83,7 +84,7 @@ class SpecialistTest extends TestCase
 
     public function test_specialist_can_update_data()
     {
-        $this->seed();
+        $this->seed(TestSeeder::class);
         $user=User::factory()->create();
         $specialist=$user->specialist()->save(Specialist::make([
             'title'=>'dietician',
@@ -106,8 +107,8 @@ class SpecialistTest extends TestCase
 
     public function test_avatars_can_be_uploaded(): void
     {
-        Storage::fake('local');
-        $this->seed();
+        Storage::fake();
+        $this->seed(TestSeeder::class);
         $file = UploadedFile::fake()->image('avatar.jpg');
         $user = User::has("specialist")->first();
 
@@ -116,5 +117,6 @@ class SpecialistTest extends TestCase
         ]);
         $response->assertRedirect();
         $this->assertNotEmpty($user->specialist->attachment()->first());
+        $user->specialist->attachment()->first()->delete();
     }
 }
