@@ -133,6 +133,7 @@ class SpecialistController extends Controller
         $attachment = $file->path($path)->load();
         $user->specialist->attachment()->attach($attachment);
         return redirect()->back()->with('message',['text'=>'Pomyśłnie edytowano dane.','status'=>'success']);
+        
     }
 
 }

@@ -7,6 +7,7 @@ use App\Models\MyRole;
 use App\Models\ServiceKind;
 use App\Models\Specialist;
 use App\Models\User;
+use Database\Seeders\TestSeeder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -21,7 +22,7 @@ class ServiceCityTest extends TestCase
     public function test_specialist_can_detach_service_city(): void
     {
 
-        $this->seed();
+        $this->seed(TestSeeder::class);
         $user = User::where('my_role_id',MyRole::where('name','specialist')->first()->id)->firstOrFail();
         $specialist = $user->specialist;
         $specialist->serviceCities()->detach();

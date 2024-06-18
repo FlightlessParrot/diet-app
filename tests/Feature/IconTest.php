@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Specialist;
 use App\Models\User;
+use Database\Seeders\TestSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -17,7 +18,8 @@ class IconTest extends TestCase
 
     public function test_user_can_upload_icon() : void
     {
-        $this->seed();
+        
+        $this->seed(TestSeeder::class);
         Storage::fake();
         $file=UploadedFile::fake()->image('avatar.jpg', 250, 250)->size(1000);
         $user = User::factory()->has(Specialist::factory())->create();
@@ -32,12 +34,12 @@ class IconTest extends TestCase
 
     public function test_user_can_delete_icon() : void
     {
-        $this->seed();
-        Storage::fake();
+        $this->seed(TestSeeder::class);
+         Storage::fake();
         $file=UploadedFile::fake()->image('avatar.jpg', 250, 250)->size(1000);
         $user = User::factory()->has(Specialist::factory())->create();
         
-        $path = Storage::disk('public')->putFile('specialist/icons', $file);  
+        $path = Storage::putFile('public/specialist/icons', $file);  
         $url = Storage::url($path);
         $icon=$user->specialist->icon()->create(['path' => $path, 'url' => $url]);
         $response = $this->actingAs($user)->delete(route('icon.delete',[$icon->id]));
@@ -50,7 +52,7 @@ class IconTest extends TestCase
 
     public function test_user_cant_upload_too_wide_icon() : void
     {
-        $this->seed();
+        $this->seed(TestSeeder::class);
         Storage::fake();
         $file=UploadedFile::fake()->image('avatar.jpg', 300, 250)->size(1000);
         $user = User::factory()->has(Specialist::factory())->create();
@@ -66,7 +68,7 @@ class IconTest extends TestCase
 
     public function test_user_cant_upload_too_high_icon() : void
     {
-        $this->seed();
+        $this->seed(TestSeeder::class);
         Storage::fake();
         $file=UploadedFile::fake()->image('avatar.jpg', 250, 300)->size(1000);
         $user = User::factory()->has(Specialist::factory())->create();
@@ -82,7 +84,7 @@ class IconTest extends TestCase
 
     public function test_user_cant_upload_too_heavy_icon() : void
     {
-        $this->seed();
+        $this->seed(TestSeeder::class);
         Storage::fake();
         $file=UploadedFile::fake()->image('avatar.jpg', 250, 250)->size(200000);
         $user = User::factory()->has(Specialist::factory())->create();
