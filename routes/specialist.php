@@ -59,5 +59,5 @@ Route::middleware(["auth", "spec"])->group(function () {
     Route::put('/specialist/{specialist}/description/{description}',[DescriptionController::class, 'update'])->name('description.update');
     Route::delete('/description/{description}',[DescriptionController::class, 'destroy'])->name('description.destroy');
 
-    Route::get('/specialista/stwórz-wizytę', fn()=>Inertia::render('/Specialist/SetMeetings'))->name('specialist.setMeeting');
+    Route::get('/specialista/wizyty/stworz-wizyte', fn()=>Inertia::render('Specialist/SetMeetings'))->name('specialist.setMeeting');
 });
