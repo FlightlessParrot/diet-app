@@ -23,7 +23,7 @@ class SpecialistVisitPageTest extends TestCase
         $response = $this->actingAs($user)->get(route('specialist.visit',[$specialist->id]))->assertInertia(fn (Assert $page) => $page
         ->component('User/SpecialistView')
         ->has('specialist'));
-
+       
         $response->assertStatus(200);
     }
 }
