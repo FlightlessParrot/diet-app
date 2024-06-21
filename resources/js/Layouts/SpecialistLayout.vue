@@ -52,6 +52,12 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Umówione wizyty
                                 </NavLink>
+                                <NavLink
+                                    :href="route('specialist.setMeetings')"
+                                    :active="route().current('specialist.setMeetings')"
+                                >
+                                   Podaj dostępność
+                                </NavLink>
                             </div>
                         </div>
 
@@ -179,7 +185,7 @@ const showingNavigationDropdown = ref(false);
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
                             :href="route('specialist.dashboard')"
-                            :active="route().current('dashboard')"
+                            :active="route().current('specialist.dashboard')"
                         >
                             Tablica specjalisty
                         </ResponsiveNavLink>
@@ -188,6 +194,12 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('/')"
                         >
                             Umówione wizyty
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('specialist.setMeetings')"
+                            :active="route().current('specialist.setMeetings')"
+                        >
+                            Podaj dostępność
                         </ResponsiveNavLink>
                     </div>
 
