@@ -103,5 +103,8 @@ class Specialist extends Model
         return $this->morphOne(Description::class, 'descriptionable');
     }
      
-
+    public function bookings() : HasMany
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ServiceCityController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\CategoryController;
@@ -59,5 +60,8 @@ Route::middleware(["auth", "spec"])->group(function () {
     Route::put('/specialist/{specialist}/description/{description}',[DescriptionController::class, 'update'])->name('description.update');
     Route::delete('/description/{description}',[DescriptionController::class, 'destroy'])->name('description.destroy');
 
-    Route::get('/specialista/wizyty/stworz-wizyte', fn()=>Inertia::render('Specialist/SetMeetings'))->name('specialist.setMeeting');
+    Route::get('/specialista/wizyty/stworz-wizyte', fn()=>Inertia::render('Specialist/SetMeetings'))->name('specialist.setMeetings');
+
+    Route::post('/specialist/{specialist}/bookings', [BookingController::class, 'store'])->name('bookings.store');
+    Route::delete('/specialist/{specialist}/booking/{booking}', [BookingController::class, 'destroy'])->name('bookings.destroy');
 });

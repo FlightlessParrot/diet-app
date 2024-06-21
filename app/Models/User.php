@@ -14,6 +14,8 @@ use Illuminate\Notifications\Notifiable;
 use Orchid\Platform\Models\User as Authenticatable;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 class User extends Authenticatable
 {   
     use HasFactory, Notifiable;
@@ -121,5 +123,10 @@ class User extends Authenticatable
             get: fn (string $value) => ucfirst($value),
             set: fn (string $value) => strtolower($value),
         );
+    }
+
+    public function bookings() : HasMany
+    {
+        return $this->hasMany(Booking::class);
     }
 }
