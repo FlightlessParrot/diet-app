@@ -41,7 +41,8 @@ class DatabaseSeeder extends Seeder
             $attachment = (new File($file))->path($path)->load();
             $user->specialist->attachment()->attach($attachment);
             
-            $path = Storage::disk('public')->putFile('specialist/icons', $file);  
+            $iconFile = new UploadedFile('storage/app/public/test/man_icon.jpg', 'man_icon.jpg');
+            $path = Storage::disk('public')->putFile('specialist/icons', $iconFile);  
             $url = Storage::url($path);
             $icon=$user->specialist->icon()->create(['path' => $path, 'url' => $url]);
 
@@ -83,6 +84,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'shrimpinweb@gmail.com',
             'password'=>Hash::make('Password123'),
         ]);
-
+        $this->call([BookingSeeder::class]);
     }
 }

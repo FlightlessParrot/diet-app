@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->enum('status',['created','pending','confirmed','reject'])->default('created');
+            $table->enum('status',['created','pending','confirmed','rejected'])->default('created');
             $table->foreignIdFor(Specialist::class);
             $table->foreignIdFor(User::class)->nullable();
         });

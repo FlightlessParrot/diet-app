@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BookingStatus;
+use App\Http\Requests\PatchBookingStatus;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
 use App\Models\Specialist;
+use Illuminate\Http\Request;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class BookingController extends Controller
 {
@@ -24,6 +29,7 @@ class BookingController extends Controller
      */
     public function create()
     {
+        return Inertia::render('Specialist/SetMeetings',['bookings'=>Auth::user()->specialist->bookings()->get()]);
     }
 
     /**
@@ -139,6 +145,37 @@ class BookingController extends Controller
             $booking->delete();
             return  redirect()->back()->with('message', ['text' => 'Utworzono opis.', 'status' => 'success']);
             
+
+        }else{
+            return  redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
+        }
+    }
+
+    public function changeStatus(PatchBookingStatus $request, Booking $booking) : RedirectResponse
+    {
+        $user=Auth::user();
+        if($user->can('update',$booking) && $booking->status === 'pending')
+        {
+            $booking->status = $request->status;
+            $booking->save();
+
+            return  redirect()->back()->with('message', ['text' => 'Zmieniono status spotkania.', 'status' => 'success','r'=>$booking->status]);
+
+        }else{
+            return  redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
+        }
+    }
+
+    public function reserveBooking(Request $request, Booking $booking) : RedirectResponse
+    {
+        $user=Auth::user();
+        if($booking->status === 'created')
+        {
+            $booking->status = 'pending';
+            $booking->user_id=$user->id;
+            $booking->save();
+            
+            return  redirect()->back()->with('message', ['text' => 'Zarezerwowano spotkanie.', 'status' => 'success']);
 
         }else{
             return  redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);

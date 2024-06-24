@@ -60,8 +60,11 @@ Route::middleware(["auth", "spec"])->group(function () {
     Route::put('/specialist/{specialist}/description/{description}',[DescriptionController::class, 'update'])->name('description.update');
     Route::delete('/description/{description}',[DescriptionController::class, 'destroy'])->name('description.destroy');
 
-    Route::get('/specialista/wizyty/stworz-wizyte', fn()=>Inertia::render('Specialist/SetMeetings'))->name('specialist.setMeetings');
+    Route::get('/specialista/wizyty/stworz-wizyte', [BookingController::class, 'create'])->name('specialist.setMeetings');
 
     Route::post('/specialist/{specialist}/bookings', [BookingController::class, 'store'])->name('bookings.store');
     Route::delete('/specialist/{specialist}/booking/{booking}', [BookingController::class, 'destroy'])->name('bookings.destroy');
+
+    Route::patch('/specialist/booking/{booking}', [BookingController::class, 'changeStatus'])->name('bookings.status');
+   
 });

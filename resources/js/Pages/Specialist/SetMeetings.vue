@@ -1,13 +1,21 @@
 <script setup>
-import { useForm, Head, usePage } from "@inertiajs/vue3";
+import { useForm, Head, usePage, router } from "@inertiajs/vue3";
 import { Calendar, DatePicker } from 'v-calendar';
 import 'v-calendar/style.css';
-import { ref } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import SpecialistLayout from "@/Layouts/SpecialistLayout.vue";
 import Tile from "@/Components/Tile.vue";
 import Title from "@/Components/Title.vue";
-import RadioButton from 'primevue/radiobutton';
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import { useBookingsIntoVCalendarAttributes } from "@/Composables/useBookingsIntoVCalendarAttributes";
+import Divider from "primevue/divider";   
+import EditBooking from '@/Components/EditBooking.vue'
+import DangerButton from '@/Components/DangerButton.vue';;
+
+const props = defineProps({bookings:{
+   type: Array,
+}});
+const specialist = usePage().props.auth.specialist;
 const tomorrow=new Date().setDate(new Date().getUTCDate()+1);
 
 const form=useForm({
@@ -15,44 +23,112 @@ const form=useForm({
        start: tomorrow,
        end: tomorrow,
    },
-
-
 })
+
 const rules = ref({
 
   minutes: { interval: 15 },
 });
-
+const attrs = ref([
+  {
+    key: 'today',
+    highlight: true,
+    dates: new Date(),
+  },
+]);
+const pendingAttrs = ref([
+  {
+    key: 'today',
+    highlight: true,
+    dates: new Date(),
+  },
+]);
+const viewDate = ref(new Date())
+const pendingDate = ref(new Date())
+const chosenBookings = computed(()=>props.bookings.filter(
+   e=>new Date(e.start_date)>=new Date(viewDate.value)
+   &&
+   new Date(e.start_date)<new Date().setDate(new Date(viewDate.value).getUTCDate()+1)
+))
+const allPendingBookings = computed(()=>props.bookings.filter(e=>e.status==='pending'));
+const pendingBookings=computed(()=>allPendingBookings.value.filter(
+   e=>new Date(e.start_date)>=new Date(viewDate.value)
+   &&
+   new Date(e.start_date)<new Date().setDate(new Date(viewDate.value).getUTCDate()+1)
+  
+))
+watchEffect(()=>attrs.value=useBookingsIntoVCalendarAttributes(props.bookings))
+watchEffect(()=>pendingAttrs.value=useBookingsIntoVCalendarAttributes(allPendingBookings.value));
 </script>
 <template>
      <Head> <title>Twoja dyspozycyjność</title></Head>
      <SpecialistLayout>
       <Tile>
          <form
-            @submit.prevent="form.put(route('description.update',[specialist.id, description.id]),{ preserveScroll: true, preserveState: true})"
+            @submit.prevent="form.post(route('bookings.store',[specialist.id]),{ preserveScroll: false, preserveState: falsed})"
             class="mt-6 space-y-6"
         >
          <section>
             <Title>
                 <template v-slot:h2Title>Podaj dyspozycyjność</template>
                 <template v-slot:desc>
-                    Ustaw wizyty, na które mogą się zapisywać Twoi pacjenci.
+                    Ustaw wizyty, na które mogą się zapisywać Twoi klienci.
                 </template>
             </Title>
          <div class="my-8">
          <p class="italic text-gray-400 text-sm mt-2 mb-4">Wybierz zakres dni i godziny, w których Twoi klienci mogą się umawiać na wizyty.</p>
-         <DatePicker locale='pl' v-model.range='form.selectedDate' :rules="rules"  mode="dateTime" hide-time-header is24hr/> 
+         <DatePicker  color='green' locale='pl' v-model.range='form.selectedDate' :rules="rules"  mode="dateTime" hide-time-header is24hr/> 
       </div>
-      
-     
-      
-         <p>{{form.selectedDate}}</p>
-      </section>  
       <PrimaryButton :disabled="form.processing">Zapisz</PrimaryButton>
-
+      </section> 
    </form>
       </Tile>
-        <Calendar />
-        <DatePicker locale='pl' v-model.range='form.selectedDate' mode="dateTime" is24hr/>
+      <Tile>
+         <section>
+            <Title>
+                <template v-slot:h2Title>Twoja dyspozycyjność</template>
+                <template v-slot:desc>
+                    Twoje spotkania z klientami.
+                </template>
+            </Title>
+         <div class="my-8">
+         <p class="italic text-gray-400 text-sm mt-2 mb-4">Wybierz dzień, aby zobaczyć spotkania.</p>
+         <DatePicker  :attributes="attrs" v-model="viewDate"  locale='pl' mode="date" hide-time-header /> 
+
+         <Divider />
+         <div  >
+            <EditBooking v-for="booking in chosenBookings" :booking="booking" >
+               <DangerButton @click="router.delete(route('bookings.destroy',[specialist.id,booking.id]))" v-if="booking.status==='created'">Usuń</DangerButton>
+            </EditBooking>
+         </div>
+      </div>
+     
+      </section> 
+      </Tile>
+
+   
+      <Tile>
+         <section>
+            <Title>
+                <template v-slot:h2Title>Potwierdź rezerwacje</template>
+                <template v-slot:desc>
+                    Potwierdź spotkanie z klientem.
+                </template>
+            </Title>
+         <div class="my-8">
+         <p class="italic text-gray-400 text-sm mt-2 mb-4">Wybierz dzień, aby zobaczyć spotkania.</p>
+         <DatePicker  :attributes="pendingAttrs" v-model="pendingDate"  locale='pl' mode="date" hide-time-header /> 
+
+         <Divider />
+         <div  >
+            <EditBooking v-for="booking in pendingBookings" :booking="booking" >
+               <PrimaryButton @click="router.patch(route('bookings.status',[booking.id]),array(['status'=>'confirmed',]))">Potwierdź</PrimaryButton>
+            </EditBooking>
+         </div>
+      </div>
+     
+      </section> 
+      </Tile>
+        
      </SpecialistLayout>
 </template>

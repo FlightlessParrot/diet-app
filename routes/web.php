@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FindSpecialistController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpecialistViewController;
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function () {
     
     //fn () => Inertia::render('FindSpecialist',['categories'=>Category::all(),'services'=>ServiceKind::all()])
     Route::get('/specialista/{specialist}', SpecialistViewController::class)->name('specialist.visit');
+    Route::patch('/specialist/booking/{booking}/reserve', [BookingController::class, 'reserveBooking'])->name('bookings.reserve');
 });
 
 require __DIR__.'/auth.php';

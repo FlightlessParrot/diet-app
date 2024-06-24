@@ -69,7 +69,7 @@ class TestSeeder extends Seeder
             'email' => 'shrimpinweb@gmail.com',
             'password'=>Hash::make('Password123'),
         ]);
-
+        $this->call([BookingSeeder::class]);
     }
     
 }

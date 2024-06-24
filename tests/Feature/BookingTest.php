@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Booking;
 use App\Models\Specialist;
 use App\Models\User;
 use Database\Seeders\TestSeeder;
@@ -100,5 +101,37 @@ class BookingTest extends TestCase
         
         $response->assertRedirect();
         $this->assertModelMissing($booking);
+    }
+
+    public function test_user_can_book(): void
+    {
+        $this->seed(TestSeeder::class);
+
+        $user =  User::factory()->has(Specialist::factory())->create();
+ 
+        $booking=Booking::Where('status','created')->firstOrFail();
+
+
+        $response = $this->actingAs($user)->patch(route('bookings.reserve',[$booking->id]));
+        
+        $booking->refresh();
+        $response->assertRedirect();
+        $this->assertSame($booking->status,'pending');
+        $this->assertSame($user->id, $booking->user->id);
+    }
+
+    public function test_specialist_can_change_status(): void
+    {
+        $this->seed(TestSeeder::class);
+
+        $user =  User::factory()->has(Specialist::factory()->has(Booking::factory(['status'=>'pending'])))->create();
+        $specialist = $user->specialist;
+        $booking=$specialist->bookings()->firstOrFail();
+        
+        $response = $this->actingAs($user)->patch(route('bookings.status',[$booking->id]),['status'=>'confirmed']);
+        $booking->refresh();
+        $response->assertRedirect();
+        $this->assertSame($booking->status,'confirmed');
+  
     }
 }
