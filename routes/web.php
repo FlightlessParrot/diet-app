@@ -40,6 +40,8 @@ Route::middleware('auth')->group(function () {
     //fn () => Inertia::render('FindSpecialist',['categories'=>Category::all(),'services'=>ServiceKind::all()])
     Route::get('/specialista/{specialist}', SpecialistViewController::class)->name('specialist.visit');
     Route::patch('/specialist/booking/{booking}/reserve', [BookingController::class, 'reserveBooking'])->name('bookings.reserve');
+    Route::get('/specialista/{specialist}/rezerwacje',[BookingController::class, 'showSpecialistReservationPage'])->name('user.book.specialist');
+    Route::get('/wizyty',[BookingController::class, 'index'])->name('user.bookings.index');
 });
 
 require __DIR__.'/auth.php';

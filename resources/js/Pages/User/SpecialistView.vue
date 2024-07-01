@@ -58,7 +58,7 @@ const title = computed(
                 </Title>
             </div>
             <section class="my-6 space-y-8">
-                <CallToAction href="./">Umów się ze specjalistą</CallToAction>
+                <CallToAction :href="route('user.book.specialist',[specialist.id])">Umów się ze specjalistą</CallToAction>
                 <div class="flex flex-wrap gap-2 my-2">
                     <div v-for="service in specialist.services">
                         <div class="space-x-2">

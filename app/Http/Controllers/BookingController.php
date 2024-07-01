@@ -2,32 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\BookingStatus;
+
 use App\Http\Requests\PatchBookingStatus;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
 use App\Models\Specialist;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class BookingController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() : Response
     {
-        //
+        $bookings = Auth::user()->bookings()->orderBy('start_date','desc')->paginate(40);
+            foreach($bookings as $booking)
+            {
+                $booking->specialist;
+            }
+        
+       return Inertia::render('User/YourBookings',['bookings'=>$bookings]);
     }
 
-    /**
+    /**users
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create() : Response
     {
         return Inertia::render('Specialist/SetMeetings',['bookings'=>Auth::user()->specialist->bookings()->get()]);
     }
@@ -35,7 +43,7 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookingRequest $request, Specialist $specialist)
+    public function store(StoreBookingRequest $request, Specialist $specialist) : RedirectResponse
     {
         $user = $request->user();
         if ($user->can('update', $specialist)) {
@@ -117,6 +125,14 @@ class BookingController extends Controller
     public function show(Booking $booking)
     {
         //
+    }
+
+    public function showSpecialistReservationPage(Specialist $specialist) : Response
+    {
+        $today=new DateTime();
+        $formattedToday=$today->format('Y-m-d H:i:s');
+        return Inertia::render('User/ReserveMeeting',['specialist'=>$specialist,'bookings'=>$specialist->bookings()->where('status','created')
+        ->where('start_date','>',$formattedToday)->get()]);
     }
 
     /**

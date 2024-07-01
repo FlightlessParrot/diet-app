@@ -25,7 +25,7 @@ class BookingFactory extends Factory
 
         return [
             'start_date'=>$startDate->format('Y-m-d H:i:s'),
-            'end_date' => fake()->dateTime(),
+            'end_date' => $endDate->format('Y-m-d H:i:s'),
         ];
     }
 }

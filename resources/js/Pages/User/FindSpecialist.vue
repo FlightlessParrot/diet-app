@@ -9,7 +9,8 @@ import FloatLabel from "primevue/floatlabel";
 import Checkbox from "primevue/checkbox";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SpecialistCard from '@/Components/SpecialistCard.vue';
-import Pager from '@/Components/Pager/Pager.vue'
+import Pager from '@/Components/Pager/Pager.vue';
+import ElementsWrapper from '@/Components/ElementsWrapper.vue'
 const form = useForm({
     searchTerm: "",
     categories: [],
@@ -92,9 +93,9 @@ const props = defineProps({
                 </form>
             </Tile>
            
-            <div class="grid gird-cols-1 lg:grid-cols-2 gap-4 max-w-7xl mx-auto sm:p-6 lg:p-8">
+            <ElementsWrapper>
                 <SpecialistCard class="h-full" v-for="specialist in paginatedSpecialists.data" :specialist="specialist" />
-            </div>
+            </ElementsWrapper>
         
             <Pager v-if="paginatedSpecialists.links.length>3" :last-page-url="paginatedSpecialists.last_page_url" 
             :links="paginatedSpecialists.links" 

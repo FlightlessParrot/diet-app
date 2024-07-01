@@ -72,8 +72,7 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Umówione wizyty </DropdownLink>
-                                        <DropdownLink :href="route('profile.edit')"> Historia wizyt </DropdownLink>
+                                        <DropdownLink :href="route('user.bookings.index')"> Wizyty </DropdownLink>
                                         <DropdownLink :href="route('profile.edit')"> Profil </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Wyloguj
@@ -144,8 +143,7 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')">Umówione wizyty</ResponsiveNavLink>
-                            <ResponsiveNavLink :href="route('profile.edit')">Historia wizyt</ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('user.bookings.index')">Wizyty</ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
                             
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">

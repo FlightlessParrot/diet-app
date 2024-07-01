@@ -26,12 +26,12 @@ const reserved = computed(()=>{
 })
 </script>
 <template>
-    <div class="mx-auto max-w-7xl border-b-2 my-6 p-4 border-green-200 space-y-4" >
+    <div class="mx-auto max-w-7xl border-b my-6 p-4 border-green-200 space-y-4" >
         <h3 class="font-bold text-lg ">
             {{
-                new Date(booking.start_date).toLocaleString("pl") +
+               new Date(booking.start_date).toLocaleString("pl").slice(0,-3) +
                 " - " +
-                new Date(booking.end_date).toLocaleString("pl")
+                new Date(booking.end_date).toLocaleString("pl").slice(0,-3) 
             }}
         </h3>
         <p><span class="pi pi-user"></span> {{reserved}}</p>

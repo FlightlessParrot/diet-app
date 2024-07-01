@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\UnauthorizedException;
 use Inertia\Inertia;
+use Inertia\Response;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class AddressController extends Controller
@@ -18,7 +19,7 @@ class AddressController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() : Response
     {
         return Inertia::render('Specialist/CreateSpecialistAddress', ['provinces'=>Province::all()]);
     }

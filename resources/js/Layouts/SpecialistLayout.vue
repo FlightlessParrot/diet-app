@@ -46,17 +46,12 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Tablica
                                 </NavLink>
-                                <NavLink
-                                    :href="route('specialist.dashboard')"
-                                    :active="route().current('/')"
-                                >
-                                    Umówione wizyty
-                                </NavLink>
+                              
                                 <NavLink
                                     :href="route('specialist.setMeetings')"
                                     :active="route().current('specialist.setMeetings')"
                                 >
-                                   Podaj dostępność
+                                Wizyty
                                 </NavLink>
                             </div>
                         </div>
@@ -189,17 +184,12 @@ const showingNavigationDropdown = ref(false);
                         >
                             Tablica specjalisty
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            :href="route('specialist.dashboard')"
-                            :active="route().current('/')"
-                        >
-                            Umówione wizyty
-                        </ResponsiveNavLink>
+                        
                         <ResponsiveNavLink
                             :href="route('specialist.setMeetings')"
                             :active="route().current('specialist.setMeetings')"
                         >
-                            Podaj dostępność
+                        Wizyty
                         </ResponsiveNavLink>
                     </div>
 
