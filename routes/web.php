@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FindSpecialistController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SpecialistViewController;
 use App\Models\Category;
 use App\Models\ServiceKind;
@@ -42,6 +43,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/specialist/booking/{booking}/reserve', [BookingController::class, 'reserveBooking'])->name('bookings.reserve');
     Route::get('/specialista/{specialist}/rezerwacje',[BookingController::class, 'showSpecialistReservationPage'])->name('user.book.specialist');
     Route::get('/wizyty',[BookingController::class, 'index'])->name('user.bookings.index');
+
+    Route::post('/review/specialist/{specialist}',[ReviewController::class,'store'])->name('review.store');
+    Route::put('/review/{review}',[ReviewController::class, 'update'])->name('review.update');
+    Route::delete('/review/{review}',[ReviewController::class,'destroy'])->name('review.destroy');
 });
 
 require __DIR__.'/auth.php';

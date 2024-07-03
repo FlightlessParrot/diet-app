@@ -25,7 +25,7 @@ const url = computed(()=>"/specialista/"+props.specialist.id)
             <template #title>
                 <div class="my-2 flex align-center gap-2">
                     <Avatar 
-                        :image="specialist.image.url"
+                        :image="specialist.image?.url"
                         size="xlarge"
                     />
                     <div>
