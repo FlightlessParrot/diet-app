@@ -59,17 +59,7 @@ class TestSeeder extends Seeder
         }
        
 
-        User::factory()->has(Address::factory())->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-        $user=User::factory()->has(Address::factory(2))->create([
-            'name' => 'Konrad',
-            'surname' => 'Strauss',
-            'email' => 'shrimpinweb@gmail.com',
-            'password'=>Hash::make('Password123'),
-        ]);
-        $this->call([BookingSeeder::class]);
+        $this->call([BookingSeeder::class, ReviewSeeder::class]);
     }
     
 }

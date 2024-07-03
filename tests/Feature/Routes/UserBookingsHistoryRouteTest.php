@@ -31,7 +31,7 @@ class UserBookingsHistoryRouteTest extends TestCase
         $response = $this->actingAs($user)
         ->get(route('user.bookings.index'))->assertInertia(fn (AssertableInertia $page) => $page
         ->component('User/YourBookings')
-        ->has('bookings',3));;
+        ->has('bookings.data',3));;
 
         $response->assertStatus(200);
     }
