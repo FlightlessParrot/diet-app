@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Orchid\Attachment\File;
+use Orchid\Platform\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -77,6 +78,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+        
         $user = User::factory()->has(Address::factory(2))->has(Specialist::factory(['title' => 'dietetyk', 'name' => 'Konrad', 'surname' => 'Strauss'])
             ->has(Address::factory(2))->has(Price::factory(random_int(0, 20)))->has(Description::factory()))
             ->create([

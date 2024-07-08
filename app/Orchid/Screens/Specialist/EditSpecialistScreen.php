@@ -9,7 +9,11 @@ use App\Orchid\Layouts\Specialist\SpecialistAddressesLayout;
 use App\Orchid\Layouts\Specialist\SpecialistServicesLayout;
 use Hamcrest\Arrays\IsArray;
 use Illuminate\Http\Request;
+use Orchid\Screen\Actions\Button;
+
 use Orchid\Screen\Screen;
+use Orchid\Screen\Sight;
+use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
 class EditSpecialistScreen extends Screen
@@ -39,7 +43,7 @@ class EditSpecialistScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'Edytuj specjalistę '. $this->specialist->name.' '.$this->specialist->surname;
+        return 'Edytuj specjalistę.';
     }
 
     /**
@@ -49,7 +53,8 @@ class EditSpecialistScreen extends Screen
      */
     public function commandBar(): iterable
     {
-        return [];
+        return [Button::make('Aktywuj')->icon('bs.plus-circle')->method('activate')->canSee(!$this->specialist->active),
+        Button::make('Dezaktywuj')->icon('bs.trash3')->method('disactive')->canSee($this->specialist->active),];
     }
 
     /**
@@ -59,7 +64,15 @@ class EditSpecialistScreen extends Screen
      */
     public function layout(): iterable
     {
-        return [EditSpecialistLayout::class, SpecialistAddressesLayout::class, SpecialistServicesLayout::class];
+        return [
+            Layout::legend('specialist', [
+                Sight::make('name','Imię'),
+                Sight::make('surname','Nazwisko'),
+                Sight::make('active','Aktywny'),
+            ]),
+
+
+            EditSpecialistLayout::class, SpecialistAddressesLayout::class, SpecialistServicesLayout::class];
     }
 
     public function update_specialist(Request $request): void
@@ -86,5 +99,20 @@ class EditSpecialistScreen extends Screen
 
         
         Toast::info('Kategorie specjalisty zostały zaktualizowane.');
+    }
+
+    public function activate(Request $request): void
+    {
+        $this->specialist->active=true;
+        $this->specialist->save();
+
+        Toast::success('Aktywowano specjalistę.');
+    }
+    public function disactivate(Request $request): void
+    {
+        $this->specialist->active=false;
+        $this->specialist->save();
+
+        Toast::success('Aktywowano specjalistę.');
     }
 }
