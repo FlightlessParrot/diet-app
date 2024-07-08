@@ -120,4 +120,23 @@ class FindSpecialistTest extends TestCase
                 ->has('paginatedSpecialists.data', 0)
         );
     }
+
+
+    public function test_user_counter_increment(): void
+    {
+        $user = User::first();
+        $specialist = User::factory()->has(Specialist::factory()->has(ServiceKind::factory())->has(Category::factory()))
+        ->create()->specialist;
+        $preCounter=$specialist->found_counter;
+        $response = $this->actingAs($user)->get(route('specialist.index', 
+        [
+            'searchTerm' => $specialist->name, 
+            'categories' => [$specialist->categories()->first()->id], 
+            'services' => [$specialist->serviceKinds()->first()->id]
+        ]));
+
+        $specialist->refresh();
+
+        $this->assertEquals($preCounter+1,$specialist->found_counter);
+    }
 }

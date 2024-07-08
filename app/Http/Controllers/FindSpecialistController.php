@@ -53,16 +53,29 @@ class FindSpecialistController extends Controller
 
         
         //------
-        $paginatedResults=$myQuery->paginate(16);
+        $paginatedResults=$myQuery->orderByDesc('found_counter')->paginate(16);
         $results=$paginatedResults->map(function (Specialist $specialist){
+
+            if(!$specialist->statistic)
+            {
+                $specialist->statistic()->create();
+            }
+    
+            //increment the counter
+            $specialist->found_counter++;
+            $specialist->save();
+
+            //hydrate with related models
             $specialist->services = $specialist->serviceKinds()->get();
             $specialist->cities = $specialist->serviceCities()->limit(6)->get();
             $specialist->addresses = $specialist->addresses()->limit(6)->get();
             $specialist->image = $specialist->icon;
+            
             return $specialist;
         });
         $paginatedResults->data=$results;
-        return  Inertia::render('User/FindSpecialist',['categories'=>Category::all(),'services'=>ServiceKind::all(),'paginatedSpecialists'=>$paginatedResults]);
+        return  Inertia::render('User/FindSpecialist',
+        ['categories'=>Category::all(),'services'=>ServiceKind::all(),'paginatedSpecialists'=>$paginatedResults]);
         
     }
 }

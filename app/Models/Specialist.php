@@ -22,6 +22,8 @@ class Specialist extends Model
     use HasFactory, AsSource, Attachable;
 
     protected $fillable= ['name','surname', 'title'];
+
+    protected $hidden = ['found_counter'];
     
     public function user():BelongsTo
     {
@@ -111,5 +113,10 @@ class Specialist extends Model
     public function reviews() : HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function statistic() : HasOne
+    {
+        return $this->hasOne(Statistic::class);
     }
 }

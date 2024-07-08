@@ -85,6 +85,6 @@ class DatabaseSeeder extends Seeder
                 'email' => 'shrimpinweb@gmail.com',
                 'password' => Hash::make('Password123'),
             ]);
-        $this->call([BookingSeeder::class, ReviewSeeder::class]);
+        $this->call([BookingSeeder::class, ReviewSeeder::class,  StatisticSeeder::class]);
     }
 }

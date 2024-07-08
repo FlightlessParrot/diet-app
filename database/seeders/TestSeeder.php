@@ -59,7 +59,7 @@ class TestSeeder extends Seeder
         }
        
 
-        $this->call([BookingSeeder::class, ReviewSeeder::class]);
+        $this->call([BookingSeeder::class, ReviewSeeder::class, StatisticSeeder::class]);
     }
     
 }
