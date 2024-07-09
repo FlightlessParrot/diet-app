@@ -119,4 +119,9 @@ class Specialist extends Model
     {
         return $this->hasOne(Statistic::class);
     }
+
+    public function courses() : HasMany
+    {
+        return $this->hasMany(Course::class);
+    }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ServiceCityController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DescriptionController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\PriceController;
@@ -67,4 +68,10 @@ Route::middleware(["auth", "spec"])->group(function () {
 
     Route::patch('/specialist/booking/{booking}', [BookingController::class, 'changeStatus'])->name('bookings.status');
    
+});
+
+Route::middleware(["auth", "spec"])->group(function () {
+    Route::post('/specialist/{specialist}/course',[CourseController::class, 'store'])->name('course.store');
+    Route::put('/course/{course}',[CourseController::class, 'update'])->name('course.update');
+    Route::delete('/course/{course}',[CourseController::class, 'destroy'])->name('course.destroy');
 });
