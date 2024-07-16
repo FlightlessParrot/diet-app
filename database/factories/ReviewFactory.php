@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class ReviewFactory extends Factory
         return [
             'text'=>fake()->realText(800),
             'grade'=>random_int(1,5),
+            'user_id'=>User::factory()->create()->id
             
         ];
     }

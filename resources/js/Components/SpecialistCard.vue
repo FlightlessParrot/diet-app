@@ -30,7 +30,7 @@ const url = computed(()=>"/specialista/"+props.specialist.id)
                     />
                     <div>
                         <h3>{{ fullName }}</h3>
-                        <Rating readonly :model-value="1" :cancel="false" />
+                        <Rating readonly :model-value="specialist.statistic.review_grade" :cancel="false" />
                     </div>
                 </div>
             </template>

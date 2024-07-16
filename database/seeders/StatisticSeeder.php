@@ -17,7 +17,9 @@ class StatisticSeeder extends Seeder
 
         foreach ($specialists as $specialist)
         {
-            $specialist->statistic()->create();
+            $statistic = $specialist->statistic()->create();
+            $statistic->review_grade = random_int(0,5);
+            $statistic->save();
         }
     }
 }

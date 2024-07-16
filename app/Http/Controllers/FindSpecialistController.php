@@ -70,7 +70,7 @@ class FindSpecialistController extends Controller
             $specialist->cities = $specialist->serviceCities()->limit(6)->get();
             $specialist->addresses = $specialist->addresses()->limit(6)->get();
             $specialist->image = $specialist->icon;
-            
+            $specialist->statistic;
             return $specialist;
         });
         $paginatedResults->data=$results;

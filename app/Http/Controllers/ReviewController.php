@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReviewRequest;
 use App\Models\Review;
 use App\Models\Specialist;
+use App\Supports\Critic;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +41,8 @@ class ReviewController extends Controller
             $review->text=$request->text;
             $review->grade = $request->grade;
             $specialist->reviews()->save($review);
+            $critic = new Critic($specialist);
+            $critic->criticize();
             return redirect()->back()->with('message', ['text' => 'Udało się dodać komentarz.', 'status' => 'success']);
         } else {
             return redirect()->back()->with(
@@ -79,6 +82,9 @@ class ReviewController extends Controller
             $review->text=$request->text;
             $review->grade = $request->grade;
             $review->save();
+            $specialist = $review->specialist;
+            $critic = new Critic($specialist);
+            $critic->criticize();
             return redirect()->back()->with('message', ['text' => 'Udało się.', 'status' => 'success']);
         } else {
             return redirect()->back()->with(
@@ -99,7 +105,12 @@ class ReviewController extends Controller
         $user = Auth::user();
         if($user->can('delete',$review))
         {
+            $specialist = $review->specialist;
             $review->delete();
+
+            $critic = new Critic($specialist);
+            $critic->criticize();
+            
             return redirect()->back()->with('message', ['text' => 'Udało się usunąć opinię.', 'status' => 'success']);
         } else {
             return redirect()->back()->with(

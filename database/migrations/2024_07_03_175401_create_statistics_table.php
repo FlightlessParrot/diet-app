@@ -17,6 +17,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignIdFor(Specialist::class);
             $table->integer('view_counter')->default(0);
+            $table->integer('review_grade')->default(0);
 
         });
     }

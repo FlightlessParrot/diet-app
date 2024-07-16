@@ -95,7 +95,7 @@ class SpecialistController extends Controller
             $specialist->surname = $request->surname;
             $specialist->title = $request->title;
             $specialist->update();
-            return redirect()->back()->with('message',['text'=>'Pomyśłnie edytowano dane.','status'=>'success']);
+            return redirect()->back()->with('message',['text'=>'Pomyślnie edytowano dane.','status'=>'success']);
         }else{
             return redirect()->back()->withErrors(['text'=>'Coś poszło nie tak.']);
         }

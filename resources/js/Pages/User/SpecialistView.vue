@@ -84,7 +84,7 @@ const title = computed(
                 <Title>
                     <template #h2Title>{{ title }}</template>
                     <template #desc>
-                        <Rating readonly :model-value="1" :cancel="false" />
+                        <Rating readonly :model-value="specialist.statistic.review_grade" :cancel="false" />
                         <p class="inline-block mt-4">
                             Zobacz profil i umów się na wizytę.
                         </p>
