@@ -1,1 +1,0 @@
-import{_ as o}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{o as r,f as a,b as t,r as s}from"./app-CPbxQ4uM.js";const c={},n={class:"text-lg font-medium text-gray-900"},l={class:"mt-1 text-sm text-gray-600"};function _(e,m){return r(),a("header",null,[t("h2",n,[s(e.$slots,"h2Title")]),t("p",l,[s(e.$slots,"desc")])])}const f=o(c,[["render",_]]);export{f as T};
