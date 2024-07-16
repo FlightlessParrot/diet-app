@@ -10,8 +10,6 @@ use App\Http\Controllers\DescriptionController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ServiceController;
-use App\Models\Description;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,6 +21,8 @@ Route::middleware(["auth", "spec"])->group(function () {
     Route::post('/specialist/{specialist}/address', [AddressController::class, 'storeForSpecialist'])->name('specialist.address.store');
     Route::get('/specjalista/address', [AddressController::class, 'index'])->name('specialist.address.create');
     Route::delete('/specialist/{specialist}', [SpecialistController::class, 'destroy'])->name('specialist.remove');
+
+    Route::get('/twoje-szkolenia',[CourseController::class,'create' ])->name('course.create');
 
     Route::get('/wybierz-kategorie', [CategoryController::class, 'specialistCategoriesForm'])->name('category.attach');
     Route::post('/specialist/{specialist}/categories', [CategoryController::class, 'attachCategoriesToSpecialist'])->name('specialist.categories.store');

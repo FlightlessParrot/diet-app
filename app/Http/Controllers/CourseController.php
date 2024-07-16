@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Specialist;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class CourseController extends Controller
 {
@@ -23,7 +24,8 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        $courses = Auth::user()->specialist->courses()->orderByDesc('start_date')->get();
+        return Inertia::render('Specialist/Courses/ManageCourses',['courses'=>$courses]);
     }
 
     /**
@@ -61,7 +63,7 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
-       //
+       
     }
 
     /**
@@ -72,8 +74,10 @@ class CourseController extends Controller
         $user = Auth::user();
         if($user->can('update', $course))
         {
-            $course->start_date=$request->selectedDate['start'];
-            $course->end_date=$request->selectedDate['end'];
+            $start_date = new DateTime($request->selectedDate['start']);
+            $end_date = new DateTime($request->selectedDate['end']);
+            $course->start_date=$start_date->format('Y-m-d H:i:s');
+            $course->end_date=$end_date->format('Y-m-d H:i:s');
             $course->name=$request->name;
             $course->save();
             return redirect()->back()->with('message', ['text' => 'Zaktualizowano szkolenie.', 'status' => 'success']);

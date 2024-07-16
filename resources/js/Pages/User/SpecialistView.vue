@@ -30,6 +30,9 @@ const props = defineProps({
     },
     myReview: {
         type: Object
+    },
+    courses: {
+        type: Array
     }
 });
 const form = useForm({
@@ -142,6 +145,18 @@ const title = computed(
                             </TabPanel>
                         </TabView>
                     </AccordionTab>
+                    <AccordionTab v-if="courses.length" header="Moje wykształcenie">
+                        <DataTable
+                :value="courses"
+                class="my-12"
+                selectionMode="single"
+                dataKey="id"
+                    >
+                <Column field="name" header="Kurs"></Column>
+                <Column field="start_date" header="Początek"> </Column>
+                <Column field="end_date" header="Koniec"> </Column>
+            </DataTable>
+                    </AccordionTab>
                     <AccordionTab header="Cennik" v-if="specialist.servicePrices.length > 0">
                         <DataTable
                             :value="specialist.servicePrices"
@@ -160,6 +175,7 @@ const title = computed(
                     <AccordionTab v-if="specialist.fullDescription" header="O mnie">
                        <div v-html="specialist.fullDescription"></div>
                     </AccordionTab>
+                   
                 </Accordion>
             </section>
           

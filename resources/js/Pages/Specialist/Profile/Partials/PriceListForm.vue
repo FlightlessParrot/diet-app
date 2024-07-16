@@ -9,7 +9,7 @@ import Title from "@/Components/Title.vue";
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import DangerButton from "@/Components/DangerButton.vue";
-import { computed, ref, watch, watchEffect } from "vue";
+import {  ref, watch,  } from "vue";
 
 const props=defineProps({
     'prices':{

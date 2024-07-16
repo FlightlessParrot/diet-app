@@ -15,6 +15,7 @@ import UpdateImage from "./Partials/UpdateImage.vue";
 import UpdateIcon from "./Partials/UpdateIcon.vue";
 import StoreDescription from "./Partials/StoreDescription.vue";
 import UpdateDescription from "./Partials/UpdateDescription.vue";
+import Courses from "./Partials/Courses.vue";
 const page = usePage();
 const role = computed(() => page.props.auth.role);
 defineProps({
@@ -50,6 +51,9 @@ defineProps({
     },
     description: {
         type: Object
+    },
+    courses: {
+        type: Array,
     }
 });
 
@@ -95,6 +99,9 @@ defineProps({
                             />
                         </TabPanel>
                     </TabView>
+                </div>
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <Courses :courses = 'courses' />
                 </div>
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <UpdateServicesForm :service-cities="serviceCities" :service-kinds="serviceKinds" :provinces="provinces"

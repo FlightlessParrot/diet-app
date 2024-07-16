@@ -30,6 +30,10 @@ class SpecialistViewController extends Controller
         $reviews = $specialist->reviews()->paginate(20);
         $myReview = Review::where('specialist_id',$specialist->id)->where('user_id',$user->id)->first();
 
+
+        //courses
+        $courses = $specialist->courses()->orderByDesc('start_date')->get();
+
         //create statistic model if it does not exit
         if(!$specialist->statistic)
         {
@@ -41,6 +45,6 @@ class SpecialistViewController extends Controller
         $statistic->view_counter++;
         $statistic->save();
 
-        return Inertia::render('User/SpecialistView',['specialist'=>$specialist, 'reviews'=>$reviews, 'myReview'=>$myReview]);
+        return Inertia::render('User/SpecialistView',['specialist'=>$specialist, 'reviews'=>$reviews, 'myReview'=>$myReview, 'courses' =>$courses]);
     }
 }

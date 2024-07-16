@@ -7,6 +7,7 @@ use App\Models\MyRole;
 use App\Models\Province;
 use App\Models\Specialist;
 use App\Models\Category;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -48,7 +49,7 @@ class SpecialistController extends Controller
            $user->specialist()->create($request->all());
            $user->myRole()->associate(MyRole::where('name','specialist')->first());
            $user->save();
-           return to_route('specialist.address.create')->with('message',['text'=>'Utworzono profil specjalisty.','status'=>'success']);
+           return to_route('course.create')->with('message',['text'=>'Utworzono profil specjalisty.','status'=>'success']);
         }
     }
 
@@ -75,8 +76,9 @@ class SpecialistController extends Controller
             return Inertia::render('Specialist/Profile/EditSpecialist',['provinces'=>Province::All(), 'addresses'=> $specialist->addresses()->get(), 
             'serviceCities'=>$specialist->serviceCities()->get(),'serviceKinds'=>$specialist->serviceKinds()->get(), 
             'checkedCategories'=>$specialist->categories()->get()->map(fn ($e) => $e->id),
-            'categories'=>Category::all(), 'prices'=>$specialist->prices()->get(), 'avatarUrl'=>Auth::user()->specialist->attachment()->first()?->url(),
-        'iconUrl'=>$iconUrl, 'description'=>$specialist->description]);
+            'categories'=>Category::all(), 'prices'=>$specialist->prices()->get(), 
+            'avatarUrl'=>Auth::user()->specialist->attachment()->first()?->url(),
+            'iconUrl'=>$iconUrl, 'description'=>$specialist->description, 'courses'=>$specialist->courses()->orderByDesc('start_date')->get()]);
         }else{
             return response('Nie masz uprawnień, aby wykonać tę akcje.',401);
         }
@@ -132,7 +134,7 @@ class SpecialistController extends Controller
         $file = new File($request->file('avatar'));
         $attachment = $file->path($path)->load();
         $user->specialist->attachment()->attach($attachment);
-        return redirect()->back()->with('message',['text'=>'Pomyśłnie edytowano dane.','status'=>'success']);
+        return redirect()->back()->with('message',['text'=>'Pomyślnie edytowano dane.','status'=>'success']);
         
     }
 
