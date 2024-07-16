@@ -46,7 +46,7 @@ class SpecialistTest extends TestCase
             'surname' => fake()->lastName(),
         ]);
         $user->refresh();
-        $response->assertRedirect(route('specialist.address.create'));
+        $response->assertRedirect(route('course.create'));
         $this->assertModelExists($user->specialist);
         $this->assertEquals(MyRole::where('name','specialist')->first(), $user->myRole);
     }
