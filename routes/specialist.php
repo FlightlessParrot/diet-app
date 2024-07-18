@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ServiceCityController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\CategoryController;
@@ -10,7 +11,7 @@ use App\Http\Controllers\DescriptionController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ServiceController;
-
+use App\Http\Controllers\SpecialistDashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -31,9 +32,7 @@ Route::middleware(["auth", "spec"])->group(function () {
     Route::get('/wybierz-miejsce-uslugi', [ServiceController::class, 'index'])->name('service.form');
     Route::post('/specialist/{specialist}/services', [ServiceController::class, 'store'])->name('store.services');
 
-    Route::get("/specjalista/tablica", function (): Response {
-        return Inertia::render('Specialist/SpecialistDashboard');
-    })->name('specialist.dashboard');
+    Route::get("/specjalista/tablica", SpecialistDashboardController::class)->name('specialist.dashboard');
 
     Route::post('/specialist/{specialist}/address', [AddressController::class, 'storeForSpecialist'])->name('specialist.address.store');
 });
@@ -74,4 +73,9 @@ Route::middleware(["auth", "spec"])->group(function () {
     Route::post('/specialist/{specialist}/course',[CourseController::class, 'store'])->name('course.store');
     Route::put('/course/{course}',[CourseController::class, 'update'])->name('course.update');
     Route::delete('/course/{course}',[CourseController::class, 'destroy'])->name('course.destroy');
+});
+
+Route::middleware(["auth", "spec"])->group(function () {
+    Route::patch('/notification/{notificationId}',[NotificationController::class, 'specialistNotificationMarkAsRead'])->name('specialist.notification.mark');
+    
 });

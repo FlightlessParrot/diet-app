@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Events\BookingConfirmed;
+use App\Events\BookingSet;
 use App\Http\Requests\PatchBookingStatus;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
@@ -175,6 +176,11 @@ class BookingController extends Controller
             $booking->status = $request->status;
             $booking->save();
 
+            if($booking->status==='confirmed')
+            {
+                BookingConfirmed::dispatch($booking);
+            }
+
             return  redirect()->back()->with('message', ['text' => 'Zmieniono status spotkania.', 'status' => 'success','r'=>$booking->status]);
 
         }else{
@@ -191,6 +197,8 @@ class BookingController extends Controller
             $booking->user_id=$user->id;
             $booking->save();
             
+            BookingSet::dispatch($booking);
+
             return  redirect()->back()->with('message', ['text' => 'Zarezerwowano spotkanie.', 'status' => 'success']);
 
         }else{

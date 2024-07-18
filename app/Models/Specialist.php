@@ -16,10 +16,11 @@ use Orchid\Screen\AsSource;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Notifications\Notifiable;
 
 class Specialist extends Model
 {
-    use HasFactory, AsSource, Attachable;
+    use HasFactory, AsSource, Attachable, Notifiable;
 
     protected $fillable= ['name','surname', 'title'];
 

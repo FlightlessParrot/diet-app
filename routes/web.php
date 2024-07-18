@@ -3,9 +3,11 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FindSpecialistController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SpecialistViewController;
+use App\Http\Controllers\UserDashboardController;
 use App\Models\Category;
 use App\Models\ServiceKind;
 use App\Models\Specialist;
@@ -24,9 +26,7 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Home');
 });
-Route::get('/tablica', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/tablica', UserDashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profil', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -47,6 +47,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/review/specialist/{specialist}',[ReviewController::class,'store'])->name('review.store');
     Route::put('/review/{review}',[ReviewController::class, 'update'])->name('review.update');
     Route::delete('/review/{review}',[ReviewController::class,'destroy'])->name('review.destroy');
+
+    Route::patch('/notification/{notificationId}',[NotificationController::class, 'userNotificationMarkAsRead'])->name('specialist.notification.mark');
+
 });
 
 require __DIR__.'/auth.php';

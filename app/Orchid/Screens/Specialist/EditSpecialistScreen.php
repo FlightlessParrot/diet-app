@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Screens\Specialist;
 
+use App\Events\SpecialistActivated;
 use App\Models\Category;
 use App\Models\Specialist;
 use App\Orchid\Layouts\Specialist\EditSpecialistLayout;
@@ -105,7 +106,7 @@ class EditSpecialistScreen extends Screen
     {
         $this->specialist->active=true;
         $this->specialist->save();
-
+        SpecialistActivated::dispatch($this->specialist);
         Toast::success('Aktywowano specjalistę.');
     }
     public function disactivate(Request $request): void
@@ -113,6 +114,6 @@ class EditSpecialistScreen extends Screen
         $this->specialist->active=false;
         $this->specialist->save();
 
-        Toast::success('Aktywowano specjalistę.');
+        Toast::success('Dezaktywowano specjalistę.');
     }
 }

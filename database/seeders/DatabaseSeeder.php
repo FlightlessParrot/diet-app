@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Events\SpecialistActivated;
 use App\Models\Address;
 use App\Models\Category;
 use App\Models\Description;
@@ -41,7 +42,7 @@ class DatabaseSeeder extends Seeder
         Storage::delete($oldAvatars);
         foreach ($users as $user) {
 
-
+            SpecialistActivated::dispatch($user->specialist);
             $file = new UploadedFile('storage/app/public/test/man.jpg', 'man.jpg');
             $path = 'specialist/avatars';
             $attachment = (new File($file))->path($path)->load();
