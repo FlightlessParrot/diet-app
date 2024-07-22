@@ -27,7 +27,7 @@ Route::get('/', function () {
     return Inertia::render('Home');
 });
 Route::get('/tablica', UserDashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/specjalisci',[FindSpecialistController::class, 'unregisteredUserFind'])->name('specialist.index');
+Route::get('/specjalisci',[FindSpecialistController::class, 'unregisteredUserFind'])->name('guest.specialist.index');
 Route::middleware('auth')->group(function () {
     Route::get('/profil', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

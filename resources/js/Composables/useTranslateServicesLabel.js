@@ -5,7 +5,7 @@ export function useTranslateServicesLabel(serviceName)
     const getServiceLabel = function (name) {
         switch (name) {
             case "mobile":
-                return "Z dojazdem";
+                return "z dojazdem";
             case "stationary":
                 return "stacjonarnie";
             default:

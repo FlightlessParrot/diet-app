@@ -12,6 +12,11 @@ const items = ref([
                 command: () => router.get('/')
             },
             {
+                label: 'Specjaliści',
+                icon: 'pi pi-heart-fill',
+                command: () => router.get(route('quest.specialist.index'))
+            },
+            {
                 label: 'Zaloguj',
                 icon: 'pi pi-user',
                 command: () => router.get('/login')

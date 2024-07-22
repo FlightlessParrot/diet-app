@@ -1,8 +1,8 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Title from "@/Components/Title.vue";
 import FindSpecialistTemplate from "@/Parts/FindSpecialistTemplate.vue"
+import GuestLayoutForPages from "@/Layouts/GuestLayoutForPages.vue";
 
 
 const props = defineProps({
@@ -21,7 +21,7 @@ const props = defineProps({
     <Head>
         <title>Znajdź specialistę</title>
     </Head>
-    <AuthenticatedLayout>
-            <FindSpecialistTemplate :guest='false' :categories="categories" :services="services" :paginatedSpecialists='paginatedSpecialists' />
-    </AuthenticatedLayout>
+    <GuestLayoutForPages>
+            <FindSpecialistTemplate :guest="true" :categories="categories" :services="services" :paginatedSpecialists='paginatedSpecialists' />
+    </GuestLayoutForPages>
 </template>

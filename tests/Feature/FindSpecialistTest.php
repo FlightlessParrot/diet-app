@@ -32,7 +32,7 @@ class FindSpecialistTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(
             fn (Assert $page)  => $page
-                ->component('User/FindSpecialist')
+                ->component('Quest/FindSpecialist')
         );
     }
 
