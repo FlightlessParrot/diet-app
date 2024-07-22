@@ -1,5 +1,5 @@
 <?php
-namespace App\Supports;
+namespace App\Supports\Critic;
 use App\Models\Specialist;
 
 class Critic implements CriticInterface

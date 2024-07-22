@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReviewRequest;
 use App\Models\Review;
 use App\Models\Specialist;
-use App\Supports\Critic;
+use App\Supports\Critic\Critic;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

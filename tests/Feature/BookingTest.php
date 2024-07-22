@@ -2,12 +2,16 @@
 
 namespace Tests\Feature;
 
+use App\Events\BookingConfirmed;
+use App\Events\BookingDeleted;
+use App\Events\BookingSet;
 use App\Models\Booking;
 use App\Models\Specialist;
 use App\Models\User;
 use Database\Seeders\TestSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class BookingTest extends TestCase
@@ -92,6 +96,7 @@ class BookingTest extends TestCase
     public function test_specialist_can_delete_booking(): void
     {
         $this->seed(TestSeeder::class);
+        Event::fake();
         $startDate=(floor(time()/86400))*86400+2*86400+00001;
         $user =  User::factory()->has(Specialist::factory())->create();
         $specialist = $user->specialist;
@@ -101,12 +106,13 @@ class BookingTest extends TestCase
         
         $response->assertRedirect();
         $this->assertModelMissing($booking);
+        Event::assertDispatched(BookingDeleted::class);
     }
 
     public function test_user_can_book(): void
     {
         $this->seed(TestSeeder::class);
-
+        Event::fake();
         $user =  User::factory()->has(Specialist::factory())->create();
  
         $booking=Booking::Where('status','created')->firstOrFail();
@@ -118,20 +124,24 @@ class BookingTest extends TestCase
         $response->assertRedirect();
         $this->assertSame($booking->status,'pending');
         $this->assertSame($user->id, $booking->user->id);
+        Event::assertDispatched(BookingSet::class);
     }
 
     public function test_specialist_can_change_status(): void
     {
         $this->seed(TestSeeder::class);
-
+        Event::fake();
         $user =  User::factory()->has(Specialist::factory()->has(Booking::factory(['status'=>'pending'])))->create();
+
         $specialist = $user->specialist;
         $booking=$specialist->bookings()->firstOrFail();
+        $booking->user()->associate(User::factory()->create());
+        $booking->save();
         
         $response = $this->actingAs($user)->patch(route('bookings.status',[$booking->id]),['status'=>'confirmed']);
         $booking->refresh();
         $response->assertRedirect();
         $this->assertSame($booking->status,'confirmed');
-  
+        Event::assertDispatched(BookingConfirmed::class);
     }
 }

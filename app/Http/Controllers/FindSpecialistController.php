@@ -12,6 +12,10 @@ use Inertia\Inertia;
 
 class FindSpecialistController extends Controller
 {
+    public function unregisteredUserFind(Request $request)
+    {
+        
+    }
     /**
      * Find specialist accounts by filters
      */

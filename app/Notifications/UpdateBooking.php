@@ -52,7 +52,7 @@ class UpdateBooking extends Notification
         $date = new DateTime($this->booking->start_date);
         return [
             'line_1'=> 'Wprowadzono zmiany w Twoich wizytach.',
-            'line_2' => 'Zmiany dotyczą wizyty zaczynającej się o: '.$$date->format('d/m/Y H:i')
+            'line_2' => 'Zmiany dotyczą wizyty zaczynającej się o: '.$date->format('d/m/Y H:i')
         ];
     }
 }

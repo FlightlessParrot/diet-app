@@ -23,8 +23,8 @@ class SendConfirmBookingNotification
     public function handle(BookingConfirmed $event): void
     {
         $booking = $event->booking;
-        $user = $booking->user()->first();
-        $specialist = $event->booking->specialist;
+        $user = $booking->user;
+        $specialist = $booking->specialist;
         $user->notify(new ConfirmBooking($event->booking));
         $specialist->notify(new ConfirmBooking($event->booking));
     }

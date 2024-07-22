@@ -1,5 +1,5 @@
 <?php
-namespace App\Supports;
+namespace App\Supports\Critic;
 
 interface CriticInterface {
     /**

@@ -6,7 +6,7 @@ use App\Models\Review;
 use App\Models\Specialist;
 
 use App\Models\User;
-use App\Supports\Critic;
+use App\Supports\Critic\Critic;
 use Database\Seeders\MyRolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
