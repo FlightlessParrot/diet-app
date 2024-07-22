@@ -32,7 +32,7 @@ class FindSpecialistTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(
             fn (Assert $page)  => $page
-                ->component('Quest/FindSpecialist')
+                ->component('User/FindSpecialist')
         );
     }
 
@@ -139,4 +139,123 @@ class FindSpecialistTest extends TestCase
 
         $this->assertEquals($preCounter+1,$specialist->found_counter);
     }
+
+    //Guest test
+
+    public function test_guest_can_see_find_specialists_page(): void
+    {
+        
+        $response = $this->get(route('guest.specialist.index'));
+
+        $response->assertStatus(200);
+        $response->assertInertia(
+            fn (Assert $page)  => $page
+                ->component('Guest/FindSpecialist')
+        );
+    }
+
+    public function test_guest_can_find_specialist(): void
+    {
+        
+        $specialist = User::factory()->has(Specialist::factory()->has(ServiceKind::factory())->has(Category::factory()))
+        ->create()->specialist;
+        $response = $this->get(route('guest.specialist.index', 
+        [
+            'searchTerm' => $specialist->name, 
+            'categories' => [$specialist->categories()->first()->id], 
+            'services' => [$specialist->serviceKinds()->first()->id]
+        ]));
+
+        $response->assertStatus(200);
+        $response->assertInertia(
+            fn (Assert $page)  => $page
+                ->component('Guest/FindSpecialist')
+                ->has('paginatedSpecialists.data.0', fn (Assert $page) => $page
+                    ->where('id', $specialist->id)
+                    ->etc()
+                    )   
+        );
+    }
+
+    public function test_guest_can_find_specialist_by_city_name(): void
+    {
+        
+        $specialist = User::factory()->has(Specialist::factory()->has(ServiceCity::factory()))->create()->specialist;
+        $response = $this->get(route('guest.specialist.index', 
+        [
+            'searchTerm' => $specialist->serviceCities()->first()->name, 
+        ]));
+
+        $response->assertStatus(200);
+        //$responseSpecialistId = $response['props']['paginatedSpecialists']['data'][0]->id;
+        $response->assertInertia(
+            fn (Assert $page)  => $page
+                ->component('Guest/FindSpecialist')
+                ->has('paginatedSpecialists.data.0', fn (Assert $page) => $page
+                    ->where('id', $specialist->id)
+                    ->etc()
+                    )   
+        );
+    }
+
+    public function test_guest_cant_find_specialist_if_category_has_been_mistaken(): void
+    {
+        $user = User::first();
+        $specialist = User::factory()->has(Specialist::factory()->has(ServiceKind::factory()))
+        ->create()->specialist;
+        $response = $this->actingAs($user)->get(route('guest.specialist.index', 
+        [
+            'searchTerm' => $specialist->name, 
+            'categories' => [Category::first()->id], 
+            'services' => [$specialist->serviceKinds()->first()->id]
+        ]));
+
+        $response->assertStatus(200);
+        $response->assertInertia(
+            fn (Assert $page)  => $page
+                ->component('Guest/FindSpecialist')
+                ->has('paginatedSpecialists.data', 0
+                )
+        );
+    }
+
+    public function test_guest_cant_find_specialist_if_service_kind_has_been_mistaken(): void
+    {
+        
+        $specialist = User::factory()->has(Specialist::factory()->has(Category::factory()))
+        ->create()->specialist;
+        $response = $this->get(route('guest.specialist.index', 
+        [
+            'searchTerm' => $specialist->name, 
+            'categories' => [$specialist->categories()->first()->id],  
+            'services' => [ServiceKind::first()->id]
+        ]));
+
+        $response->assertStatus(200);
+        $response->assertInertia(
+            fn (Assert $page)  => $page
+                ->component('Guest/FindSpecialist')
+                ->has('paginatedSpecialists.data', 0)
+        );
+    }
+
+
+    public function test_quest_found_counter_increment(): void
+    {
+        
+        $specialist = User::factory()->has(Specialist::factory()->has(ServiceKind::factory())->has(Category::factory()))
+        ->create()->specialist;
+        $preCounter=$specialist->found_counter;
+        $response = $this->get(route('guest.specialist.index', 
+        [
+            'searchTerm' => $specialist->name, 
+            'categories' => [$specialist->categories()->first()->id], 
+            'services' => [$specialist->serviceKinds()->first()->id]
+        ]));
+
+        $specialist->refresh();
+
+        $this->assertEquals($preCounter+1,$specialist->found_counter);
+    }
+    
 }
