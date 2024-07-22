@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Routes;
+namespace Tests\Feature\Routes;
 
 use Tests\TestCase;
 

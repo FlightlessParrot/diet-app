@@ -98,16 +98,7 @@ const showingNavigationDropdown = ref(false);
                                         >
                                             Profil
                                         </DropdownLink>
-                                        <DropdownLink
-                                            :href="
-                                                route(
-                                                    'specialist.profile.edit',
-                                                    specialist.id
-                                                )
-                                            "
-                                        >
-                                            Historia wizyt
-                                        </DropdownLink>
+                                        
                                         <DropdownLink
                                             :href="route('logout')"
                                             method="post"
@@ -215,16 +206,7 @@ const showingNavigationDropdown = ref(false);
                             >
                                 Profil
                             </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                :href="
-                                    route(
-                                        'specialist.profile.edit',
-                                        specialist.id
-                                    )
-                                "
-                            >
-                                Historia wizyt
-                            </ResponsiveNavLink>
+                           
                             <ResponsiveNavLink
                                 :href="route('logout')"
                                 method="post"

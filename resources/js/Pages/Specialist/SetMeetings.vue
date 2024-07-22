@@ -199,7 +199,7 @@ watchEffect(
                                 @click="
                                     router.patch(
                                         route('bookings.status', [booking.id]),
-                                        array({ status: 'confirmed' })
+                                        { status: 'confirmed' }
                                     )
                                 "
                                 >Potwierdź</PrimaryButton

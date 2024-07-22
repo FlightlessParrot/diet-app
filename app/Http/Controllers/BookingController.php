@@ -38,7 +38,12 @@ class BookingController extends Controller
      */
     public function create() : Response
     {
-        return Inertia::render('Specialist/SetMeetings',['bookings'=>Auth::user()->specialist->bookings()->get()]);
+        $bookings=Auth::user()->specialist->bookings()->get();
+        foreach($bookings as $booking)
+            {
+                $booking->user;
+            }
+        return Inertia::render('Specialist/SetMeetings',['bookings'=>$bookings]);
     }
 
     /**
