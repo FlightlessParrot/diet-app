@@ -23,6 +23,8 @@ class EditSpecialistScreen extends Screen
      * @var Specialist;
      */
     public $specialist;
+
+    public $statistic;
     /**
      * Fetch data to be displayed on the screen.
      *
@@ -30,11 +32,19 @@ class EditSpecialistScreen extends Screen
      */
     public function query(Specialist $specialist): iterable
     {
+        $statistic = $specialist->statistic;
         $categories=$specialist->categories()->get();
         $services=$specialist->serviceKinds()->get();
         $serviceCities=$specialist->serviceCities()->get();
         $addresses=$specialist->addresses()->get();
-        return ['specialist'=>$specialist, 'addresses'=>$addresses, 'services'=>$services, 'serviceCities'=>$serviceCities, "categories"=>$categories];
+        
+
+        $data=['specialist'=>$specialist, 
+        'addresses'=>$addresses, 
+        'services'=>$services, 'serviceCities'=>$serviceCities, 
+        "categories"=>$categories];
+        isset($statistic) ? $data['statistic']=$statistic : $data['statistic']=null;
+        return $data;
     }
 
     /**
@@ -70,8 +80,14 @@ class EditSpecialistScreen extends Screen
                 Sight::make('name','Imię'),
                 Sight::make('surname','Nazwisko'),
                 Sight::make('active','Aktywny'),
+                
             ]),
-
+            Layout::legend('statistic', [
+                Sight::make('view_counter','Profil zobaczono'),
+                Sight::make('review_grade','Ocena o specjaliście'),
+               
+                
+            ])->canSee($this->statistic!==null),
 
             EditSpecialistLayout::class, SpecialistAddressesLayout::class, SpecialistServicesLayout::class];
     }
