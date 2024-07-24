@@ -71,4 +71,4 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 This app is a sample of my work. It is supposed to be used during candidate review process for a software developer position. If any question emerge contact me at shrimpinweb@gmail.com. 
 
 ## License
-The app can be use only in recruitment process for software developer positions. It is permitted to use this software or its parts in any other purpose.
+The app can be used only in a recruitment process for software developer positions. It is permitted to use this software or its parts in any other purpose.
