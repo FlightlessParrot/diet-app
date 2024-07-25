@@ -14,7 +14,7 @@ const items = ref([
             {
                 label: 'Specjaliści',
                 icon: 'pi pi-heart-fill',
-                command: () => router.get(route('quest.specialist.index'))
+                command: () => router.get(route('guest.specialist.index'))
             },
             {
                 label: 'Zaloguj',
