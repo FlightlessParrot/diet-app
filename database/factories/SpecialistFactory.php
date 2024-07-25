@@ -20,6 +20,7 @@ class SpecialistFactory extends Factory
             'title'=>'dietician',
             'name' => fake()->name(),
             'surname' => fake()->lastName(),
+            'active' => true
         ];
     }
 }

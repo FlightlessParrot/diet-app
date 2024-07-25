@@ -62,7 +62,7 @@ class SpecialistFinder implements SpecialistFinderInterface
 
     public function paginateResults(int $howManyPerPage) : void
     {
-        $paginatedResults=$this->query->orderByDesc('found_counter')->paginate($howManyPerPage);
+        $paginatedResults=$this->query->where('active', true)->orderByDesc('found_counter')->paginate($howManyPerPage);
         $results=$paginatedResults->map(function (Specialist $specialist){
 
             if(!$specialist->statistic)

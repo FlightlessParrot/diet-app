@@ -65,7 +65,7 @@ class EditSpecialistScreen extends Screen
     public function commandBar(): iterable
     {
         return [Button::make('Aktywuj')->icon('bs.plus-circle')->method('activate')->canSee(!$this->specialist->active),
-        Button::make('Dezaktywuj')->icon('bs.trash3')->method('disactive')->canSee($this->specialist->active),];
+        Button::make('Dezaktywuj')->icon('bs.trash3')->method('disactivate')->canSee($this->specialist->active),];
     }
 
     /**
