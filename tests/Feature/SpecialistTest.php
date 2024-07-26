@@ -38,16 +38,22 @@ class SpecialistTest extends TestCase
 
     public function test_user_can_create_specialist(): void
     {
+        $number='123123123';
         $this->seed(TestSeeder::class);
         $user = User::doesntHave("specialist")->first();
         $response = $this->actingAs($user)->post(route("specialist.store"),[
             'title'=>'dietician',
             'name' => fake()->name(),
             'surname' => fake()->lastName(),
+            'number' => $number
         ]);
         $user->refresh();
         $response->assertRedirect(route('course.create'));
+
         $this->assertModelExists($user->specialist);
+        $this->assertNotNull($user->specialist->phone);
+        $this->assertSame($number,$user->specialist->phone->number);
+
         $this->assertEquals(MyRole::where('name','specialist')->first(), $user->myRole);
     }
 
@@ -59,6 +65,7 @@ class SpecialistTest extends TestCase
             'title'=>'dietician',
             'name' => fake()->name(),
             'surname' => fake()->lastName(),
+            'number' => '12342232'
         ]);
         $user->refresh();
         $response->assertRedirect(route('specialist.create'));

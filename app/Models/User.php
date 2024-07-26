@@ -134,4 +134,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
+
+    public function phone() : MorphOne
+    {
+        return $this->morphOne(Phone::class,'phoneable');
+    }
+
+    
 }

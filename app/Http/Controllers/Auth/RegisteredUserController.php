@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\MyRole;
+use App\Models\Phone;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -37,6 +38,7 @@ class RegisteredUserController extends Controller
             'surname' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'number' =>'required|string|max:15',
         ]);
         $role = MyRole::where('name','user')->first();
         $user=$role->users()->create([
@@ -45,7 +47,9 @@ class RegisteredUserController extends Controller
             'surname' => $request->surname,
             'password' => Hash::make($request->password),
         ]);
-        
+        $phone = new Phone();
+        $phone->number=$request->number;
+        $user->phone()->save($phone);
         
         event(new Registered($user));
 

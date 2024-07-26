@@ -125,4 +125,9 @@ class Specialist extends Model
     {
         return $this->hasMany(Course::class);
     }
+
+    public function phone() : MorphOne
+    {
+        return $this->morphOne(Phone::class,'phoneable');
+    }
 }

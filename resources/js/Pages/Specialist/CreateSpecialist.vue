@@ -15,6 +15,7 @@ const form = useForm({
     title: "",
     name: user.name,
     surname: user.surname,
+    number: user.phone.number
 });
 </script>
 <template>
@@ -79,7 +80,20 @@ const form = useForm({
 
                     <InputError class="mt-2" :message="form.errors.surname" />
                 </div>
+                <div class="mt-4">
+                <InputLabel for="number" value="Numer telefonu" />
 
+                <TextInput
+                    id="number"
+                    type="tel"
+                    class="mt-1 block w-full"
+                    v-model="form.number"
+                    required
+                    autocomplete="tel"
+                />
+
+                <InputError class="mt-2" :message="form.errors.number" />
+            </div>
                 <PrimaryButton> Dalej </PrimaryButton>
             </form>
         </Tile>

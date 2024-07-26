@@ -4,9 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateSpecialist extends FormRequest
+class UpdateSpecialist extends FormRequest
 {
-   
 
     /**
      * Get the validation rules that apply to the request.
@@ -19,7 +18,6 @@ class CreateSpecialist extends FormRequest
             'name'=>'required|string|max:250',
             'surname'=>'required|string|max:250',
             'title'=>'nullable|string|max:250',
-            'number'=>'required|string|max:15',
         ];
     }
 }

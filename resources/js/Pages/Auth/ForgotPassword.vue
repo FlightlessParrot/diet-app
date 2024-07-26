@@ -52,7 +52,7 @@ const submit = () => {
 
             <div class="flex items-center justify-end mt-4">
                 <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    WYślij mi link
+                    Wyślij mi link
                 </PrimaryButton>
             </div>
         </form>

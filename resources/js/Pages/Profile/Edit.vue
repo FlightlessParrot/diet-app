@@ -8,8 +8,8 @@ import { Head, usePage } from '@inertiajs/vue3';
 import CreateSpecialistLink from './Partials/CreateSpecialistLink.vue';
 import DeleteSpecialistForm from './Partials/DeleteSpecialistForm.vue';
 import { computed } from 'vue';
-import Tile from '@/Components/Tile.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import EditPhone from '../../Parts/EditPhone.vue';
+
 const page=usePage();
 const role = computed(()=>page.props.auth.role)
 defineProps({
@@ -49,6 +49,9 @@ defineProps({
                         :status="status"
                         class="max-w-xl"
                     />
+                </div>
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <EditPhone :phone ='page.props.auth.user.phone' />
                 </div>
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <UpdateAddress

@@ -12,6 +12,7 @@ const form = useForm({
     email: '',
     password: '',
     password_confirmation: '',
+    number: '',
 });
 
 const submit = () => {
@@ -100,7 +101,20 @@ const submit = () => {
 
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
             </div>
+            <div class="mt-4">
+                <InputLabel for="number" value="Numer telefonu" />
 
+                <TextInput
+                    id="number"
+                    type="tel"
+                    class="mt-1 block w-full"
+                    v-model="form.number"
+                    required
+                    autocomplete="tel"
+                />
+
+                <InputError class="mt-2" :message="form.errors.number" />
+            </div>
             <div class="flex items-center justify-end mt-4">
                 <Link
                     :href="route('login')"

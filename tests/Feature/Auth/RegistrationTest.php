@@ -29,15 +29,23 @@ class RegistrationTest extends TestCase
 
     public function test_new_users_can_register(): void
     {
+        $number='123123123';
         $response = $this->post('/register', [
             'name' => 'Test User',
             'surname' => 'Test surname',
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
+            'number'=>$number,
         ]);
 
+        $user = User::first();
+
         $this->assertAuthenticated();
+        
+        $this->assertNotNull($user->phone);
+        $this->assertSame($number,$user->phone->number);
+
         $response->assertRedirect(route('dashboard', absolute: false));
     }
 
@@ -50,6 +58,7 @@ class RegistrationTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
+            'number'=>'123123123'
         ]);
         $role=MyRole::where('name','user')->firstOrFail();
         $user=User::where('email','test@example.com')->firstOrFail();

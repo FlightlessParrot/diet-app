@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateSpecialist;
+use App\Http\Requests\UpdateSpecialist;
 use App\Models\MyRole;
 use App\Models\Province;
 use App\Models\Specialist;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Phone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -46,9 +48,14 @@ class SpecialistController extends Controller
         if($user->cannot('create',Specialist::class)){
         return to_route('specialist.create')->withErrors(['text'=>'Nie udało się utworzyć profilu']);
         }else{
-           $user->specialist()->create($request->all());
+           $specialist=$user->specialist()->create($request->all());
+           $phone = new Phone();
+           $phone->number=$request->number;
+           $specialist->phone()->save($phone);
+
            $user->myRole()->associate(MyRole::where('name','specialist')->first());
            $user->save();
+           
            return to_route('course.create')->with('message',['text'=>'Utworzono profil specjalisty.','status'=>'success']);
         }
     }
@@ -87,7 +94,7 @@ class SpecialistController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CreateSpecialist $request, Specialist $specialist)
+    public function update(UpdateSpecialist $request, Specialist $specialist)
     {
         if($request->user()->can('update',$specialist))
         {

@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FindSpecialistController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SpecialistViewController;
@@ -49,7 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/review/{review}',[ReviewController::class,'destroy'])->name('review.destroy');
 
     Route::patch('/notification/{notificationId}',[NotificationController::class, 'userNotificationMarkAsRead'])->name('specialist.notification.mark');
-
+    Route::put('/phone/{phone}',[PhoneController::class,'update'])->name('phone.update');
 });
 
 require __DIR__.'/auth.php';

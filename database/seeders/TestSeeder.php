@@ -4,7 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\Address;
 use App\Models\Category;
+use App\Models\Description;
 use App\Models\MyRole;
+use App\Models\Phone;
+use App\Models\Price;
 use App\Models\Province;
 use App\Models\ServiceKind;
 use App\Models\Specialist;
@@ -23,9 +26,10 @@ class TestSeeder extends Seeder
     {
         $this->call([MyRolesSeeder::class, ProvinceSeeder::class, CategorySeeder::class, ServiceKindSeeder::class]);
         
-        User::factory(30)->create();
-        $users=User::factory(20)->has(Specialist::factory()->has(Address::factory(2)))
-        ->create(['my_role_id'=>MyRole::where('name', 'specialist')->first()->id]);
+        User::factory(30)->has(Phone::factory())->create();
+        $users = User::factory(20)->has(Specialist::factory()->has(Phone::factory())->has(Address::factory(2))->has(Price::factory(random_int(0, 20)))->
+            has(Description::factory()))->has(Phone::factory())
+            ->create(['my_role_id' => MyRole::where('name', 'specialist')->first()->id]);
 
         $serviceKinds=ServiceKind::all();
         $categories = Category::all();
