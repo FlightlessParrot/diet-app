@@ -10,6 +10,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 class SpecialistTest extends TestCase
 {
@@ -75,12 +77,10 @@ class SpecialistTest extends TestCase
     public function test_specialist_can_remove_specialist(): void
     {
         $this->seed(TestSeeder::class);
-        $user = User::has("specialist")->first();
+        $user = User::factory()->has(Specialist::factory())->create(['password'=>Hash::make('password')]);
         $specialist=$user->specialist;
         $response = $this->actingAs($user)->delete(route("specialist.remove",$specialist->id),[
-            'title'=>'dietician',
-            'name' => fake()->name(),
-            'surname' => fake()->lastName(),
+            'password'=>'password'
         ]);
 
         $user->refresh();
