@@ -131,7 +131,7 @@ defineProps({
                     <StoreDescription v-else  class="max-w-xl"/>
                 </div>
                 <div
-                    v-if="role.name === 'specialist'"
+                    
                     class="p-4 sm:p-8 bg-white shadow sm:rounded-lg"
                 >
                     <DeleteSpecialistForm class="max-w-xl" />
