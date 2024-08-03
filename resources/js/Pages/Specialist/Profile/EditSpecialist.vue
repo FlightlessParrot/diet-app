@@ -18,6 +18,7 @@ import UpdateDescription from "./Partials/UpdateDescription.vue";
 import Courses from "./Partials/Courses.vue";
 import EditPhone from "@/Parts/EditPhone.vue";
 import Languages from "@/Parts/Language/Languages.vue";
+import SpecialistLayout from "@/Layouts/SpecialistLayout.vue";
 const page = usePage();
 const role = computed(() => page.props.auth.role);
 defineProps({
@@ -67,7 +68,7 @@ defineProps({
 <template>
     <Head title="Profil" />
 
-    <AuthenticatedLayout>
+    <SpecialistLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Profil
@@ -138,5 +139,5 @@ defineProps({
                 
             </div>
         </div>
-    </AuthenticatedLayout>
+    </SpecialistLayout>
 </template>
