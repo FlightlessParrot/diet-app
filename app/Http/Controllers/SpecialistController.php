@@ -113,8 +113,11 @@ class SpecialistController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Specialist $specialist)
+    public function destroy(Request $request, Specialist $specialist)
     {
+        $request->validate([
+            'password' => ['required', 'current_password'],
+        ]);
         $user=Auth::user();
         if($user->cannot('delete',$specialist)){
            

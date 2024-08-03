@@ -6,7 +6,6 @@ import UpdateProfileInformationForm from './Partials/UpdateProfileInformationFor
 import UpdateAddress from "./Partials/UpdateAddress.vue"
 import { Head, usePage } from '@inertiajs/vue3';
 import CreateSpecialistLink from './Partials/CreateSpecialistLink.vue';
-import DeleteSpecialistForm from './Partials/DeleteSpecialistForm.vue';
 import { computed } from 'vue';
 import EditPhone from '../../Parts/EditPhone.vue';
 
@@ -71,9 +70,7 @@ defineProps({
                 <div v-if="role.name==='user'" class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <CreateSpecialistLink class="max-w-xl" />
                 </div>
-                <div v-if="role.name==='specialist'" class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <DeleteSpecialistForm class="max-w-xl" />
-                </div>
+               
                 
                 <!-- <Tile v-if="page.props.auth.user?.specialist" >
                 <form class="space-y-4" @submit.prevent="router.delete(route('specialist.remove',page.props.auth.specialist.id))">

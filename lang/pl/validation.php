@@ -1,6 +1,7 @@
 <?php
 
 return array(
+	'current_password' => 'Hasło jest nieprawidłowe.',
 	"accepted"             => ":attribute musi zostać zaakceptowane.", //yes, 1, true
 	"active_url"           => ":attribute nie jest prawidłowym adresem URL.",
 	"after"                => ":attribute musi być datą późniejszą niż :date.",

@@ -14,7 +14,7 @@ return [
     */
 
     'failed' => 'Dane logowania nie pasują do żadnego użytkownika.',
-    'password' => 'Hasło jest niepoprawne',
+    'password' => 'Hasło jest niepoprawne.',
     'throttle' => 'Zbyt wiele prób logowania. Spróbuj ponownie po upływie :seconds sekund.',
 
 ];
