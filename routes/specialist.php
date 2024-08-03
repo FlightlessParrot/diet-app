@@ -9,18 +9,18 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DescriptionController;
 use App\Http\Controllers\IconController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SpecialistDashboardController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use Inertia\Response;
 
 Route::middleware(["auth", "spec"])->group(function () {
-    Route::post("/specjalist", [SpecialistController::class, 'store'])->WithoutMiddleware('spec')->name('specialist.store');
+    Route::post("/specialist", [SpecialistController::class, 'store'])->WithoutMiddleware('spec')->name('specialist.store');
     Route::get("/utworz-specjaliste", [SpecialistController::class, 'create'])->WithoutMiddleware('spec')->name('specialist.create');
+
     Route::post('/specialist/{specialist}/address', [AddressController::class, 'storeForSpecialist'])->name('specialist.address.store');
-    Route::get('/specjalista/address', [AddressController::class, 'index'])->name('specialist.address.create');
+    Route::get('/specjalista/address', [AddressController::class, 'create'])->name('specialist.address.create');
     Route::delete('/specialist/{specialist}', [SpecialistController::class, 'destroy'])->name('specialist.remove');
 
     Route::get('/twoje-szkolenia',[CourseController::class,'create' ])->name('course.create');
@@ -34,7 +34,9 @@ Route::middleware(["auth", "spec"])->group(function () {
 
     Route::get("/specjalista/tablica", SpecialistDashboardController::class)->name('specialist.dashboard');
 
-    Route::post('/specialist/{specialist}/address', [AddressController::class, 'storeForSpecialist'])->name('specialist.address.store');
+    
+
+    Route::get('/specjalista/jezyki',[LanguageController::class, 'create'])->name('language.create');
 });
 
 Route::middleware(["auth", "spec"])->group(function () {
@@ -79,3 +81,12 @@ Route::middleware(["auth", "spec"])->group(function () {
     Route::patch('/notification/{notificationId}',[NotificationController::class, 'specialistNotificationMarkAsRead'])->name('specialist.notification.mark');
     
 });
+
+Route::middleware(["auth", "spec"])->group(function () {
+    Route::post('/language',[LanguageController::class, 'store'])->name('language.store');
+    Route::put('/language/{language}',[LanguageController::class, 'update'])->name('language.update');
+    Route::delete('/language/{language}',[LanguageController::class, 'destroy'])->name('language.destroy');
+
+    
+});
+

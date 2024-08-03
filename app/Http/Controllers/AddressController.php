@@ -19,17 +19,17 @@ class AddressController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() : Response
+    public function index() 
     {
-        return Inertia::render('Specialist/CreateSpecialistAddress', ['provinces'=>Province::all()]);
+        
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
-        // 
+        return Inertia::render('Specialist/CreateSpecialistAddress', ['provinces'=>Province::all()]);
     }
 
     /**
@@ -46,7 +46,7 @@ class AddressController extends Controller
         if($user->can('update',$specialist) )
         {            
             $request->user()->specialist->addresses()->create($request->validated());
-            return to_route('service.form')->with('message',['text'=>'Udało się','status'=>'success']);
+            return to_route('language.create')->with('message',['text'=>'Udało się','status'=>'success']);
         }else{
         return redirect()->back()->with('message',['text'=>'Coś poszło nie tak.','status'=>'error']);
         }

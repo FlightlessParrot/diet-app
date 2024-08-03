@@ -34,6 +34,8 @@ class SpecialistViewController extends Controller
         //courses
         $courses = $specialist->courses()->orderByDesc('start_date')->get();
 
+        //languages
+        $languages = $specialist->languages()->get();
         //create statistic model if it does not exit
         if(!$specialist->statistic)
         {
@@ -48,6 +50,7 @@ class SpecialistViewController extends Controller
         //get statistic
         $specialist->statistic;
         
-        return Inertia::render('User/SpecialistView',['specialist'=>$specialist, 'reviews'=>$reviews, 'myReview'=>$myReview, 'courses' =>$courses]);
+        return Inertia::render('User/SpecialistView',['specialist'=>$specialist, 'reviews'=>$reviews, 'myReview'=>$myReview, 
+        'courses' =>$courses, 'languages'=>$languages]);
     }
 }

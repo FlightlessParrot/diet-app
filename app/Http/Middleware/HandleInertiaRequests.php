@@ -34,7 +34,7 @@ class HandleInertiaRequests extends Middleware
         $user=$request->user();
         $user?->phone;
         $specialist=$user?->specialist;
-        $specialist->phone;
+        $specialist!== null && $specialist->phone;
         return [
             ...parent::share($request),
             'auth' => [

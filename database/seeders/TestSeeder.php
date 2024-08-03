@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Address;
 use App\Models\Category;
 use App\Models\Description;
+use App\Models\Language;
 use App\Models\MyRole;
 use App\Models\Phone;
 use App\Models\Price;
@@ -28,7 +29,7 @@ class TestSeeder extends Seeder
         
         User::factory(30)->has(Phone::factory())->create();
         $users = User::factory(20)->has(Specialist::factory()->has(Phone::factory())->has(Address::factory(2))->has(Price::factory(random_int(0, 20)))->
-            has(Description::factory()))->has(Phone::factory())
+            has(Description::factory())->has(Language::factory(2)))->has(Phone::factory())
             ->create(['my_role_id' => MyRole::where('name', 'specialist')->first()->id]);
 
         $serviceKinds=ServiceKind::all();

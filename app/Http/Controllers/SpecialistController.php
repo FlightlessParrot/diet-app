@@ -9,6 +9,7 @@ use App\Models\Province;
 use App\Models\Specialist;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Language;
 use App\Models\Phone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -85,7 +86,8 @@ class SpecialistController extends Controller
             'checkedCategories'=>$specialist->categories()->get()->map(fn ($e) => $e->id),
             'categories'=>Category::all(), 'prices'=>$specialist->prices()->get(), 
             'avatarUrl'=>Auth::user()->specialist->attachment()->first()?->url(),
-            'iconUrl'=>$iconUrl, 'description'=>$specialist->description, 'courses'=>$specialist->courses()->orderByDesc('start_date')->get()]);
+            'iconUrl'=>$iconUrl, 'description'=>$specialist->description, 'courses'=>$specialist->courses()->orderByDesc('start_date')->get(),
+            'languages'=>$specialist->languages()->get()]);
         }else{
             return response('Nie masz uprawnień, aby wykonać tę akcje.',401);
         }
