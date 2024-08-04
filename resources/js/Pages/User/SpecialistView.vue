@@ -159,7 +159,7 @@ const title = computed(
                     </AccordionTab>
                     <AccordionTab
                         v-if="languages.length"
-                        header="Języki, w których mówię."
+                        header="Języki, w których mówię"
                     >
                         <DataTable
                             :value="languages"
