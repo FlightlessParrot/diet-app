@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('specialists', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('title')->nullable();
+            $table->enum('title',['lic.', 'inż.', 'mgr', 'mgr inż.', 'dr', 'dr hab.', 'prof. dr hab.'])->nullable();
             $table->string('name');
             $table->string('surname');
             $table->boolean('active')->default(false);

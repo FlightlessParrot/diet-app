@@ -8,11 +8,12 @@ import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import { usePage, useForm } from "@inertiajs/vue3";
+import TitleRadios from "@/Components/TitleRadios.vue";
 
 const user = usePage().props.auth.user;
 const props = defineProps(['provinces'])
 const form = useForm({
-    title: "",
+    title: null,
     name: user.name,
     surname: user.surname,
     number: user.phone.number
@@ -36,20 +37,7 @@ const form = useForm({
                 </template>
             </Title>
             <form @submit.prevent="form.post(route('specialist.store'))" class="mt-6 space-y-6">
-                <div>
-                    <InputLabel for="title" value="Tytuł" />
-
-                    <TextInput
-                        id="title"
-                        type="text"
-                        class="mt-1 block w-full"
-                        v-model="form.title"
-                        autofocus
-                        
-                    />
-
-                    <InputError class="mt-2" :message="form.errors.title" />
-                </div>
+                <TitleRadios :error="form.errors.title" v-model="form.title" />
                 <div>
                     <InputLabel for="name" value="Imię" />
 

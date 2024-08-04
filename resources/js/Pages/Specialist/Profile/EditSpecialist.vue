@@ -20,7 +20,6 @@ import EditPhone from "@/Parts/EditPhone.vue";
 import Languages from "@/Parts/Language/Languages.vue";
 import SpecialistLayout from "@/Layouts/SpecialistLayout.vue";
 const page = usePage();
-const role = computed(() => page.props.auth.role);
 defineProps({
     addresses: {
         type: Array,

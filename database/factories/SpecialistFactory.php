@@ -17,7 +17,7 @@ class SpecialistFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'=>'dietician',
+            'title'=>'lic.',
             'name' => fake()->name(),
             'surname' => fake()->lastName(),
             'active' => true

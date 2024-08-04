@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Title;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateSpecialist extends FormRequest
 {
@@ -18,7 +20,7 @@ class CreateSpecialist extends FormRequest
         return [
             'name'=>'required|string|max:250',
             'surname'=>'required|string|max:250',
-            'title'=>'nullable|string|max:250',
+            'title'=>[Rule::enum(Title::class),'nullable'],
             'number'=>'required|string|max:15',
         ];
     }

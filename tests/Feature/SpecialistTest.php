@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\Title;
 use App\Models\MyRole;
 use App\Models\Specialist;
 use App\Models\User;
@@ -44,7 +45,7 @@ class SpecialistTest extends TestCase
         $this->seed(TestSeeder::class);
         $user = User::doesntHave("specialist")->first();
         $response = $this->actingAs($user)->post(route("specialist.store"),[
-            'title'=>'dietician',
+            'title'=>Title::MGR_INZ->value,
             'name' => fake()->name(),
             'surname' => fake()->lastName(),
             'number' => $number
@@ -64,7 +65,7 @@ class SpecialistTest extends TestCase
         $this->seed(TestSeeder::class);
         $user = User::has("specialist")->first();
         $response = $this->actingAs($user)->post(route("specialist.store"),[
-            'title'=>'dietician',
+            'title'=>Title::MGR_INZ->value,
             'name' => fake()->name(),
             'surname' => fake()->lastName(),
             'number' => '12342232'
@@ -94,19 +95,19 @@ class SpecialistTest extends TestCase
         $this->seed(TestSeeder::class);
         $user=User::factory()->create();
         $specialist=$user->specialist()->save(Specialist::make([
-            'title'=>'dietician',
+            'title'=>Title::MGR_INZ->value,
             'name' => 'John',
             'surname' => 'Smith'
         ]));
-
+        $title=Title::DR_HAB;
         $response = $this->actingAs($user)->from(route('specialist.profile.edit',$specialist->id))->put(route('specialist.profile.update',$specialist->id),[
-            'title'=>'doctor',
+            'title'=>$title->value,
             'name' => 'Johannes',
             'surname' => 'Smith',
         ]);
         $specialist=$specialist->refresh();
         $response->assertRedirectToRoute('specialist.profile.edit',$specialist->id);
-        $this->assertSame($specialist->title,'doctor');
+        $this->assertSame($specialist->title,$title->value);
         $this->assertSame($specialist->name,'Johannes');
         $this->assertSame($specialist->surname,'Smith');
 

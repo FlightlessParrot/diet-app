@@ -21,7 +21,7 @@ const updateNumber = () => {
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900">Aktualizuj numer telefonu.</h2>
+            <h2 class="text-lg font-medium text-gray-900">Aktualizuj numer telefonu</h2>
         </header>
 
         <form @submit.prevent="updateNumber" class="mt-6 space-y-6">
