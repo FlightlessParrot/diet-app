@@ -20,6 +20,8 @@ class UpdateSpecialist extends FormRequest
             'name'=>'required|string|max:250',
             'surname'=>'required|string|max:250',
             'title'=>[Rule::enum(Title::class),'nullable'],
+            'targets'=>'array|nullable',
+            'targets.*'=>'numeric|exists:App\Models\Target,id',
         ];
     }
 }

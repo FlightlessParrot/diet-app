@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\Language;
 use App\Models\Phone;
+use App\Models\Target;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -35,7 +36,7 @@ class SpecialistController extends Controller
             return to_route('profile.edit')->withErrors(['text'=>'Już posiadasz profil.']);
         }
         else{
-            return Inertia::render("Specialist/CreateSpecialist");
+            return Inertia::render("Specialist/CreateSpecialist",['targets'=>Target::all()]);
         }
         
     }
@@ -56,7 +57,14 @@ class SpecialistController extends Controller
 
            $user->myRole()->associate(MyRole::where('name','specialist')->first());
            $user->save();
-           
+
+           $specialist->targets()->detach();
+           foreach($request->targets as $target)
+           {
+               
+               $specialist->targets()->attach($target);
+           }
+
            return to_route('course.create')->with('message',['text'=>'Utworzono profil specjalisty.','status'=>'success']);
         }
     }
@@ -81,7 +89,7 @@ class SpecialistController extends Controller
         }
         if(Auth::user()->can('view',$specialist))
         {
-            return Inertia::render('Specialist/Profile/EditSpecialist',['provinces'=>Province::All(), 'addresses'=> $specialist->addresses()->get(), 
+            return Inertia::render('Specialist/Profile/EditSpecialist',['targets'=>Target::all(),'specialistTargetIds'=>$specialist->targets()->get()->map(fn (Target $target)=>$target->id),'provinces'=>Province::All(), 'addresses'=> $specialist->addresses()->get(), 
             'serviceCities'=>$specialist->serviceCities()->get(),'serviceKinds'=>$specialist->serviceKinds()->get(), 
             'checkedCategories'=>$specialist->categories()->get()->map(fn ($e) => $e->id),
             'categories'=>Category::all(), 'prices'=>$specialist->prices()->get(), 
@@ -104,6 +112,14 @@ class SpecialistController extends Controller
             $specialist->surname = $request->surname;
             $specialist->title = $request->title;
             $specialist->update();
+
+            $specialist->targets()->detach();
+            foreach($request->targets as $target)
+            {
+                
+                $specialist->targets()->attach($target);
+            }
+
             return redirect()->back()->with('message',['text'=>'Pomyślnie edytowano dane.','status'=>'success']);
         }else{
             return redirect()->back()->withErrors(['text'=>'Coś poszło nie tak.']);

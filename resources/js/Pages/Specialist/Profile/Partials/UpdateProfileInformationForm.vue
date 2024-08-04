@@ -5,13 +5,23 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm, usePage } from "@inertiajs/vue3";
 import TitleRadios from "@/Components/TitleRadios.vue"
+import TargetCheckboxes from "@/Components/TargetCheckboxes.vue";
 
 const specialist = usePage().props.auth.specialist;
-
+const props = defineProps({
+    targets: {
+        type : Array,
+        required: true
+    },
+    specialistTargetIds:{
+        type: Array
+    }
+})
 const form = useForm({
     name: specialist.name,
     title: specialist.title,
     surname: specialist.surname,
+    targets: props.specialistTargetIds
 });
 
 
@@ -65,7 +75,7 @@ const form = useForm({
 
                 <InputError class="mt-2" :message="form.errors.surname" />
             </div>
-
+            <TargetCheckboxes :error = 'form.targets.error' :targets="targets" v-model="form.targets" />
             <div class="flex items-center gap-4">
                 <PrimaryButton :disabled="form.processing"
                     >Zapisz</PrimaryButton

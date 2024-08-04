@@ -135,4 +135,9 @@ class Specialist extends Model
     {
         return $this->hasMany(Language::class);
     }
+
+    public function targets () : BelongsToMany
+    {
+        return $this->belongsToMany(Target::class);
+    }
 }

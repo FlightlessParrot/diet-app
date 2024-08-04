@@ -9,14 +9,16 @@ import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import { usePage, useForm } from "@inertiajs/vue3";
 import TitleRadios from "@/Components/TitleRadios.vue";
+import TargetCheckboxes from "@/Components/TargetCheckboxes.vue";
 
 const user = usePage().props.auth.user;
-const props = defineProps(['provinces'])
+const props = defineProps([ 'targets'])
 const form = useForm({
     title: null,
     name: user.name,
     surname: user.surname,
-    number: user.phone.number
+    number: user.phone.number,
+    targets: []
 });
 </script>
 <template>
@@ -82,6 +84,7 @@ const form = useForm({
 
                 <InputError class="mt-2" :message="form.errors.number" />
             </div>
+            <TargetCheckboxes :specialistTargetIds="[]" :error =  'form.targets.error'  :targets="targets" v-model="form.targets" />
                 <PrimaryButton> Dalej </PrimaryButton>
             </form>
         </Tile>

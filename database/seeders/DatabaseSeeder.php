@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Title;
 use App\Events\SpecialistActivated;
 use App\Models\Address;
 use App\Models\Category;
@@ -87,7 +88,7 @@ class DatabaseSeeder extends Seeder
         ]);
         
         $user = User::factory()->has(Phone::factory())->has(Address::factory(2))->has(
-            Specialist::factory(['title' => 'dietetyk', 'name' => 'Konrad', 'surname' => 'Strauss'])->has(Phone::factory())
+            Specialist::factory(['title' =>  Title::MGR_INZ->value, 'name' => 'Konrad', 'surname' => 'Strauss'])->has(Phone::factory())
             ->has(Address::factory(2))->has(Price::factory(random_int(0, 20)))->has(Description::factory())->has(Language::factory(2)))
             ->create([
                 'name' => 'Konrad',
@@ -95,6 +96,6 @@ class DatabaseSeeder extends Seeder
                 'email' => 'shrimpinweb@gmail.com',
                 'password' => Hash::make('Password123'),
             ]);
-        $this->call([BookingSeeder::class, ReviewSeeder::class,  StatisticSeeder::class, CourseSeeder::class]);
+        $this->call([BookingSeeder::class, ReviewSeeder::class,  StatisticSeeder::class, CourseSeeder::class, TargetSeeder::class]);
     }
 }

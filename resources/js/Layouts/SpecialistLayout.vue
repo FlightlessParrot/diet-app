@@ -110,7 +110,7 @@ const showingNavigationDropdown = ref(false);
                                         <DropdownLink
                                             :href="route('dashboard')"
                                         >
-                                            Konto użytkownika
+                                        <i class="pi pi-user"></i>   Konto użytkownika
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>

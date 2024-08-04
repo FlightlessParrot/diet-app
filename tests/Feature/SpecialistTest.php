@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\Title;
 use App\Models\MyRole;
 use App\Models\Specialist;
+use App\Models\Target;
 use App\Models\User;
 use Database\Seeders\TestSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -44,19 +45,25 @@ class SpecialistTest extends TestCase
         $number='123123123';
         $this->seed(TestSeeder::class);
         $user = User::doesntHave("specialist")->first();
+        $targets=Target::all();
         $response = $this->actingAs($user)->post(route("specialist.store"),[
             'title'=>Title::MGR_INZ->value,
             'name' => fake()->name(),
             'surname' => fake()->lastName(),
-            'number' => $number
+            'number' => $number,
+            'targets'=>[$targets[0]->id,$targets[1]->id]
         ]);
         $user->refresh();
         $response->assertRedirect(route('course.create'));
 
-        $this->assertModelExists($user->specialist);
-        $this->assertNotNull($user->specialist->phone);
-        $this->assertSame($number,$user->specialist->phone->number);
-
+        $specialist=$user->specialist;
+        $specialistTargets = $specialist->targets()->get();
+        $this->assertModelExists($specialist);
+        $this->assertNotNull($specialist->phone);
+        $this->assertSame($number,$specialist->phone->number);
+        $this->assertCount(2,$specialistTargets);
+        $this->assertNotNull($specialistTargets->find($targets[0]->id));
+        $this->assertNotNull($specialistTargets->find($targets[1]->id));
         $this->assertEquals(MyRole::where('name','specialist')->first(), $user->myRole);
     }
 
@@ -94,23 +101,31 @@ class SpecialistTest extends TestCase
     {
         $this->seed(TestSeeder::class);
         $user=User::factory()->create();
+        $targets=Target::all();
         $specialist=$user->specialist()->save(Specialist::make([
             'title'=>Title::MGR_INZ->value,
             'name' => 'John',
-            'surname' => 'Smith'
+            'surname' => 'Smith',
+            
         ]));
         $title=Title::DR_HAB;
         $response = $this->actingAs($user)->from(route('specialist.profile.edit',$specialist->id))->put(route('specialist.profile.update',$specialist->id),[
             'title'=>$title->value,
             'name' => 'Johannes',
             'surname' => 'Smith',
+            'targets'=>[$targets[0]->id,$targets[1]->id]
         ]);
         $specialist=$specialist->refresh();
+        $specialistTargets = $specialist->targets()->get();
+
         $response->assertRedirectToRoute('specialist.profile.edit',$specialist->id);
         $this->assertSame($specialist->title,$title->value);
         $this->assertSame($specialist->name,'Johannes');
         $this->assertSame($specialist->surname,'Smith');
 
+        $this->assertCount(2,$specialistTargets);
+        $this->assertNotNull($specialistTargets->find($targets[0]->id));
+        $this->assertNotNull($specialistTargets->find($targets[1]->id));
     }
 
     public function test_avatars_can_be_uploaded(): void

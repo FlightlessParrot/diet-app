@@ -22,6 +22,8 @@ class CreateSpecialist extends FormRequest
             'surname'=>'required|string|max:250',
             'title'=>[Rule::enum(Title::class),'nullable'],
             'number'=>'required|string|max:15',
+            'targets'=>'array|nullable',
+            'targets.*'=>'numeric|exists:App\Models\Target,id',
         ];
     }
 }
