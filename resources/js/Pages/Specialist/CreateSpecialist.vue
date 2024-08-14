@@ -8,13 +8,14 @@ import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import { usePage, useForm } from "@inertiajs/vue3";
-import TitleRadios from "@/Components/TitleRadios.vue";
+import TitleRadios from "@/Components/Radios/TitleRadios.vue";
 import TargetCheckboxes from "@/Components/TargetCheckboxes.vue";
-
+import SpecializationRadios from '@/Components/Radios/SpecializationRadios.vue';
 const user = usePage().props.auth.user;
 const props = defineProps([ 'targets'])
 const form = useForm({
     title: null,
+    specialization: null,
     name: user.name,
     surname: user.surname,
     number: user.phone.number,
@@ -39,6 +40,7 @@ const form = useForm({
                 </template>
             </Title>
             <form @submit.prevent="form.post(route('specialist.store'))" class="mt-6 space-y-6">
+                <SpecializationRadios v-model="form.specialization" :error="form.errors.specialization"/>
                 <TitleRadios :error="form.errors.title" v-model="form.title" />
                 <div>
                     <InputLabel for="name" value="Imię" />

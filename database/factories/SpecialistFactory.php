@@ -18,6 +18,7 @@ class SpecialistFactory extends Factory
     {
         return [
             'title'=>'lic.',
+            'specialization' => 'Dietetyk kliniczny',
             'name' => fake()->name(),
             'surname' => fake()->lastName(),
             'active' => true

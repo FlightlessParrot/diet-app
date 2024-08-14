@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->enum('title',['lic.', 'inż.', 'mgr', 'mgr inż.', 'dr', 'dr hab.', 'prof. dr hab.'])->nullable();
+            $table->enum('specialization',['Dietetyk kliniczny', 'Dietetyk sportowy', 'Psychodietetyk'])->nullable();
             $table->string('name');
             $table->string('surname');
             $table->boolean('active')->default(false);

@@ -4,7 +4,8 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm, usePage } from "@inertiajs/vue3";
-import TitleRadios from "@/Components/TitleRadios.vue"
+import TitleRadios from "@/Components/Radios/TitleRadios.vue";
+import SpecializationRadios from '@/Components/Radios/SpecializationRadios.vue';
 import TargetCheckboxes from "@/Components/TargetCheckboxes.vue";
 
 const specialist = usePage().props.auth.specialist;
@@ -18,8 +19,10 @@ const props = defineProps({
     }
 })
 const form = useForm({
-    name: specialist.name,
     title: specialist.title,
+    specialization: specialist.specialization,
+    name: specialist.name,
+    
     surname: specialist.surname,
     targets: props.specialistTargetIds
 });
@@ -45,6 +48,7 @@ const form = useForm({
             class="mt-6 space-y-6"
         >
             <TitleRadios v-model="form.title" :error="form.errors.title"/>
+            <SpecializationRadios v-model="form.specialization" :error="form.errors.specialization"/>
             <div>
                 <InputLabel for="name" value="Imię" />
 

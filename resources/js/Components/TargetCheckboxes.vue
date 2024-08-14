@@ -16,7 +16,7 @@ const props = defineProps({
 </script>
 <template>
     <div>
-                <h3 class="block font-medium text-sm text-gray-700 mb-2">Tytuł</h3>
+                <h3 class="block font-medium text-sm text-gray-700 mb-2">Grupa docelowa</h3>
                 <div class="flex flex-wrap gap-4">
                 <div class="flex gap-2" v-for="target in targets">
                     <Checkbox

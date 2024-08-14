@@ -37,12 +37,12 @@ class EditSpecialistScreen extends Screen
         $services=$specialist->serviceKinds()->get();
         $serviceCities=$specialist->serviceCities()->get();
         $addresses=$specialist->addresses()->get();
-        
+        $targets=$specialist->targets()->get();
 
         $data=['specialist'=>$specialist, 
         'addresses'=>$addresses, 
         'services'=>$services, 'serviceCities'=>$serviceCities, 
-        "categories"=>$categories];
+        "categories"=>$categories,'targets'=>$targets];
         isset($statistic) ? $data['statistic']=$statistic : $data['statistic']=null;
         return $data;
     }
@@ -97,7 +97,15 @@ class EditSpecialistScreen extends Screen
         $this->specialist->name=$request->specialist['name'];
         $this->specialist->surname=$request->specialist['surname'];
         $this->specialist->title=$request->specialist['title'];
+        $this->specialist->specialization=$request->specialist['specialization'];
         $this->specialist->save();
+
+        $phone=$this->specialist->phone;
+        $phone->number=$request->specialist['phone']['number'];
+        $phone->save();
+
+        $this->specialist->targets()->detach();
+        $this->specialist->targets()->attach($request->targets);
 
         
         Toast::info('Specjalista został zaktualizowany.');

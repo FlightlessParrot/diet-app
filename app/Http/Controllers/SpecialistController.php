@@ -111,6 +111,7 @@ class SpecialistController extends Controller
             $specialist->name=$request->name;
             $specialist->surname = $request->surname;
             $specialist->title = $request->title;
+            $specialist->specialization = $request->specialization;
             $specialist->update();
 
             $specialist->targets()->detach();

@@ -22,7 +22,8 @@ class Specialist extends Model
 {
     use HasFactory, AsSource, Attachable, Notifiable;
 
-    protected $fillable= ['name','surname', 'title'];
+    protected $with=['phone'];
+    protected $fillable= ['name','surname', 'title','specialization'];
 
     protected $hidden = ['found_counter'];
     
