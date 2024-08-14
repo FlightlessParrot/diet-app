@@ -5,6 +5,7 @@ namespace App\Orchid\Screens\Specialist;
 use App\Events\SpecialistActivated;
 use App\Models\Category;
 use App\Models\Specialist;
+use App\Models\Statistic;
 use App\Orchid\Layouts\Specialist\EditSpecialistLayout;
 use App\Orchid\Layouts\Specialist\SpecialistAddressesLayout;
 use App\Orchid\Layouts\Specialist\SpecialistServicesLayout;
@@ -14,16 +15,22 @@ use Orchid\Screen\Actions\Button;
 
 use Orchid\Screen\Screen;
 use Orchid\Screen\Sight;
+use Orchid\Screen\TD;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
 class EditSpecialistScreen extends Screen
 {
     /**
+     * Specialist profile.
      * @var Specialist;
      */
     public $specialist;
 
+    /**
+     * Statistic.
+     * @var Statistic|null
+     */
     public $statistic;
     /**
      * Fetch data to be displayed on the screen.
@@ -38,11 +45,12 @@ class EditSpecialistScreen extends Screen
         $serviceCities=$specialist->serviceCities()->get();
         $addresses=$specialist->addresses()->get();
         $targets=$specialist->targets()->get();
-
+        $languages = $specialist->languages()->get();
+    
         $data=['specialist'=>$specialist, 
         'addresses'=>$addresses, 
         'services'=>$services, 'serviceCities'=>$serviceCities, 
-        "categories"=>$categories,'targets'=>$targets];
+        "categories"=>$categories,'targets'=>$targets,'languages'=>$languages];
         isset($statistic) ? $data['statistic']=$statistic : $data['statistic']=null;
         return $data;
     }
@@ -80,6 +88,7 @@ class EditSpecialistScreen extends Screen
                 Sight::make('name','Imię'),
                 Sight::make('surname','Nazwisko'),
                 Sight::make('active','Aktywny'),
+               
                 
             ]),
             Layout::legend('statistic', [
@@ -88,8 +97,14 @@ class EditSpecialistScreen extends Screen
                
                 
             ])->canSee($this->statistic!==null),
-
-            EditSpecialistLayout::class, SpecialistAddressesLayout::class, SpecialistServicesLayout::class];
+           
+            EditSpecialistLayout::class,
+            
+            Layout::table('languages', [
+                TD::make('name','język')
+                
+            ])->title('Języki'), 
+            SpecialistAddressesLayout::class, SpecialistServicesLayout::class];
     }
 
     public function update_specialist(Request $request): void

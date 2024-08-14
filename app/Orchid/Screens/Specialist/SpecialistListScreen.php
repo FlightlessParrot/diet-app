@@ -61,7 +61,7 @@ class SpecialistListScreen extends Screen
         $specialist=Specialist::findOrFail($request->get('id'));
         $specialist->cleanAndDelete();
         
-        Toast::info(__('Specialist was removed'));
+        Toast::info(__('Specialist has been removed'));
     }
     
 }
