@@ -22,13 +22,13 @@ const nullInput = computed(()=>"nullInput"+props.title)
                     />
                     <label :for="nullInput">Brak</label>
                 </div>
-                <div class="flex gap-2" v-for="data in dataArray">
+                <div class="flex flex-wrap gap-2" v-for="data in dataArray">
                     <RadioButton
                         v-model="model"
                         :inputId="data.name"
                         :value="data.value"
                     />
-                    <label :for="data.name" >{{ data.value }}</label>
+                    <label :for="data.name" >{{ data.name }}</label>
                 </div>
                 </div>
                 <!-- <button v-if='model!==null' @click.prevent="model=null" class="rounded border text-sm  border-gray-200 mt-2 p-2">Wyczyść</button> -->

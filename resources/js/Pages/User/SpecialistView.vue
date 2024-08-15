@@ -20,6 +20,8 @@ import Pager from "@/Components/Pager/Pager.vue";
 import CommentForm from "@/Components/Rating/CommentForm.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
+
+import Chip from 'primevue/chip';
 const props = defineProps({
     specialist: {
         type: Object,
@@ -62,7 +64,8 @@ watch(
 
 const imageUrl = computed(() => props.specialist?.imageUrl);
 const title = computed(
-    () =>
+    () =>props.specialist.specialization +
+        " " +
         props.specialist.title +
         " " +
         props.specialist.name +
@@ -89,14 +92,17 @@ const title = computed(
                 <Title>
                     <template #h2Title>{{ title }}</template>
                     <template #desc>
+                        <b class="mb-2 block">{{ }}</b>
                         <Rating
                             readonly
                             :model-value="specialist.statistic.review_grade"
                             :cancel="false"
                         />
-                        <p class="inline-block mt-4">
-                            Zobacz profil i umów się na wizytę.
-                        </p>
+                        <div class="my-4 text-lg text-blue-700 underline flex flex-col">
+                        <a  :href="'tel:'+specialist.phone.number">tel. {{ specialist.phone.number }}</a>
+                        <a  :href="'mailto:'+ specialist.user.email " >email: {{ specialist.user.email }}</a>
+                        </div>
+                       
                     </template>
                 </Title>
             </div>
@@ -206,6 +212,14 @@ const title = computed(
                                 </template>
                             </Column>
                         </DataTable>
+                    </AccordionTab>
+                    <AccordionTab
+                        header="Grupy docelowe"
+                        v-if="specialist.targets.length > 0"
+                    >
+                    <div class="flex flex-wrap gap-2">
+                        <Chip v-for="target in specialist.targets" :label="target.name" />
+                    </div>
                     </AccordionTab>
                     <AccordionTab
                         v-if="specialist.fullDescription"

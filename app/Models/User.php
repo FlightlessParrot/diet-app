@@ -30,7 +30,7 @@ class User extends Authenticatable
         'surname',
         'password',
     ];
-
+    protected $with = ['phone'];
     /**
      * The attributes excluded from the model's JSON form.
      *

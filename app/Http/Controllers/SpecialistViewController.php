@@ -25,7 +25,8 @@ class SpecialistViewController extends Controller
         $specialist->stationaryAddresses = $specialist->addresses()->get();
         $specialist->servicePrices = $specialist->prices()->get();
         $specialist->fullDescription = $specialist?->description?->full;
-
+        $specialist->targets=$specialist->targets()->get();
+        $specialist->user;
         //reviews
         $reviews = $specialist->reviews()->paginate(20);
         $myReview = Review::where('specialist_id',$specialist->id)->where('user_id',$user->id)->first();

@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\DaysOfWeek;
 use App\Events\BookingConfirmed;
 use App\Events\BookingSet;
 use App\Http\Requests\PatchBookingStatus;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
+use App\Models\Province;
 use App\Models\Specialist;
+use App\Supports\FindBookings\FindBookings;
 use DateTime;
+use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Supports\DayClerk\DayClerk;
 
 class BookingController extends Controller
 {
@@ -38,12 +43,13 @@ class BookingController extends Controller
      */
     public function create() : Response
     {
-        $bookings=Auth::user()->specialist->bookings()->get();
-        foreach($bookings as $booking)
-            {
-                $booking->user;
-            }
-        return Inertia::render('Specialist/SetMeetings',['bookings'=>$bookings]);
+        $specialist=Auth::user()->specialist;
+        $bookings=$specialist->bookings()->with(['user'])->get();
+        // foreach($bookings as $booking)
+        //     {
+        //         $booking->user;
+        //     }
+        return Inertia::render('Specialist/SetMeetings/SetMeetings',['bookings'=>$bookings,'provinces'=>Province::all(),'addresses'=>$specialist->addresses()->get()]);
     }
 
     /**
@@ -52,67 +58,48 @@ class BookingController extends Controller
     public function store(StoreBookingRequest $request, Specialist $specialist) : RedirectResponse
     {
         $user = $request->user();
+
+        $address=null;
+        if(isset($request->address))
+        {
+            $address = $specialist->addresses()->findOrFail($request->address);
+        }
         if ($user->can('update', $specialist)) {
-            $start = strtotime($request->selectedDate['start']);
-            $end = strtotime($request->selectedDate['end']);
-            $diff = $end - $start;
-            $diffInDays = abs(floor($diff / 86400));
-
-            $endTime = $end % 86400;
-            $startTime = $start % 86400;
-
-            $startDay = floor($start / 86400) * 86400;
-            $endDay= floor($end / 86400) * 86400;
-            $diffStartEndTime = $endTime - $startTime;
-
-            $duration = (30 * 60);
+            
+            $dateClerk = null;
             // Check if there is at least one Booking model can be created. If not send error message.
-            if ($diffStartEndTime < (30 * 60)) {
+            try{
+                $findBooking = new FindBookings($specialist);
+                $dateClerk = new DayClerk($request->selectedDate['start'],$request->selectedDate['end'],$findBooking);
+            }catch(Exception $e)
+            {
                 return redirect()->back()->with(
                     'message',
                     [
-                        'text' => 'Pomięczy początkową, a końcową godziną musi być przynajmniej 30 minut.',
+                        'text' => 'Pomiędzy początkową, a końcową godziną musi być przynajmniej 30 minut.',
                         'status' => 'error'
                     ]
                 );
+              
+            }
+            $dates = new Collection();
+            if(isset($request->day))
+            {
+                $day=DaysOfWeek::from($request->day);
+                $dates=$dateClerk->getByDayOfWeek($day);
+            }else{
+               $dates=$dateClerk->getAllDates(); 
+            }
+            
+            foreach($dates as [$startDate, $endDate])
+            {
+                $booking = new Booking();
+                $booking->start_date = $startDate;
+                $booking->end_date = $endDate;
+                $booking->address()->associate($address);
+                $specialist->bookings()->save($booking);
             }
 
-            //For every 30 minutes create model.
-            for ($i = 0; $i <= $diffInDays; $i++) {
-                // For every day create time var which is set every 30 min since start time
-                $controlTime = $startTime;
-                while($controlTime+$duration <= $endTime) {
-                    // How long is the meeting duration?
-                    
-
-                    //Var for model creation.
-                    $startDateTimestamp = $startDay + (86400 * $i) + $controlTime;
-                    $startDate = date('Y-m-d H:i:s', $startDateTimestamp);
-                    $endDateTimestamp = $startDateTimestamp + $duration;
-                    $endDate = date('Y-m-d H:i:s', $endDateTimestamp);
-                    //Find booking in conflict with creating model.
-                    $conflicts = $specialist->bookings()->where(function (Builder $query)  use ($startDate, $endDate) {
-                        $query->where('start_date', '>=', $startDate)->where('start_date', '<', $endDate);
-                    })
-                        ->orWhere(function (Builder $query) use ($startDate, $endDate) {
-                            $query->where('end_date', '>', $startDate)->where('end_date', '<=', $endDate);
-                        })->orWhere(function (Builder $query) use ($startDate, $endDate) {
-                            $query->where('start_date', '<=', $startDate)->where('end_date', '>=', $endDate);
-                        })->get();
-
-
-                    // If there are no conflicts, create booking model
-                    if (count($conflicts)===0) {
-                        $booking = new Booking();
-                        $booking->start_date = $startDate;
-                        $booking->end_date = $endDate;
-                        $specialist->bookings()->save($booking);
-                    }
-
-
-                    $controlTime = $controlTime + $duration;
-                } 
-            }
             return redirect()->back()->with('message', ['text' => 'Udało się', 'status' => 'success']);
         } else {
             return redirect()->back()->with(

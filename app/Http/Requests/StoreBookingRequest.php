@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\DaysOfWeek;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class StoreBookingRequest extends FormRequest
 {
@@ -25,7 +27,9 @@ class StoreBookingRequest extends FormRequest
         return [
             'selectedDate'=>'array:start,end',
             'selectedDate.start'=>'required|date|after_or_equal:tomorrow',
-            'selectedDate.end'=>'required|date|after:selectedDate.start'
+            'selectedDate.end'=>'required|date|after:selectedDate.start',
+            'address'=>'nullable|exists:App\Models\Address,id',
+            'day'=>['nullable',Rule::enum(DaysOfWeek::class)]
         ];
     }
 }

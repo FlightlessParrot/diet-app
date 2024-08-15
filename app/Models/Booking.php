@@ -12,9 +12,10 @@ class Booking extends Model
 {
     use HasFactory;
 
+    protected $with = ['address'];
     protected $dispatchesEvents = [
-        'deleted'=>BookingDeleted::class,
-        'updated' =>BookingUpdated::class,
+        'deleted' => BookingDeleted::class,
+        'updated' => BookingUpdated::class,
     ];
     protected $fillable = ['start_date', 'end_date'];
 
@@ -22,9 +23,15 @@ class Booking extends Model
     {
         return $this->belongsTo(Specialist::class);
     }
+
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function address() : BelongsTo
+    {
+        return $this->belongsTo(Address::class);
     }
 
 

@@ -31,6 +31,8 @@ class BookingSeeder extends Seeder
         $booking = Booking::factory()->make(['status'=>'pending']);
         $booking->user_id=$user->id;
         $specialists->random(1)[0]->bookings()->save($booking);
+        $booking->address()->associate($specialist->addresses()->first());
+        $booking->save();
         BookingSet::dispatch($booking);
        }
     }

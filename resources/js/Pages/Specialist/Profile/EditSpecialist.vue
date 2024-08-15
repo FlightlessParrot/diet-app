@@ -1,12 +1,11 @@
 <script setup>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm.vue";
 import UpdateAddress from "./Partials/UpdateAddress.vue";
 import AddAddress from "./Partials/AddAddress.vue";
 import { Head, usePage } from "@inertiajs/vue3";
 import CategoriesForm from "./Partials/CategoriesForm.vue";
 import DeleteSpecialistForm from "./Partials/DeleteSpecialistForm.vue";
-import { computed } from "vue";
 import UpdateServicesForm from "./Partials/UpdateServicesForm.vue";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Address;
+use App\Models\Booking;
 use App\Models\Specialist;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -21,6 +23,7 @@ return new class extends Migration
             $table->enum('status',['created','pending','confirmed','rejected'])->default('created');
             $table->foreignIdFor(Specialist::class);
             $table->foreignIdFor(User::class)->nullable();
+            $table->foreignIdFor(Address::class)->nullable();
         });
     }
 

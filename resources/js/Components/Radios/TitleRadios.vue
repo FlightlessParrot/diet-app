@@ -5,32 +5,32 @@ const model=defineModel()
 const props = defineProps(['error'])
 const titles =[
     {
-        value: 'lic.',
-        name: 'lic'
+        name: 'lic.',
+        value: 'lic'
     },
     {
-        value: 'inż.',
-        name: 'inz'
+        name: 'inż.',
+        value: 'inz'
     },
     {
-        value: 'mgr',
-        name: 'mgr'
+        name: 'mgr',
+        value: 'mgr'
     },
     {
-        value: 'mgr inż.',
-        name: 'mgr_inż'
+        name: 'mgr inż.',
+        value: 'mgr_inż'
     },
     {
-        value: 'dr',
-        name: 'dr'
+        name: 'dr',
+        value: 'dr'
     },
     {
-        value: 'dr hab.',
-        name: 'dr_hab'
+        name: 'dr hab.',
+        value: 'dr_hab'
     },
     {
-        value: 'prof. dr hab.',
-        name: 'prof'
+        name: 'prof. dr hab.',
+        value: 'prof'
     },
 ]
 
