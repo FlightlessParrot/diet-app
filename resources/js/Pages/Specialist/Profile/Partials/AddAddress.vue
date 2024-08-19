@@ -1,12 +1,11 @@
 <script setup>
-import DangerButton from '@/Components/DangerButton.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import PrimeDropdown from '@/Components/PrimeDropdown.vue';
+import ParkRadios from '@/Components/Radios/ParkRadios.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { router, useForm, usePage } from '@inertiajs/vue3';
-
 
 const props=defineProps({
     address: {
@@ -24,7 +23,8 @@ const form = useForm({
     city:  '',
     code:  '',
     line_1:  '',
-    line_2: ''
+    line_2: '',
+    park: false
 });
 </script>
 
@@ -103,8 +103,9 @@ const form = useForm({
 
                 <InputError class="mt-2" :message="form.errors.code" />
             </div>
+            
         </div>
-
+        <ParkRadios v-model="form.park" :error="form.errors.park" />
             <PrimaryButton :disabled="form.processing">Utwórz</PrimaryButton>
 
             <Transition

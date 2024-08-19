@@ -17,10 +17,10 @@ class Price extends Model
         return $this->belongsTo(Specialist::class);
     }
 
-    protected function price(): Attribute
-    {
-        return Attribute::make(
-            get: fn (string $value) => number_format($value,2),
-        );
-    }
+    // protected function price(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn (string $value) => number_format($value,2),
+    //     );
+    // }
 }

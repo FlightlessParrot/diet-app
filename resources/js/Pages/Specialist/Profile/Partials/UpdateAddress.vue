@@ -4,6 +4,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import PrimeDropdown from '@/Components/PrimeDropdown.vue';
+import ParkRadios from '@/Components/Radios/ParkRadios.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { router, useForm, usePage } from '@inertiajs/vue3';
 
@@ -24,7 +25,8 @@ const form = useForm({
     city: props.address?.city ? props.address.city : '',
     code: props.address?.code ? props.address.code  : '',
     line_1: props.address?.line_1 ? props.address.line_1 : '' ,
-    line_2: props.address?.line_2 ? props.address?.line_2 : ''
+    line_2: props.address?.line_2 ? props.address?.line_2 : '',
+    park: props.address?.park ? true : false,
 });
 </script>
 
@@ -103,8 +105,9 @@ const form = useForm({
 
                 <InputError class="mt-2" :message="form.errors.code" />
             </div>
+            
         </div>
-
+            <ParkRadios v-model="form.park" :error="form.errors.park" />
             <PrimaryButton :disabled="form.processing">Zapisz</PrimaryButton>
 
                 <Transition

@@ -82,7 +82,7 @@ class BookingTest extends TestCase
     public function test_specialist_can_store_booking_by_day_of_week(): void
     {
         $this->seed(TestSeeder::class);
-        $startDate=(floor(time()/86400))*86400+2*86400+00001;
+        $startDate=(floor(2544472800/86400))*86400+3*86400;
         $endDate=$startDate+86400*7+2*60*30;
         $isoStartDate=date('c', $startDate);
         $isoEndDate=date('c', $endDate);

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('line_2',250)->nullable();
             $table->integer('addressable_id');
             $table->string('addressable_type');
+            $table->boolean('park')->nullable();
         });
     }
 

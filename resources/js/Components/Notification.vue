@@ -1,5 +1,4 @@
 <script setup>
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { router } from '@inertiajs/vue3';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import { computed } from 'vue';

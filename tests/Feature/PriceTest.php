@@ -40,7 +40,7 @@ class PriceTest extends TestCase
         $models=$user->specialist->prices()->get();
         $this->assertEquals(1,count($models));
         $this->assertSame($models[0]->name,$data['prices'][0]['name']);
-        $this->assertSame($models[0]->price,number_format($data['prices'][0]['price'],2));
+        $this->assertSame($models[0]->price,$data['prices'][0]['price'],2);
     }
     public function test_user_can_delete_price(): void
     {
@@ -135,7 +135,7 @@ class PriceTest extends TestCase
         $price->refresh();
         $this->assertModelExists($price);
         $this->assertSame($price->name, $data['prices'][1]['name']);
-        $this->assertSame($price->price, number_format($data['prices'][1]['price'],2));
+        $this->assertSame($price->price, $data['prices'][1]['price'],2);
         
 
     }

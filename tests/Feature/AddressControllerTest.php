@@ -38,6 +38,7 @@ class AddressControllerTest extends TestCase
             'line_1'=>'linia_1',
             'line_2'=>'linia_2',
             'code'=>'00-000',
+            'park'=>true
         ];
         $user=User::factory()->create();
         $response= $this->actingAs($user)->post(route("address.store"),$addressData);
@@ -52,6 +53,7 @@ class AddressControllerTest extends TestCase
         $this->assertEquals($addressData["line_1"], $address->line_1);
         $this->assertEquals($addressData["line_2"], $address->line_2);
         $this->assertEquals($addressData["code"], $address->code);
+        $this->assertEquals($addressData['park'],$address->park);
     }
 
     public function test_user_can_update_address(): void
@@ -63,6 +65,7 @@ class AddressControllerTest extends TestCase
             'line_1'=>'linia_1',
             'line_2'=>'linia_2',
             'code'=>'00-000',
+            'park'=>true
         ];
         $updatedData=array_map(fn ($value)=>substr($value,0,2),$addressData);
         $updatedProvince=Province::make();
@@ -84,6 +87,7 @@ class AddressControllerTest extends TestCase
         $this->assertEquals($updatedData["line_1"], $address->line_1);
         $this->assertEquals($updatedData["line_2"], $address->line_2);
         $this->assertEquals($updatedData["code"], $address->code);
+        $this->assertEquals($addressData['park'],$address->park);
     }
 
     public function test_specialist_can_update_address(): void
@@ -95,6 +99,7 @@ class AddressControllerTest extends TestCase
             'line_1'=>'linia_1',
             'line_2'=>'linia_2',
             'code'=>'00-000',
+            'park'=>true
         ];
         $updatedData=array_map(fn ($value)=>substr($value,0,2),$addressData);
         $updatedProvince=Province::make();
@@ -119,6 +124,7 @@ class AddressControllerTest extends TestCase
         $this->assertEquals($updatedData["line_1"], $address->line_1);
         $this->assertEquals($updatedData["line_2"], $address->line_2);
         $this->assertEquals($updatedData["code"], $address->code);
+        $this->assertEquals($addressData['park'],$address->park);
     }
     public function test_user_cant_update_other_user_address(): void
     {
@@ -199,6 +205,7 @@ class AddressControllerTest extends TestCase
             'line_1'=>'linia_1',
             'line_2'=>'linia_2',
             'code'=>'00-000',
+            'park'=>true
         ];
         $user=User::factory()->has(Specialist::factory())->create();
         $specialist=$user->specialist;

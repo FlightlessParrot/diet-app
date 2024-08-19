@@ -27,6 +27,7 @@ class StoreAddressRequest extends FormRequest
             "line_1"=> "nullable|string|max:250",
             "line_2" => "nullable|string|max:250",
             "city"=> "required|string|max:250",
+            'park'=>'nullable|boolean'
         ];
     }
 }

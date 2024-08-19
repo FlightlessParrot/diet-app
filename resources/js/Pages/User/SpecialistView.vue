@@ -20,6 +20,7 @@ import Pager from "@/Components/Pager/Pager.vue";
 import CommentForm from "@/Components/Rating/CommentForm.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
+import Address from "@/Components/Address.vue";
 
 import Chip from 'primevue/chip';
 const props = defineProps({
@@ -156,10 +157,7 @@ const title = computed(
                                 ) in specialist.stationaryAddresses"
                                 :header="index + 1"
                             >
-                                <p>{{ address.line_1 }}</p>
-                                <p>{{ address.line_2 }}</p>
-                                <span>{{ address.code }}</span>
-                                <span>{{ address.city }}</span>
+                              <Address :address="address"/>
                             </TabPanel>
                         </TabView>
                     </AccordionTab>

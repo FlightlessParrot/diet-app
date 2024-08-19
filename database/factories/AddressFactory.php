@@ -21,7 +21,8 @@ class AddressFactory extends Factory
             'city'=>fake()->city(),
             'province_id'=>Province::first(),
             'code'=>fake()->postcode(),
-            'line_1'=>fake()->streetAddress()
+            'line_1'=>fake()->streetAddress(),
+            'park'=>(bool)rand(0,1)
 
         ];
     }

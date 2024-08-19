@@ -12,7 +12,7 @@ use Orchid\Screen\AsSource;
 class Address extends Model
 {
     use HasFactory, AsSource;
-    protected $fillable = ['city','province_id','code','line_1','line_2'];
+    protected $fillable = ['city','province_id','code','line_1','line_2','park'];
     protected $with = ['province'];
     public function user() : BelongsTo
     {
