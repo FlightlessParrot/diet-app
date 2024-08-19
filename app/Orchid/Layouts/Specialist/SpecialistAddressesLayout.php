@@ -33,9 +33,10 @@ class SpecialistAddressesLayout extends Table
          
         TD::make('line_1','adres'),
         TD::make('line_2',''),
-        TD::make('province_id','Województwo')->render(fn ($address) => Province::find($address->province_id)->name),
+        TD::make('province_id','Województwo')->render(fn (Address $address) => Province::find($address->province_id)->name),
         TD::make('city','miasto'),
         TD::make('code','kod pocztowy'),
+        TD::make('park','czy można zaparkować')
             ];
     }
 }
