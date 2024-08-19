@@ -141,4 +141,9 @@ class Specialist extends Model
     {
         return $this->belongsToMany(Target::class);
     }
+
+    public function documents() : MorphMany
+    {
+        return $this->morphMany(Document::class,'documentable');
+    }
 }

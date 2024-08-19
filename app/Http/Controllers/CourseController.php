@@ -25,7 +25,7 @@ class CourseController extends Controller
     public function create()
     {
         $courses = Auth::user()->specialist->courses()->orderByDesc('start_date')->get();
-        return Inertia::render('Specialist/ManageCourses',['courses'=>$courses]);
+        return Inertia::render('Specialist/ManageCourses',['courses'=>$courses, 'documents'=>Auth::user()->specialist->documents()->get()]);
     }
 
     /**

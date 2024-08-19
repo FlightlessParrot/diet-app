@@ -43,6 +43,12 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+        'protected' => [
+            'driver' => 'local',
+            'root' => storage_path('app/protected'),
+            'visibility' => 'public',
+            'throw' => true,
+        ],
 
         's3' => [
             'driver' => 's3',

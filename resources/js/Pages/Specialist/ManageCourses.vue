@@ -12,10 +12,14 @@ import StoreModal from '@/Parts/StoreCourseModal.vue';
 import Tile from "@/Components/Tile.vue";
 import Divider from "primevue/divider";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import Documents from "@/Parts/Documents.vue";
 const props = defineProps({
     courses: {
         type: Object,
     },
+    documents: {
+        type: Array
+    }
 });
 
 const specialist=usePage().props.auth.specialist
@@ -40,7 +44,8 @@ const selectedCourse = ref(null);
                 >Twoje wykształcenie i ukończone kursy.
             </template>
         </Title>
-
+        </Tile>
+        <Tile >
         <form
             :metaKeySelection="false"
             @submit.prevent="
@@ -72,8 +77,16 @@ const selectedCourse = ref(null);
         </form>
         <PrimaryButton @click="showStoreModal=true">Utwórz</PrimaryButton>
         <Divider />
+    
+        <div class="my-16">
+            <h2 class="font-bold">Prześli dokumenty potwierdzające Twoje kwalifikacje.</h2>
+            <i class="text-gray-500">Na przykład dyplom ukońćzenia studiów.</i>
+            <Documents :documents="documents"/>
+        </div>
         <div >
-            
+        
+            <Divider />
+      
         <Link :href = "route('specialist.address.create')" class="bg-green-500 mx-auto inline-block p-2 px-4 font-bold  text-white mt-4 w-48 text-center rounded">
             Dalej
         </Link>

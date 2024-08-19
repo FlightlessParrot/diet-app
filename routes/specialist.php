@@ -8,6 +8,7 @@ use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DescriptionController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PriceController;
@@ -87,6 +88,13 @@ Route::middleware(["auth", "spec"])->group(function () {
     Route::put('/language/{language}',[LanguageController::class, 'update'])->name('language.update');
     Route::delete('/language/{language}',[LanguageController::class, 'destroy'])->name('language.destroy');
 
+    
+});
+
+Route::middleware(["auth", "spec"])->group(function () {
+    Route::post('/specialist/documents',[DocumentController::class, 'store'])->name('document.store');
+    Route::delete('/specialist/document/{document}',[DocumentController::class,'destroy'])->name('document.destroy');
+    Route::get('/specialist/document/{document}',[DocumentController::class,'download'])->name('document.download');
     
 });
 

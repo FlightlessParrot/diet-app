@@ -18,6 +18,7 @@ import Courses from "./Partials/Courses.vue";
 import EditPhone from "@/Parts/EditPhone.vue";
 import Languages from "@/Parts/Language/Languages.vue";
 import SpecialistLayout from "@/Layouts/SpecialistLayout.vue";
+import Documents from "@/Parts/Documents.vue";
 const page = usePage();
 defineProps({
     addresses: {
@@ -64,6 +65,10 @@ defineProps({
         required: true
     },
     specialistTargetIds: {
+        type: Array,
+        required: true
+    },
+    documents: {
         type: Array,
         required: true
     }
@@ -120,6 +125,7 @@ defineProps({
                 </div>
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <Courses :courses = 'courses' />
+                    <Documents :documents="documents" />
                 </div>
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <UpdateServicesForm :service-cities="serviceCities" :service-kinds="serviceKinds" :provinces="provinces"

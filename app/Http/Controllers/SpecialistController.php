@@ -95,7 +95,7 @@ class SpecialistController extends Controller
             'categories'=>Category::all(), 'prices'=>$specialist->prices()->get(), 
             'avatarUrl'=>Auth::user()->specialist->attachment()->first()?->url(),
             'iconUrl'=>$iconUrl, 'description'=>$specialist->description, 'courses'=>$specialist->courses()->orderByDesc('start_date')->get(),
-            'languages'=>$specialist->languages()->get()]);
+            'languages'=>$specialist->languages()->get(),'documents'=>$specialist->documents()->get()]);
         }else{
             return response('Nie masz uprawnień, aby wykonać tę akcje.',401);
         }
