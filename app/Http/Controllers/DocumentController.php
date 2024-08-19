@@ -110,7 +110,7 @@ class DocumentController extends Controller
 
     public function download(Document $document) : StreamedResponse|Response
     {
-        if(Auth::user()->specialist->documents()->find($document->id)){
+        if(Auth::user()?->specialist?->documents()?->find($document->id) || Auth::user()->myRole->name==='admin'){
             return Storage::disk('protected')->download($document->path);
         }else{
             return response('Nie masz uprawnień, aby pobrać plik.',401);

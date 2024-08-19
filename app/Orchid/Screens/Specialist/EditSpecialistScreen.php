@@ -4,12 +4,15 @@ namespace App\Orchid\Screens\Specialist;
 
 use App\Events\SpecialistActivated;
 use App\Models\Category;
+use App\Models\Document;
 use App\Models\Specialist;
+use App\Orchid\Layouts\Specialist\DocumentsLayout;
 use App\Orchid\Layouts\Specialist\EditSpecialistLayout;
 use App\Orchid\Layouts\Specialist\SpecialistAddressesLayout;
 use App\Orchid\Layouts\Specialist\SpecialistServicesLayout;
 use Hamcrest\Arrays\IsArray;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Orchid\Screen\Actions\Button;
 
 use Orchid\Screen\Screen;
@@ -42,7 +45,7 @@ class EditSpecialistScreen extends Screen
         $data=['specialist'=>$specialist, 
         'addresses'=>$addresses, 
         'services'=>$services, 'serviceCities'=>$serviceCities, 
-        "categories"=>$categories,'targets'=>$targets];
+        "categories"=>$categories,'targets'=>$targets,'documents'=>$specialist->documents()->get()];
         isset($statistic) ? $data['statistic']=$statistic : $data['statistic']=null;
         return $data;
     }
@@ -89,7 +92,7 @@ class EditSpecialistScreen extends Screen
                 
             ])->canSee($this->statistic!==null),
 
-            EditSpecialistLayout::class, SpecialistAddressesLayout::class, SpecialistServicesLayout::class];
+            EditSpecialistLayout::class, SpecialistAddressesLayout::class, SpecialistServicesLayout::class, DocumentsLayout::class];
     }
 
     public function update_specialist(Request $request): void
@@ -139,5 +142,16 @@ class EditSpecialistScreen extends Screen
         $this->specialist->save();
 
         Toast::success('Dezaktywowano specjalistę.');
+    }
+
+    public function removeDocument(Request $request)
+    {
+        $document=Document::findOrFail($request->id);
+        if(Storage::disk('protected')->delete($document->path))
+        {
+         $document->delete();
+         Toast::success('Usunięto dokument.');
+        }
+        Toast::error('Wystąþił błąd.');
     }
 }

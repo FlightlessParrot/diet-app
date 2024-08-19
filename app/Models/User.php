@@ -15,6 +15,8 @@ use Orchid\Platform\Models\User as Authenticatable;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Hash;
+use Orchid\Support\Facades\Dashboard;
 
 class User extends Authenticatable
 {   
@@ -140,5 +142,17 @@ class User extends Authenticatable
         return $this->morphOne(Phone::class,'phoneable');
     }
 
-    
+    public static function createAdmin(string $name, string $email, string $password): void
+    {
+    throw_if(static::where('email', $email)->exists(), 'User already exists');
+    $role=MyRole::where("name","admin")->firstOrFail();
+    static::forceCreate([
+        'name'        => $name,
+        'surname' => 'Admin',
+        'email'       => $email,
+        'password'    => Hash::make($password),
+        'permissions' => Dashboard::getAllowAllPermission(),
+        'my_role_id'=>$role->id,
+    ]);
+}
 }

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Orchid\Support\Facades\Dashboard;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,7 +20,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Dashboard::useModel(
+            \Orchid\Platform\Models\User::class,
+            \App\Models\User::class
+        );
         
     }
 }
