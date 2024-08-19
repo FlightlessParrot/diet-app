@@ -123,9 +123,15 @@ defineProps({
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <Languages :languages="languages" />
                 </div>
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg space-y-12">
                     <Courses :courses = 'courses' />
+                    <div>
+                        <div class="my-8">
+                        <h3 class="font-bold">Dokumenty potwierdzające Twoje kwalifikacje.</h3>
+                        <i class="text-gray-500">Dyplomy ukończenia studiów i inne świadectwa.</i>
+                        </div>
                     <Documents :documents="documents" />
+                </div>
                 </div>
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <UpdateServicesForm :service-cities="serviceCities" :service-kinds="serviceKinds" :provinces="provinces"
