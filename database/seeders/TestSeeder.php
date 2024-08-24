@@ -64,7 +64,8 @@ class TestSeeder extends Seeder
         }
        
 
-        $this->call([BookingSeeder::class, ReviewSeeder::class, StatisticSeeder::class, TargetSeeder::class]);
+        $this->call([BookingSeeder::class, ReviewSeeder::class, StatisticSeeder::class, 
+        TargetSeeder::class, FollowersSeeder::class]);
     }
     
 }

@@ -86,9 +86,7 @@ Route::middleware(["auth", "spec"])->group(function () {
 Route::middleware(["auth", "spec"])->group(function () {
     Route::post('/language',[LanguageController::class, 'store'])->name('language.store');
     Route::put('/language/{language}',[LanguageController::class, 'update'])->name('language.update');
-    Route::delete('/language/{language}',[LanguageController::class, 'destroy'])->name('language.destroy');
-
-    
+    Route::delete('/language/{language}',[LanguageController::class, 'destroy'])->name('language.destroy');    
 });
 
 Route::middleware(["auth", "spec"])->group(function () {

@@ -5,6 +5,8 @@ import { computed } from "vue";
 import Rating from "primevue/rating";
 import Avatar from "primevue/avatar";
 import { useTranslateServicesLabel } from "@/Composables/useTranslateServicesLabel";
+import HeartButton from "@/Components/HeartButton.vue";
+import { router } from "@inertiajs/vue3";
 const props = defineProps({
     specialist: {
         type: Object,
@@ -18,12 +20,25 @@ const unmodifiedFullName = computed(
 
 const fullName = useCapitalizeFirstLetterOfEveryWord(unmodifiedFullName.value);
 const url = computed(()=>"/specialista/"+props.specialist.id)
+const followOrNot = ()=>{
+    if(!props.specialist.favourite)
+    {
+        router.post(route('follow.specialist',[props.specialist.id]))
+    }else{
+        router.delete(route('unfollow.specialist',[props.specialist.id]))
+    }
+}
 </script>
 <template>
     <a class="hover:scale-95 transition cursor-pointer" :href="url">
-        <Card class="h-full">
+        
+        <Card class="h-full relative top-0">
             <template #title>
+                <div class="sm:absolute z-10 flex justify-end top-4 right-8 block">
+                <HeartButton :filled="specialist.favourite" @click.stop.prevent="followOrNot" ></HeartButton>
+                </div>
                 <div class="my-2 flex align-center gap-2">
+                    
                     <Avatar 
                         :image="specialist.image?.url"
                         size="xlarge"

@@ -3,6 +3,7 @@ namespace App\Supports\SpecialistFinder;
 
 use App\Models\Specialist;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class SpecialistFinder implements SpecialistFinderInterface
 {
@@ -69,17 +70,13 @@ class SpecialistFinder implements SpecialistFinderInterface
             {
                 $specialist->statistic()->create();
             }
-    
+            
             //increment the counter
             $specialist->found_counter++;
             $specialist->save();
 
             //hydrate with related models
-            $specialist->services = $specialist->serviceKinds()->get();
-            $specialist->cities = $specialist->serviceCities()->limit(6)->get();
-            $specialist->addresses = $specialist->addresses()->limit(6)->get();
-            $specialist->image = $specialist->icon;
-            $specialist->statistic;
+            $specialist = $this->hydrateSpecialist($specialist);
             return $specialist;
         });
         $paginatedResults->data=$results;
@@ -94,5 +91,18 @@ class SpecialistFinder implements SpecialistFinderInterface
         return $this->results;
     }
 
+    public function hydrateSpecialist(Specialist $specialist) : Specialist
+    {
+        $user = Auth::user();
+        $specialist->services = $specialist->serviceKinds()->get();
+        $specialist->cities = $specialist->serviceCities()->limit(6)->get();
+        $specialist->addresses = $specialist->addresses()->limit(6)->get();
+        $specialist->image = $specialist->icon;
+        $specialist->statistic;
+        $specialist->favourite =$user ? 
+        $user->favouriteSpecialists()->find($specialist->id)!==null :
+        false;
+        return $specialist;
+    }
   
 }

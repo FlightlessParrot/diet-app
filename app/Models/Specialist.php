@@ -146,4 +146,9 @@ class Specialist extends Model
     {
         return $this->morphMany(Document::class,'documentable');
     }
+
+    public function followers() : BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'favourite_specialists');
+    }
 }

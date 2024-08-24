@@ -1,6 +1,8 @@
 <?php
 namespace App\Supports\SpecialistFinder;
 
+use App\Models\Specialist;
+
 interface SpecialistFinderInterface
 {
     /**
@@ -31,6 +33,10 @@ interface SpecialistFinderInterface
      */
     public function getResults() : object|array;
 
-   
-
+    /**
+     * Hydrate specialist with models
+     * @param Specialist $specialist
+     * @return Specialist
+     */
+    public function hydrateSpecialist(Specialist $specialist) : Specialist;
 }

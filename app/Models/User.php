@@ -14,12 +14,13 @@ use Illuminate\Notifications\Notifiable;
 use Orchid\Platform\Models\User as Authenticatable;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Hash;
 use Orchid\Support\Facades\Dashboard;
 
 class User extends Authenticatable
-{   
+{
     use HasFactory, Notifiable;
     /**
      * The attributes that are mass assignable.
@@ -60,11 +61,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $allowedFilters = [
-           'id'         => Where::class,
-           'name'       => Like::class,
-           'email'      => Like::class,
-           'updated_at' => WhereDateStartEnd::class,
-           'created_at' => WhereDateStartEnd::class,
+        'id'         => Where::class,
+        'name'       => Like::class,
+        'email'      => Like::class,
+        'updated_at' => WhereDateStartEnd::class,
+        'created_at' => WhereDateStartEnd::class,
     ];
 
     /**
@@ -79,40 +80,39 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
 
-        
+
     ];
-    public function myRole() : BelongsTo
+    public function myRole(): BelongsTo
     {
         return $this->belongsTo(MyRole::class);
     }
 
-    public function address() : MorphOne
+    public function address(): MorphOne
     {
-        return $this->morphOne(Address::class,'addressable');
+        return $this->morphOne(Address::class, 'addressable');
     }
 
-    public function specialist() : HasOne
+    public function specialist(): HasOne
     {
         return $this->hasOne(Specialist::class);
     }
 
-    public function cleanAndDelete() : void
+    public function cleanAndDelete(): void
     {
-        $specialist=Specialist::findOrFail($this->specialist->id);
+        $specialist = Specialist::findOrFail($this->specialist->id);
         $specialist->cleanAndDelete();
         $this->address->delete();
         $this->delete();
-        
     }
 
-     /**
+    /**
      * Get and set the user's first name.
      */
     public function name()
     {
         return Attribute::make(
-            get: fn (string $value) => ucfirst($value),
-            set: fn (string $value) => strtolower($value),
+            get: fn(string $value) => ucfirst($value),
+            set: fn(string $value) => strtolower($value),
         );
     }
 
@@ -122,37 +122,42 @@ class User extends Authenticatable
     public function surname()
     {
         return Attribute::make(
-            get: fn (string $value) => ucfirst($value),
-            set: fn (string $value) => strtolower($value),
+            get: fn(string $value) => ucfirst($value),
+            set: fn(string $value) => strtolower($value),
         );
     }
 
-    public function bookings() : HasMany
+    public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
     }
 
-    public function reviews() : HasMany
+    public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
     }
 
-    public function phone() : MorphOne
+    public function phone(): MorphOne
     {
-        return $this->morphOne(Phone::class,'phoneable');
+        return $this->morphOne(Phone::class, 'phoneable');
     }
 
     public static function createAdmin(string $name, string $email, string $password): void
     {
-    throw_if(static::where('email', $email)->exists(), 'User already exists');
-    $role=MyRole::where("name","admin")->firstOrFail();
-    static::forceCreate([
-        'name'        => $name,
-        'surname' => 'Admin',
-        'email'       => $email,
-        'password'    => Hash::make($password),
-        'permissions' => Dashboard::getAllowAllPermission(),
-        'my_role_id'=>$role->id,
-    ]);
-}
+        throw_if(static::where('email', $email)->exists(), 'User already exists');
+        $role = MyRole::where("name", "admin")->firstOrFail();
+        static::forceCreate([
+            'name'        => $name,
+            'surname' => 'Admin',
+            'email'       => $email,
+            'password'    => Hash::make($password),
+            'permissions' => Dashboard::getAllowAllPermission(),
+            'my_role_id' => $role->id,
+        ]);
+    }
+
+    public function favouriteSpecialists(): BelongsToMany
+    {
+        return $this->belongsToMany(Specialist::class,'favourite_specialists');
+    }
 }
