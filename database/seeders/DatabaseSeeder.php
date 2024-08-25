@@ -97,6 +97,6 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('Password123'),
             ]);
         $this->call([BookingSeeder::class, ReviewSeeder::class,  StatisticSeeder::class, CourseSeeder::class, TargetSeeder::class, 
-        DocumentSeeder::class, FollowersSeeder::class]);
+        DocumentSeeder::class, FollowersSeeder::class, FavouritePriceSeeder::class]);
     }
 }

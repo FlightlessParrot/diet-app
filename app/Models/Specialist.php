@@ -22,7 +22,7 @@ class Specialist extends Model
 {
     use HasFactory, AsSource, Attachable, Notifiable;
 
-    protected $with=['phone'];
+    protected $with=['phone', 'favouritePrice'];
     protected $fillable= ['name','surname', 'title','specialization'];
 
     protected $hidden = ['found_counter'];
@@ -150,5 +150,10 @@ class Specialist extends Model
     public function followers() : BelongsToMany
     {
         return $this->belongsToMany(User::class, 'favourite_specialists');
+    }
+
+    public function favouritePrice() : BelongsTo
+    {
+        return $this->belongsTo(Price::class);
     }
 }

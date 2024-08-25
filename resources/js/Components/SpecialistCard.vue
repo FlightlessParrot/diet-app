@@ -59,21 +59,40 @@ const followOrNot = ()=>{
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-wrap gap-2 my-2">
+                    <div class="flex items-center flex-wrap gap-2 my-2">
+                        <i class="pi pi-car"></i
+                            >
                         <div v-for="city in specialist.cities">
                             <div class="space-x-2">
-                                <i class="pi pi-car"></i
-                                ><span>{{ city.name }}</span>
+                                <span>{{ city.name }}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-wrap gap-2 my-2">
+                    <div class="flex items-center flex-wrap gap-2 my-2">
+                         <i class="pi pi-home"></i
+                                >
                         <div v-for="home in specialist.addresses">
                             <div class="space-x-2">
-                                <i class="pi pi-home"></i
-                                ><span>{{ home.city }}</span>
+                               <span>{{ home.city }}</span>
                             </div>
                         </div>
+                    </div>
+                    <div class="flex items-center flex-wrap gap-2 my-2">
+                       <i class="pi pi-thumbs-up" /> <div v-for="target in specialist.targets">
+                            
+                            <div class="space-x-2">
+                               <span>{{ target.name }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-darkGreen flex justify-end sm:absolute bot-6 right-6" v-if="specialist.favourite_price">
+                    <div>
+                    <i class="pi pi-tags" />
+                    {{ new Intl.NumberFormat('pl',{
+                        style: 'currency',
+                        currency: 'PLN'
+                    }).format(specialist.favourite_price.price) }}
                     </div>
                 </div>
                 <div>

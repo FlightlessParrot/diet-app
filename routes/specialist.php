@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DescriptionController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\FavouritePriceController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PriceController;
@@ -96,3 +97,8 @@ Route::middleware(["auth", "spec"])->group(function () {
     
 });
 
+Route::middleware(["auth", "spec"])->group(function () {
+    Route::post('/price/{price}',[FavouritePriceController::class, 'associate'])->name('favourite.price.associate');
+    
+    
+});

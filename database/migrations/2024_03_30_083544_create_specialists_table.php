@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Price;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->boolean('active')->default(false);
             $table->foreignIdFor(User::class);
             $table->integer('found_counter')->default(0);
+            $table->foreignIdFor(Price::class,'favourite_price_id')->nullable();
         });
     }
 

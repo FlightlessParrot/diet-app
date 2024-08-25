@@ -10,6 +10,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import DangerButton from "@/Components/DangerButton.vue";
 import {  ref, watch,  } from "vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 const props=defineProps({
     'prices':{
@@ -28,7 +29,9 @@ const editForm = useForm({
     name: "",
 });
 const selectedPrice = ref(null)
-
+const rowClass = (data)=>{
+    return [{ 'bg-primary': data.id === page.props.auth.specialist.favouritePrice.id }];
+}
 watch(selectedPrice,()=>{editForm.price=Number(selectedPrice.value.price); editForm.name=selectedPrice.value.name;})
 
 const editString=slotProps=>Number(slotProps.data.price).toFixed(2).toString()+' zł' 
@@ -47,9 +50,12 @@ const editString=slotProps=>Number(slotProps.data.price).toFixed(2).toString()+'
             {{ editString(slotProps)}}
             </template></Column>
         </DataTable>
+        <SecondaryButton @click.prevent="router.post(route('favourite.price.associate',[selectedPrice]))" v-show="selectedPrice!==null">Ustaw jako typową cenę konsultacji</SecondaryButton>
+        <i class="text-gray-500 text-sm block mb-4">Możesz wybrać jedną cenę jako typową cenę konsultacji. 
+            Ta cena pokaże się użytkownikom w wynikach wyszukiwania.</i>
         <DangerButton v-show="selectedPrice!==null">Usuń</DangerButton>
         </form>
-
+        
         <form v-if="selectedPrice!==null" class="my-4 space-y-4" @submit.prevent="editForm.put(route('specialist.price.update',[page.props.auth.specialist.id,selectedPrice.id]),{preserveScroll: false, preserveState: false})"  >
             <h3>Edycja ceny usługi: {{ selectedPrice.name}}</h3>
             <div class="space-y-2">

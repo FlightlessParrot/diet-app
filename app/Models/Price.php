@@ -23,4 +23,6 @@ class Price extends Model
     //         get: fn (string $value) => number_format($value,2),
     //     );
     // }
+
+   
 }

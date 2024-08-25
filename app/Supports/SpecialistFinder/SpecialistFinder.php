@@ -102,6 +102,7 @@ class SpecialistFinder implements SpecialistFinderInterface
         $specialist->favourite =$user ? 
         $user->favouriteSpecialists()->find($specialist->id)!==null :
         false;
+        $specialist->targets=$specialist->targets()->get();
         return $specialist;
     }
   
