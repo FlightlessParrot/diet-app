@@ -10,6 +10,7 @@ import Messager from "@/Components/Messager.vue";
 import { watchEffect } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import Divider from "primevue/divider";
+import Foot from "@/Components/Foot.vue";
 
 const page = usePage();
 const specialist = computed(() => page.props.auth.specialist);
@@ -237,5 +238,6 @@ const showingNavigationDropdown = ref(false);
                 <slot />
             </main>
         </div>
+        <Foot />
     </div>
 </template>

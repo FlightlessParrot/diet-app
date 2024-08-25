@@ -50,8 +50,8 @@ const selectedCourse = ref(null);
                 dataKey="id"
             >
                 <Column field="name" header="Kurs"></Column>
-                <Column field="start_date" header="Początek"> </Column>
-                <Column field="end_date" header="Koniec"> </Column>
+                <!-- <Column field="start_date" header="Początek"> </Column> -->
+                <Column field="end_date" header="Ukończenie"> </Column>
             </DataTable>
             <div class="flex gap-2">
             <SecondaryButton @click.prevent="showPutModal=true" v-show="selectedCourse !== null"

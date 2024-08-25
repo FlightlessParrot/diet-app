@@ -10,6 +10,7 @@ import Messager from '@/Components/Messager.vue';
 import { watchEffect } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import Divider from 'primevue/divider';
+import Foot from '@/Components/Foot.vue';
 const page = usePage();
 watchEffect(()=>console.log(page.props))
 const showingNavigationDropdown = ref(false);
@@ -173,5 +174,6 @@ const showingNavigationDropdown = ref(false);
                 <slot />
             </main>
         </div>
+        <Foot />
     </div>
 </template>

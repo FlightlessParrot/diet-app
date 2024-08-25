@@ -2,7 +2,7 @@
 import DangerButton from '@/Components/DangerButton.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-
+import Textarea from 'primevue/textarea';
 import { router, useForm, usePage } from '@inertiajs/vue3';
 import Title from "@/Components/Title.vue";
 import Editor from 'primevue/editor';
@@ -38,8 +38,8 @@ watchEffect(()=>form.full=props.description.full)
         >
             <div>
 
-                <Editor v-model='form.full' editorStyle="height: 320px" />
-
+                <!-- <Editor v-model='form.full' editorStyle="height: 320px" /> -->
+                <Textarea v-model = 'form.full' class="w-full h-[320px]" />
                 <InputError class="mt-2" :message="form.errors.full" />
             </div>
             

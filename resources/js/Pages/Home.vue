@@ -1,12 +1,14 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
 import QuestLayoutForPages from "@/Layouts/GuestLayoutForPages.vue";
+import Tile from "@/Components/Tile.vue";
 const props = defineProps([]);
 </script>
 <template>
     <Head title="Witaj" />
     <QuestLayoutForPages>
-        <div class="grid lg:grid-cols-2  items-start ">
+        <Tile>
+        <div class="grid lg:grid-cols-2  items-start">
             <img
                 width="960"
                 height="540"
@@ -123,5 +125,6 @@ const props = defineProps([]);
                 non. Vivamus at hendrerit sapien.
             </p>
         </section>
+    </Tile>
     </QuestLayoutForPages>
 </template>

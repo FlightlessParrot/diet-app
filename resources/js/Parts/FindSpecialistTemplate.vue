@@ -49,7 +49,7 @@ const chosenRoute = computed(()=> props.guest ? route('guest.specialist.index'):
                 </Title>
             </Tile>
             <Tile>
-                <form @submit.prevent="form.get(chosenRoute)" class="py-2 space-y-6">
+                <form @submit.prevent="form.get(chosenRoute,{preserveState:true})" class="py-2 space-y-6">
                     <FloatLabel>
                         <InputText
                             id="username"
