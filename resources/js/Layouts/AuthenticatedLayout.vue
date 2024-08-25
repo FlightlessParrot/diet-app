@@ -74,6 +74,7 @@ const showingNavigationDropdown = ref(false);
                                     <template #content>
                                         <DropdownLink :href="route('user.bookings.index')"> Wizyty </DropdownLink>
                                         <DropdownLink :href="route('profile.edit')"> Profil </DropdownLink>
+                                        <DropdownLink :href="route('favourite.specialists')"> Ulubieni specjaliści </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Wyloguj
                                         </DropdownLink>
@@ -145,7 +146,7 @@ const showingNavigationDropdown = ref(false);
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('user.bookings.index')">Wizyty</ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
-                            
+                            <ResponsiveNavLink :href="route('favourite.specialists')"> Ulubieni specjaliści </ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
                                Wyloguj
                             </ResponsiveNavLink>
