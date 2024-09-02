@@ -80,7 +80,7 @@ const selectedCourse = ref(null);
     
         <div class="my-16">
             <h3 class="font-bold">Prześli dokumenty potwierdzające Twoje kwalifikacje.</h3>
-            <i class="text-gray-500">Na przykład dyplom ukońćzenia studiów.</i>
+            <i class="text-gray-500">Na przykład dyplom ukończenia studiów.</i>
             <Documents :documents="documents"/>
         </div>
         <div >
