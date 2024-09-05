@@ -35,6 +35,7 @@ class HandleInertiaRequests extends Middleware
         $user?->phone;
         $specialist=$user?->specialist;
         $specialist!== null && $specialist->phone;
+        $subscription =$specialist ? $specialist->activeSubscription() : null;
         return [
             ...parent::share($request),
             'auth' => [
@@ -44,6 +45,7 @@ class HandleInertiaRequests extends Middleware
             ],'flash' => [
                 'message' => fn () => $request->session()->get('message')
             ],
+            'subscription' =>$subscription
             
         ];
     }

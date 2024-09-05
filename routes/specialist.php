@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ServiceCityController;
+use App\Http\Controllers\ShowOffersController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FavouritePriceController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SpecialistDashboardController;
@@ -101,4 +103,15 @@ Route::middleware(["auth", "spec"])->group(function () {
     Route::post('/price/{price}',[FavouritePriceController::class, 'associate'])->name('favourite.price.associate');
     
     
+});
+
+Route::middleware(["auth", "spec"])->prefix('specjalista')->group(function () {
+    Route::get('/platnosci',[PaymentController::class,'create'])->name('payment.create');
+    Route::get('offer/{offer}/payment/transaction',[PaymentController::class,'buy'])->name('payment.buy');
+
+    Route::get('/oferty',[ShowOffersController::class,'index'])->name('offers.index');
+    Route::get('/oferta/{offer}',[ShowOffersController::class,'show'])->name('offer.show');
+    
+    Route::get('/platnosci/sukces',[PaymentController::class,'success'])->name('payment.success');
+    Route::get('/platnosci/niepowodzenie',[PaymentController::class,'fail'])->name('payment.fail');
 });

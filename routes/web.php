@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FindSpecialistController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
@@ -52,6 +53,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/notification/{notificationId}',[NotificationController::class, 'userNotificationMarkAsRead'])->name('specialist.notification.mark');
     Route::put('/phone/{phone}',[PhoneController::class,'update'])->name('phone.update');
 });
+
+Route::prefix('payment')->group(
+function (){
+    Route::post('notifications',[PaymentController::class,'notify']);
+}
+);
 
 require __DIR__.'/auth.php';
 require __DIR__.'/specialist.php';

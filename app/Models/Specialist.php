@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,7 @@ use Orchid\Attachment\Models\Attachment;
 use Orchid\Screen\AsSource;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Notifications\Notifiable;
@@ -155,5 +157,19 @@ class Specialist extends Model
     public function favouritePrice() : BelongsTo
     {
         return $this->belongsTo(Price::class);
+    }
+
+    public function subscriptions() : HasManyThrough
+    {
+        return $this->hasManyThrough(Subscription::class,Payment::class);
+    }
+
+    public function activeSubscription() : Subscription|null
+    {
+        return $this->hasManyThrough(Subscription::class,Payment::class)->where('end_date','>', now())->latest()->first();
+    }
+    public function payments() : HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 }

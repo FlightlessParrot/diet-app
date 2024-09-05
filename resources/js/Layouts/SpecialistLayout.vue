@@ -16,11 +16,19 @@ const page = usePage();
 const specialist = computed(() => page.props.auth.specialist);
 watchEffect(() => console.log(page.props));
 const showingNavigationDropdown = ref(false);
+
+const headLineClass=computed(()=>page.props.subscription ? 'bg-emerald-500 text-white text-center' : 'bg-red-500 text-white text-center')
 </script>
 
 <template>
     <div>
         <div class="min-h-screen bg-gray-100">
+            <p :class="headLineClass">
+                {{ 
+                    page.props.subscription ?
+                "Twoja subskrypcja kończy się dnia "+page.props.subscription.end_date :
+                "Twoja subskrypcja jest nieaktywna." }}
+            </p>
             <nav class="bg-whiteGreen border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -45,7 +53,7 @@ const showingNavigationDropdown = ref(false);
                                         route().current('specialist.dashboard')
                                     "
                                 >
-                                    Tablica
+                                    Tablica specjalisty
                                 </NavLink>
                               
                                 <NavLink
@@ -53,6 +61,12 @@ const showingNavigationDropdown = ref(false);
                                     :active="route().current('specialist.setMeetings')"
                                 >
                                 Wizyty
+                                </NavLink>
+                                <NavLink
+                                    :href="route('offers.index')"
+                                    :active="route().current('offers.index')"
+                                >
+                                Oferty
                                 </NavLink>
                             </div>
                         </div>
@@ -182,6 +196,12 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('specialist.setMeetings')"
                         >
                         Wizyty
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('offers.index')"
+                            :active="route().current('offers.index')"
+                        >
+                            Oferty
                         </ResponsiveNavLink>
                     </div>
 

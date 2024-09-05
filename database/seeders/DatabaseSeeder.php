@@ -31,7 +31,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([MyRolesSeeder::class, ProvinceSeeder::class, CategorySeeder::class, ServiceKindSeeder::class]);
+        $this->call([MyRolesSeeder::class, ProvinceSeeder::class, CategorySeeder::class, 
+        ServiceKindSeeder::class, OfferSeeder::class]);
 
         User::factory(30)->has(Phone::factory())->create();
         $users = User::factory(20)->has(
@@ -97,6 +98,6 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('Password123'),
             ]);
         $this->call([BookingSeeder::class, ReviewSeeder::class,  StatisticSeeder::class, CourseSeeder::class, TargetSeeder::class, 
-        DocumentSeeder::class, FollowersSeeder::class, FavouritePriceSeeder::class]);
+        DocumentSeeder::class, FollowersSeeder::class, FavouritePriceSeeder::class, CommerceSeeder::class]);
     }
 }
