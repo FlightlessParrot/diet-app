@@ -19,14 +19,31 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Notifications\Notifiable;
+use Orchid\Filters\Filterable;
+use Orchid\Filters\Types\Like;
+use Orchid\Filters\Types\Where;
 
 class Specialist extends Model
 {
-    use HasFactory, AsSource, Attachable, Notifiable;
+    use HasFactory, AsSource, Attachable, Notifiable, Filterable;
 
     protected $with=['phone', 'favouritePrice'];
     protected $fillable= ['name','surname', 'title','specialization'];
-
+    protected $allowedFilters = [
+        'title' => Where::class,
+        'surname' => Like::class,
+        'name' => Like::class,
+        
+    ];
+    protected $allowedSorts = [
+        'id',
+        'title',
+        'surname',
+        'name',
+        'user_id',
+        'active'
+        
+    ];
     protected $hidden = ['found_counter'];
     
     public function user():BelongsTo

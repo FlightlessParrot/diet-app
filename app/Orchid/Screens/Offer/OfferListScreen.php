@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Orchid\Screens\Specialist;
+namespace App\Orchid\Screens\Offer;
 
-use App\Models\Specialist;
-use App\Orchid\Layouts\Specialist\SpecialistListLayout;
+use App\Models\Offer;
+use App\Orchid\Layouts\Offer\OfferListLayout;
 use Illuminate\Http\Request;
-
+use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Toast;
 
-
-use Orchid\Screen\Screen;
-
-class SpecialistListScreen extends Screen
+class OfferListScreen extends Screen
 {
     /**
      * Fetch data to be displayed on the screen.
@@ -20,7 +19,7 @@ class SpecialistListScreen extends Screen
      */
     public function query(): iterable
     {
-        return ['specialists'=>Specialist::filters()->paginate()];
+        return ['offers'=>Offer::all()];
     }
 
     /**
@@ -30,13 +29,9 @@ class SpecialistListScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'Specjaliści';
+        return 'Oferty';
     }
 
-    public function description(): string|null
-    {
-        return 'Lista specjalistów';
-    }
     /**
      * The screen's action buttons.
      *
@@ -44,7 +39,7 @@ class SpecialistListScreen extends Screen
      */
     public function commandBar(): iterable
     {
-        return [];
+        return [Link::make(__('Add'))->icon('bs.save')->route('platform.offer.new')];
     }
 
     /**
@@ -54,14 +49,15 @@ class SpecialistListScreen extends Screen
      */
     public function layout(): iterable
     {
-        return [SpecialistListLayout::class];
+        return [OfferListLayout::class];
     }
-    public function remove(Request $request): void
+    public function remove(Request $request)
     {
-        $specialist=Specialist::findOrFail($request->get('id'));
-        $specialist->cleanAndDelete();
         
-        Toast::info(__('Specialist was removed'));
+        $offer=Offer::findOrFail($request->offerId);
+        
+        $offer->delete();
+        Toast::info('Usunięto ofertę.');
+        return redirect()->route('platform.offers');
     }
-    
 }

@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Models\Specialist;
+
+use App\Orchid\Screens\Offer\EditOfferScreen;
 use App\Orchid\Screens\Specialist\EditSpecialistScreen;
 use App\Orchid\Screens\Examples\ExampleActionsScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
@@ -13,10 +15,13 @@ use App\Orchid\Screens\Examples\ExampleGridScreen;
 use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
 use App\Orchid\Screens\Examples\ExampleScreen;
 use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
+use App\Orchid\Screens\Offer\NewOfferScreen;
+use App\Orchid\Screens\Offer\OfferListScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\Specialist\SpecialistListScreen;
+use App\Orchid\Screens\Subscription\SubscriptionListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
@@ -105,15 +110,35 @@ Route::screen('specialisci', SpecialistListScreen::class)
             ->breadcrumbs(fn (Trail $trail, Specialist $specialist) => $trail
                     ->parent('platform.specialists')
                     ->push('Specjalista'.$specialist->name, route('platform.specialist.edit', $specialist)));
+Route::screen('oferty', OfferListScreen::class)
+    ->name('platform.offers')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+            ->parent('platform.index')
+            ->push('oferty'));
+            Route::screen('oferty/oferta/{offer}',EditOfferScreen::class)
+            ->name('platform.offer.edit')
+            ->breadcrumbs(fn (Trail $trail) => $trail
+            ->parent('platform.offers')
+            ->push('oferta'));
+            Route::screen('oferty/nowa/oferta',NewOfferScreen::class)
+            ->name('platform.offer.new')
+            ->breadcrumbs(fn (Trail $trail) => $trail
+            ->parent('platform.offers')
+            ->push('oferta'));
 
-Route::screen('/examples/form/fields', ExampleFieldsScreen::class)->name('platform.example.fields');
-Route::screen('/examples/form/advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
-Route::screen('/examples/form/editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
-Route::screen('/examples/form/actions', ExampleActionsScreen::class)->name('platform.example.actions');
+Route::screen('subskrypcje', SubscriptionListScreen::class)
+    ->name('platform.subscriptions')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push('subskrypcje'));
+// Route::screen('/examples/form/fields', ExampleFieldsScreen::class)->name('platform.example.fields');
+// Route::screen('/examples/form/advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
+// Route::screen('/examples/form/editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
+// Route::screen('/examples/form/actions', ExampleActionsScreen::class)->name('platform.example.actions');
 
-Route::screen('/examples/layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
-Route::screen('/examples/grid', ExampleGridScreen::class)->name('platform.example.grid');
-Route::screen('/examples/charts', ExampleChartsScreen::class)->name('platform.example.charts');
-Route::screen('/examples/cards', ExampleCardsScreen::class)->name('platform.example.cards');
+// Route::screen('/examples/layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
+// Route::screen('/examples/grid', ExampleGridScreen::class)->name('platform.example.grid');
+// Route::screen('/examples/charts', ExampleChartsScreen::class)->name('platform.example.charts');
+// Route::screen('/examples/cards', ExampleCardsScreen::class)->name('platform.example.cards');
 
 //Route::screen('idea', Idea::class, 'platform.screens.idea');

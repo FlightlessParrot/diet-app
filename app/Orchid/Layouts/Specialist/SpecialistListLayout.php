@@ -6,6 +6,7 @@ use App\Models\Specialist;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -28,7 +29,9 @@ class SpecialistListLayout extends Table
      */
     protected function columns(): iterable
     {
-        return [TD::make('id'),TD::make('title'),TD::make('name'),TD::make('surname')->sort(), 
+        return [TD::make('id'),TD::make('title')->sort()->filter(Input::make()),
+        TD::make('name')->sort()->filter(Input::make()),
+        TD::make('surname')->sort()->filter(Input::make()), 
         TD::make('user_id')->sort(),
         TD::make('active')->sort(),
         TD::make(__('Actions'))

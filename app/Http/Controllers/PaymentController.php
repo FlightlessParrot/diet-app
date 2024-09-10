@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PaymentAccepted;
+use App\Events\PaymentRejected;
 use App\Models\Address;
 use App\Models\Offer;
 use App\Models\Payment;
@@ -135,12 +137,14 @@ class PaymentController extends Controller
             $subscription->end_date=$end_date->format('Y-m-d H:i:s');
             $subscription->payment_id=$payment->id;
             $subscription->save();
+            PaymentAccepted::dispatch($payment);
             return response(['status'=>'ok']);
         } 
         if($status==='cancelled' || $status==='rejected')
         {
             $payment->status='rejected';
             $payment->save();
+            PaymentRejected::dispatch($payment);
             return response(['status'=>'ok']);
         }
         if($status==='pending' || $status==='new')

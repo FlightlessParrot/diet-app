@@ -8,6 +8,8 @@ use App\Models\Payment;
 use App\Models\Specialist;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Notifications\PaymentAccepted;
+use App\Notifications\PaymentRejected;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\MyRolesSeeder;
 use Database\Seeders\OfferSeeder;
@@ -15,11 +17,18 @@ use Database\Seeders\TestSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class PaymentsTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        Notification::fake();
+    }
     public function test_app_send_correct_transaction_request(): void
     {
         $this->seed([TestSeeder::class]);
@@ -39,6 +48,7 @@ class PaymentsTest extends TestCase
         $payment = $user->specialist->payments()->first();
         $this->assertNotNull($payment);
         $this->assertEquals($payment->ing_transaction_id, '123');
+        
     }
 
     public function test_app_can_receive_notification()
@@ -71,6 +81,13 @@ class PaymentsTest extends TestCase
         $this->assertNotNull($subscription);
         $this->assertEquals($subscription->start_date, $start_date->format('Y-m-d H:i:s'));
         $this->assertEquals($subscription->end_date, $end_date->format('Y-m-d H:i:s'));
+
+        Notification::assertSentTo(
+            [$specialist], PaymentAccepted::class
+        );
+        Notification::assertNotSentTo(
+            [$specialist], PaymentRejected::class
+        );
     }
 
     public function test_app_can_extend_subscription()
@@ -125,11 +142,19 @@ class PaymentsTest extends TestCase
         $this->assertNotNull($subscription);
         $this->assertEquals($subscription->start_date, $start_date->format('Y-m-d H:i:s'));
         $this->assertEquals($subscription->end_date, $end_date->format('Y-m-d H:i:s'));
+
+        Notification::assertSentTo(
+            [$specialist], PaymentAccepted::class
+        );
+        Notification::assertNotSentTo(
+            [$specialist], PaymentRejected::class
+        );
     }
 
 
     public function test_app_can_understand_cancelled_status()
     {
+        
         $this->seed([MyRolesSeeder::class, OfferSeeder::class]);
         $user = User::factory()->has(Specialist::factory())->create();
         $specialist = $user->specialist;
@@ -151,7 +176,14 @@ class PaymentsTest extends TestCase
     
         $this->assertEquals($payment->status, 'rejected');
         $this->assertNull($subscription);
-     
+
+        
+        Notification::assertSentTo(
+            [$specialist], PaymentRejected::class
+        );
+        Notification::assertNotSentTo(
+            [$specialist], PaymentAccepted::class
+        );
     }
 
     public function test_app_can_understand_rejected_status()
@@ -177,6 +209,13 @@ class PaymentsTest extends TestCase
     
         $this->assertEquals($payment->status, 'rejected');
         $this->assertNull($subscription);
+
+        Notification::assertSentTo(
+            [$specialist], PaymentRejected::class
+        );
+        Notification::assertNotSentTo(
+            [$specialist], PaymentAccepted::class
+        );
     }
 
     public function test_app_can_understand_new_status()
