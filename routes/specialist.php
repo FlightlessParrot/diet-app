@@ -5,6 +5,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ServiceCityController;
 use App\Http\Controllers\ShowOffersController;
+use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
@@ -114,4 +115,9 @@ Route::middleware(["auth", "spec"])->prefix('specjalista')->group(function () {
     
     Route::get('/platnosci/sukces',[PaymentController::class,'success'])->name('payment.success');
     Route::get('/platnosci/niepowodzenie',[PaymentController::class,'fail'])->name('payment.fail');
+});
+Route::middleware(["auth", "spec"])->prefix('specjalista')->group(function () {
+    Route::post('social-media',[SocialMediaController::class,'store'])->name('socialMedia.store');
+    Route::put('social-media/{socialMedia}',[SocialMediaController::class,'update'])->name('socialMedia.update');
+    Route::delete('social-media/{socialMedia}',[SocialMediaController::class,'destroy'])->name('socialMedia.destroy');
 });

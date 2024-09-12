@@ -51,7 +51,9 @@ class SpecialistViewController extends Controller
         //get statistic
         $specialist->statistic;
         
+        //socialMedias
+        $socialMedias = $specialist->socialMedias()->get();
         return Inertia::render('User/SpecialistView',['specialist'=>$specialist, 'reviews'=>$reviews, 'myReview'=>$myReview, 
-        'courses' =>$courses, 'languages'=>$languages]);
+        'courses' =>$courses, 'languages'=>$languages, 'socialMedias'=>$socialMedias]);
     }
 }

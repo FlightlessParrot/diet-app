@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\SocialMedia;
 use App\Http\Requests\CreateSpecialist;
 use App\Http\Requests\UpdateSpecialist;
 use App\Models\MyRole;
@@ -95,7 +96,8 @@ class SpecialistController extends Controller
             'categories'=>Category::all(), 'prices'=>$specialist->prices()->get(), 
             'avatarUrl'=>Auth::user()->specialist->attachment()->first()?->url(),
             'iconUrl'=>$iconUrl, 'description'=>$specialist->description, 'courses'=>$specialist->courses()->orderByDesc('start_date')->get(),
-            'languages'=>$specialist->languages()->get(),'documents'=>$specialist->documents()->get()]);
+            'languages'=>$specialist->languages()->get(),'documents'=>$specialist->documents()->get(),
+            'socialMediaTypes'=> array_column(SocialMedia::cases(), 'value'),'socialMedias'=>$specialist->socialMedias()->get()]);
         }else{
             return response('Nie masz uprawnień, aby wykonać tę akcje.',401);
         }

@@ -13,6 +13,7 @@ use App\Models\Phone;
 use App\Models\Price;
 use App\Models\Province;
 use App\Models\ServiceKind;
+use App\Models\SocialMedia;
 use App\Models\Specialist;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -98,6 +99,6 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('Password123'),
             ]);
         $this->call([BookingSeeder::class, ReviewSeeder::class,  StatisticSeeder::class, CourseSeeder::class, TargetSeeder::class, 
-        DocumentSeeder::class, FollowersSeeder::class, FavouritePriceSeeder::class, CommerceSeeder::class]);
+        DocumentSeeder::class, FollowersSeeder::class, FavouritePriceSeeder::class, CommerceSeeder::class, SocialMediaSeeder::class]);
     }
 }

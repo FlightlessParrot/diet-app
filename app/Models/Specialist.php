@@ -189,4 +189,9 @@ class Specialist extends Model
     {
         return $this->hasMany(Payment::class);
     }
+
+    public function socialMedias() : HasMany
+    {
+        return $this->hasMany(SocialMedia::class);
+    }
 }

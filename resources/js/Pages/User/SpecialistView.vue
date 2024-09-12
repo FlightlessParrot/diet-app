@@ -40,6 +40,9 @@ const props = defineProps({
     languages: {
         type: Array,
     },
+    socialMedias: {
+        type: Array
+    }
 });
 const form = useForm({
     text: "",
@@ -73,6 +76,20 @@ const title = computed(
         " " +
         props.specialist.surname
 );
+const getIcon = 
+    (type)=>
+{
+    switch(type)
+    {
+    case 'x':
+        return 'twitter';
+    case 'tiktok':
+        return 'tiktok'
+    default:
+        return type;
+    }
+}
+
 </script>
 <template>
     <Head>
@@ -107,6 +124,7 @@ const title = computed(
                     </template>
                 </Title>
             </div>
+            
             <section class="my-6 space-y-8">
                 <CallToAction
                     :href="route('user.book.specialist', [specialist.id])"
@@ -226,6 +244,11 @@ const title = computed(
                         <div v-html="specialist.fullDescription"></div>
                     </AccordionTab>
                 </Accordion>
+                <div class="flex flex-wrap gap-2 mt-8 ms-4 p-2 border-t border-gray-200">
+                <a rel="nofollow" v-for="socialMedia in socialMedias" :href="socialMedia.url" class=" flex gap-2 items-center">
+                    <i :class="'pi pi-'+getIcon(socialMedia.type)+' text-darkGreen text-2xl'"></i>
+                    <span class = 'text-blue-500 underline'>{{ socialMedia.type }}</span></a>
+            </div>
             </section>
         </Tile>
         <Tile>

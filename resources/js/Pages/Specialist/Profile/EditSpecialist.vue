@@ -19,6 +19,7 @@ import EditPhone from "@/Parts/EditPhone.vue";
 import Languages from "@/Parts/Language/Languages.vue";
 import SpecialistLayout from "@/Layouts/SpecialistLayout.vue";
 import Documents from "@/Parts/Documents.vue";
+import SocialMedia from "./Partials/SocialMedia.vue";
 const page = usePage();
 defineProps({
     addresses: {
@@ -69,6 +70,14 @@ defineProps({
         required: true
     },
     documents: {
+        type: Array,
+        required: true
+    },
+    socialMediaTypes: {
+        type: Array,
+        required: true
+    },
+    socialMedias: {
         type: Array,
         required: true
     }
@@ -147,6 +156,9 @@ defineProps({
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <UpdateDescription v-if="description" :description='description' class="max-w-xl"/>
                     <StoreDescription v-else  class="max-w-xl"/>
+                </div>
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <SocialMedia :types="socialMediaTypes" :social-medias="socialMedias"  />
                 </div>
                 <div
                     
