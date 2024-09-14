@@ -28,6 +28,13 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Home');
 })->name('home');
+Route::get('/dla-dietetykow', function () {
+    return Inertia::render('Guest/AboutDieteticians');
+})->name('about.dietician');
+
+Route::get('/dla-pacjentow', function () {
+    return Inertia::render('Guest/ForUsers');
+})->name('about.client');
 Route::get('/tablica', UserDashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/specjalisci',[FindSpecialistController::class, 'unregisteredUserFind'])->name('guest.specialist.index');
 Route::middleware('auth')->group(function () {

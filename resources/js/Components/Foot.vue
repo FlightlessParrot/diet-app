@@ -14,10 +14,7 @@ const links = [
         },
     ],
     [
-        {
-            label: "O nas",
-            url: "/",
-        },
+        
         {
             label: "Zaloguj",
             url: "/login",
@@ -26,7 +23,21 @@ const links = [
             label: "Zarejestruj",
             url: "/register",
         },
-    ],
+    ],[
+    {
+            label: "O nas",
+            url: "/",
+        },
+    {
+            label: "Dla pacjenta",
+            url: route('about.client'),
+        },
+        {
+            label: "Dla dietetyka",
+            url: route('about.dietician'),
+        },
+       
+    ]
 ];
 </script>
 
