@@ -39,6 +39,7 @@ class RegisteredUserController extends Controller
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'number' =>'required|string|max:15',
+            'newsletter'=>'required|boolean'
         ]);
         $role = MyRole::where('name','user')->first();
         $user=$role->users()->create([
@@ -46,6 +47,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'surname' => $request->surname,
             'password' => Hash::make($request->password),
+            'newsletter' => $request->newsletter
         ]);
         $phone = new Phone();
         $phone->number=$request->number;

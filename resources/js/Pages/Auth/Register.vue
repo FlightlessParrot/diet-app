@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import Checkbox from '@/Components/Checkbox.vue';
 
 const form = useForm({
     name: '',
@@ -13,6 +14,7 @@ const form = useForm({
     password: '',
     password_confirmation: '',
     number: '',
+    newsletter: false,
 });
 
 const submit = () => {
@@ -24,9 +26,10 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Register" />
+        <Head title="Zarejestruj" />
 
         <form @submit.prevent="submit">
+            {{form}}
             <div>
                 <InputLabel for="name" value="Imię" />
 
@@ -42,11 +45,11 @@ const submit = () => {
 
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
-            <div>
+            <div class="mt-2">
                 <InputLabel for="surname" value="Nazwisko" />
 
                 <TextInput
-                    id="name"
+                    id="surname"
                     type="text"
                     class="mt-1 block w-full"
                     v-model="form.surname"
@@ -57,7 +60,7 @@ const submit = () => {
 
                 <InputError class="mt-2" :message="form.errors.surname" />
             </div>
-            <div class="mt-4">
+            <div class="mt-2">
                 <InputLabel for="email" value="Email" />
 
                 <TextInput
@@ -114,6 +117,15 @@ const submit = () => {
                 />
 
                 <InputError class="mt-2" :message="form.errors.number" />
+            </div>
+            <div class="mt-4">
+                <div class="flex items-center gap-2">
+                <Checkbox input-id="newsletter" v-model:checked="form.newsletter" :value="true" />
+                <InputLabel for="newsletter" value="Zapisz mnie do newsletter'a" />
+                </div>
+                
+
+                <InputError class="mt-2" :message="form.errors.newsletter" />
             </div>
             <div class="flex items-center justify-end mt-4">
                 <Link

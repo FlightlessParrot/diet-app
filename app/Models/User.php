@@ -32,6 +32,7 @@ class User extends Authenticatable
         'email',
         'surname',
         'password',
+        'newsletter'
     ];
     protected $with = ['phone'];
     /**

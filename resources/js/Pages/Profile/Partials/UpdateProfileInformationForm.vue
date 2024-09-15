@@ -1,4 +1,5 @@
 <script setup>
+import Checkbox from '@/Components/Checkbox.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -19,7 +20,8 @@ const user = usePage().props.auth.user;
 const form = useForm({
     name: user.name,
     email: user.email,
-    surname: user.surname
+    surname: user.surname,
+    newsletter: user.newsletter===1
 });
 </script>
 
@@ -34,6 +36,7 @@ const form = useForm({
         </header>
 
         <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
+            {{ form }}
             <div>
                 <InputLabel for="name" value="Imię" />
 
@@ -58,7 +61,6 @@ const form = useForm({
                     class="mt-1 block w-full"
                     v-model="form.surname"
                     required
-                    autofocus
                     autocomplete="surname"
                 />
 
@@ -79,7 +81,15 @@ const form = useForm({
 
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
+            <div class="mt-4">
+                <div class="flex items-center gap-2">
+                <Checkbox input-id="newsletter" v-model:checked="form.newsletter" :value="true" />
+                <InputLabel for="newsletter" value="Zapisz mnie do newsletter'a" />
+                </div>
+                
 
+                <InputError class="mt-2" :message="form.errors.newsletter" />
+            </div>
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
                 <p class="text-sm mt-2 text-gray-800">
                     Twój adres e-mail nie został zweryfikowany.

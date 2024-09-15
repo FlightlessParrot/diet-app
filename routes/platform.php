@@ -15,6 +15,7 @@ use App\Orchid\Screens\Examples\ExampleGridScreen;
 use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
 use App\Orchid\Screens\Examples\ExampleScreen;
 use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
+use App\Orchid\Screens\Newsletter\NewsletterListScreen;
 use App\Orchid\Screens\Offer\NewOfferScreen;
 use App\Orchid\Screens\Offer\OfferListScreen;
 use App\Orchid\Screens\PlatformScreen;
@@ -131,6 +132,15 @@ Route::screen('subskrypcje', SubscriptionListScreen::class)
     ->breadcrumbs(fn (Trail $trail) => $trail
         ->parent('platform.index')
         ->push('subskrypcje'));
+
+Route::screen('newsletter', NewsletterListScreen::class)
+    ->name('platform.newsletter')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push('newsletter'));
+
+
+
 // Route::screen('/examples/form/fields', ExampleFieldsScreen::class)->name('platform.example.fields');
 // Route::screen('/examples/form/advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
 // Route::screen('/examples/form/editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');

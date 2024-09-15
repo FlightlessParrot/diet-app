@@ -37,15 +37,16 @@ class RegistrationTest extends TestCase
             'password' => 'password',
             'password_confirmation' => 'password',
             'number'=>$number,
+            'newsletter'=>false
         ]);
 
         $user = User::first();
-
+        
         $this->assertAuthenticated();
         
         $this->assertNotNull($user->phone);
         $this->assertSame($number,$user->phone->number);
-
+        $this->assertSame(0,$user->newsletter);
         $response->assertRedirect(route('dashboard', absolute: false));
     }
 
@@ -58,7 +59,8 @@ class RegistrationTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
-            'number'=>'123123123'
+            'number'=>'123123123',
+            'newsletter'=>false
         ]);
         $role=MyRole::where('name','user')->firstOrFail();
         $user=User::where('email','test@example.com')->firstOrFail();

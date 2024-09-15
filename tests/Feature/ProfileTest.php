@@ -40,6 +40,7 @@ class ProfileTest extends TestCase
                 'name' => 'Test User',
                 'surname' => 'Test surname',
                 'email' => 'test@example.com',
+                'newsletter'=>false
             ]);
 
         $response
@@ -51,6 +52,7 @@ class ProfileTest extends TestCase
         $this->assertSame('Test User', $user->name);
         $this->assertSame('test@example.com', $user->email);
         $this->assertSame('Test surname',$user->surname);
+        $this->assertSame(0,$user->newsletter);
         $this->assertNull($user->email_verified_at);
     }
 
@@ -64,6 +66,7 @@ class ProfileTest extends TestCase
                 'name' => 'Test User',
                 'surname' => 'Test surname',
                 'email' => $user->email,
+                'newsletter'=>false
             ]);
 
         $response
