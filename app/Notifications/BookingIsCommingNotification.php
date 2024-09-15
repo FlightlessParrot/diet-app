@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ConfirmBooking extends Notification
+class BookingIsCommingNotification extends Notification
 {
     use Queueable;
 
@@ -50,9 +50,8 @@ class ConfirmBooking extends Notification
     public function toArray(object $notifiable): array
     {
         $date = new DateTime($this->booking->start_date);
-
         return [
-            'line_1'=> 'Wizyta został potwierdzona przez specjalistę.',
+            'line_1'=> 'MAsz zbliżającą się wizyt e',
             'line_2' => 'Wizyta jest zaplanowana: '.$date->format('d/m/Y H:i')
         ];
     }
