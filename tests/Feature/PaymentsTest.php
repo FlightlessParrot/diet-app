@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Discount;
 use App\Models\MyRole;
 use App\Models\Offer;
 use App\Models\Payment;
@@ -48,6 +49,30 @@ class PaymentsTest extends TestCase
         $payment = $user->specialist->payments()->first();
         $this->assertNotNull($payment);
         $this->assertEquals($payment->ing_transaction_id, '123');
+        
+    }
+
+    public function test_user_can_get_discount(): void
+    {
+        $this->seed([TestSeeder::class]);
+        $discount = Discount::factory()->create(['amount'=>10]);
+        Http::fake([
+            'https://sandbox.api.imoje.pl/*' => Http::response([
+                'transaction' => ['id' => '123'],
+                'action' => ['url' => route('dashboard')]
+            ]),
+            'https://api.imoje.pl/*' => Http::response(['transaction' => ['id' => '123']])
+        ]);
+        $user = User::has('specialist')->first();
+        foreach ($user->specialist->payments()->get() as $payment) {
+            $payment->delete();
+        }
+        $offer = Offer::firstOrFail();
+        $response = $this->actingAs($user)->get(route('payment.buy', [$offer->id, $discount->code]))->assertRedirectToRoute('dashboard');
+        $payment = $user->specialist->payments()->first();
+        $this->assertNotNull($payment);
+        $this->assertEquals($payment->ing_transaction_id, '123');
+        $this->assertEquals($offer->price*(100-$discount->amount)/100,$payment->price);
         
     }
 

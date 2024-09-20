@@ -58,13 +58,18 @@ class NewOfferScreen extends Screen
             'name'=>'string|required|max:255',
             'description'=>'string|required|max:65400',
             'price'=>'numeric|required|min:1',
+            'discount'=>'boolean|nullable',
+            'old_price'=>'numeric|nullable',
             'duration'=>'numeric|required|min:1'
         ]);
         $offer=new Offer();
         $offer->name=$request->name;
         $offer->description=$request->description;
         $offer->price=$request->price;
+        $offer->old_price=$request->old_price;
+        $offer->discount=$request->discount;
         $offer->duration=$request->duration;
+
         $offer->save();
         Toast::success('Utworzono ofertę.');
         return back();

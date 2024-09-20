@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->decimal('price');
+            $table->boolean('discount')->default(false);
+            $table->decimal('old_price')->default(0.00);
             $table->integer('duration')->default(3);
             $table->softDeletes();
         });

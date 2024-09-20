@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\PaymentAccepted;
 use App\Events\PaymentRejected;
 use App\Models\Address;
+use App\Models\Discount;
 use App\Models\Offer;
 use App\Models\Payment;
 use App\Models\Subscription;
@@ -35,16 +36,26 @@ class PaymentController extends Controller
         return Inertia::render('Specialist/Commerce/PaymentRejected');
     }
 
-    public function buy(Offer $offer)
+    public function buy(Offer $offer, ?string $code=null)
     {
         $user = Auth::user();
         $specialist = $user->specialist;
         $address = $specialist->addresses()->firstOrFail();
         if (!$offer) {
             return redirect()->to_route('offers.index')->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
-        }
+        }    
+
         $payment = new Payment();
         $payment->price = $offer->price;
+        if(isset($code))
+        {
+            $discount = Discount::queryAvailableDiscounts()->where('code',$code)->first();
+            if(isset($discount))
+            {
+                $payment->price=$payment->price - ($payment->price*$discount->amount/100);
+                $payment->discount_id=$discount->id;
+            }
+        }
         $payment->offer_id = $offer->id;
         Auth::user()->specialist->payments()->save($payment);
         $response = Http::withHeaders([
@@ -57,7 +68,7 @@ class PaymentController extends Controller
             [
                 "type" => "sale",
                 "serviceId" => env('SHOP_ID'),
-                "amount" => intval($offer->price * 100),
+                "amount" => intval($payment->price * 100),
                 "title" => $offer->name,
                 "currency" => "PLN",
                 "orderId" => strval($payment->id),
@@ -156,4 +167,6 @@ class PaymentController extends Controller
         
         return Response('Unknown status.',500);
     }
+
+ 
 }

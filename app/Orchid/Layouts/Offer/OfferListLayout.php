@@ -35,6 +35,9 @@ class OfferListLayout extends Table
             TD::make('duration','Czas trwania [mies.]'),
             TD::make('price','Cena')
             ->usingComponent(Currency::class, decimals: 2, decimal_separator: ',', thousands_separator: ' ', after: ' zł'),
+            TD::make('old_price','Stara cena')
+            ->usingComponent(Currency::class, decimals: 2, decimal_separator: ',', thousands_separator: ' ', after: ' zł'),
+            TD::make('discount','Promocja')->render(fn(Offer $offer)=>$offer->discount ? 'Tak' : 'Nie'),
             TD::make(__('Actions'))->render(fn(Offer $offer)=>
                 DropDown::make()->icon('bs.three-dots-vertical')
                     ->list([ Button::make('Delete')->method('remove',['offerId'=>$offer->id]),

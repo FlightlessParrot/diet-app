@@ -108,7 +108,7 @@ Route::middleware(["auth", "spec"])->group(function () {
 
 Route::middleware(["auth", "spec"])->prefix('specjalista')->group(function () {
     Route::get('/platnosci',[PaymentController::class,'create'])->name('payment.create');
-    Route::get('offer/{offer}/payment/transaction',[PaymentController::class,'buy'])->name('payment.buy');
+    Route::get('offer/{offer}/transaction/{code?}',[PaymentController::class,'buy'])->name('payment.buy');
 
     Route::get('/oferty',[ShowOffersController::class,'index'])->name('offers.index');
     Route::get('/oferta/{offer}',[ShowOffersController::class,'show'])->name('offer.show');
