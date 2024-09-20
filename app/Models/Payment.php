@@ -26,5 +26,10 @@ class Payment extends Model
         return $this->belongsTo(Payment::class);
     }
 
+    public function discount() : BelongsTo
+    {
+        return $this->belongsTo(Discount::class);
+    }
+
    
 }

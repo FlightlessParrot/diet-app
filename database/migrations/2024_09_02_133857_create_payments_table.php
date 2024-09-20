@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Discount;
 use App\Models\Offer;
 use App\Models\Specialist;
 use Illuminate\Database\Migrations\Migration;
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->enum('status',['pending','accepted','rejected'])->default('pending');
             $table->foreignIdFor(Specialist::class);
             $table->foreignIdFor(Offer::class);
+            $table->foreignIdFor(Discount::class)->nullable();
             $table->string('ing_transaction_id')->unique()->nullable();
         });
     }

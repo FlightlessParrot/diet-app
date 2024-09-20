@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([MyRolesSeeder::class, ProvinceSeeder::class, CategorySeeder::class, 
-        ServiceKindSeeder::class, OfferSeeder::class]);
+        ServiceKindSeeder::class, OfferSeeder::class, DiscountSeeder::class]);
 
         User::factory(30)->has(Phone::factory())->create();
         $users = User::factory(20)->has(

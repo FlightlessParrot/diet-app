@@ -80,13 +80,17 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make(__('Roles'))
                 ->icon('bs.shield')
                 ->route('platform.systems.roles')
-                ->permission('platform.systems.roles'),
-                
+                ->permission('platform.systems.roles')
+                ->divider(),
             Menu::make('Oferty')
                 ->icon('bs.currency-euro')
                 ->route('platform.offers')
-                ->permission('platform.systems.users')
-                ->divider(),
+                ->permission('platform.systems.users'),
+
+            Menu::make('Kupony')
+                ->icon('bs.tags')
+                ->route('platform.discounts')
+                ->permission('platform.systems.users'),
 
             Menu::make('Subskrypcje')
                 ->icon('bs.cart')
@@ -94,6 +98,12 @@ class PlatformProvider extends OrchidServiceProvider
                 ->permission('platform.systems.users')
                 ->divider(),
 
+            Menu::make('Newsletter')
+                ->icon('bs.mailbox')
+                ->route('platform.newsletter')
+                ->permission('platform.systems.users'),
+
+            
             // Menu::make('Documentation')
             //     ->title('Docs')
             //     ->icon('bs.box-arrow-up-right')

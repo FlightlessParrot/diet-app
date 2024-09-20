@@ -1,5 +1,5 @@
 #!/bin/bash
-RED='\033[0;31m' 
+COLOR='\033[0;32m' 
 NC='\033[0m'
 
 echo 'Fresh migrations'
@@ -8,5 +8,5 @@ echo 'Seeding';
 ./vendor/bin/sail artisan db:seed
 echo 'new DB created'
 
-echo -e "${RED}Your servants are waiting for your orders, my Shrimp.$NC"
+echo -e "${COLOR}Your servants are waiting for your orders, my Shrimp.$NC"
 echo ''

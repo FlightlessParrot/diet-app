@@ -1,13 +1,14 @@
 <?php
 
-declare(strict_types=1);
+namespace App\Orchid\Screens\Discount;
 
-namespace App\Orchid\Screens;
-
+use App\Models\Discount;
+use App\Orchid\Layouts\Discount\DiscountListLayout;
+use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
-use Orchid\Support\Facades\Layout;
 
-class PlatformScreen extends Screen
+class DiscountListScreen extends Screen
 {
     /**
      * Fetch data to be displayed on the screen.
@@ -16,23 +17,17 @@ class PlatformScreen extends Screen
      */
     public function query(): iterable
     {
-        return [];
+        return ['discounts'=>Discount::all()];
     }
 
     /**
      * The name of the screen displayed in the header.
+     *
+     * @return string|null
      */
     public function name(): ?string
     {
-        return 'Panel administratora';
-    }
-
-    /**
-     * Display header description.
-     */
-    public function description(): ?string
-    {
-        return 'Witaj w panelu administratora.';
+        return 'Kody promocyjne';
     }
 
     /**
@@ -42,19 +37,16 @@ class PlatformScreen extends Screen
      */
     public function commandBar(): iterable
     {
-        return [];
+        return [Link::make('Dodaj')->route('platform.discount.store')];
     }
 
     /**
      * The screen's layout elements.
      *
-     * @return \Orchid\Screen\Layout[]
+     * @return \Orchid\Screen\Layout[]|string[]
      */
     public function layout(): iterable
     {
-        return [
-            Layout::view('platform::partials.update-assets'),
-            Layout::view('platform::partials.welcome'),
-        ];
+        return [DiscountListLayout::class];
     }
 }
