@@ -3,6 +3,9 @@
 declare(strict_types=1);
 
 use App\Models\Specialist;
+use App\Orchid\Screens\Category\CategoryListScreen;
+use App\Orchid\Screens\Category\NewCategoryScreen;
+use App\Orchid\Screens\Category\UpdateCategoryScreen;
 use App\Orchid\Screens\Discount\CreateDiscountScreen;
 use App\Orchid\Screens\Discount\DiscountListScreen;
 use App\Orchid\Screens\Discount\DiscountScreen;
@@ -156,6 +159,22 @@ Route::screen('kupony', DiscountListScreen::class)
         ->breadcrumbs(fn (Trail $trail) => $trail
         ->parent('platform.discounts')
         ->push('utworz-kupon'));
+
+Route::screen('kategorie', CategoryListScreen::class)
+    ->name('platform.categories')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+            ->parent('platform.index')
+            ->push('kategorie'));
+            Route::screen('kategoria/{category}', UpdateCategoryScreen::class)
+                ->name('platform.category.edit')
+                ->breadcrumbs(fn (Trail $trail) => $trail
+                    ->parent('platform.categories')
+                    ->push('kategoria'));
+                    Route::screen('utworz/kategoria', NewCategoryScreen::class)
+                    ->name('platform.category.new')
+                    ->breadcrumbs(fn (Trail $trail) => $trail
+                        ->parent('platform.categories')
+                        ->push('nowa-kategoria'));
 // Route::screen('/examples/form/fields', ExampleFieldsScreen::class)->name('platform.example.fields');
 // Route::screen('/examples/form/advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
 // Route::screen('/examples/form/editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');

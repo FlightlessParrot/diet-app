@@ -73,9 +73,14 @@ class PlatformProvider extends OrchidServiceProvider
                 ->title('Menu'),
                 
             Menu::make('Specjaliści')
-                ->icon('bs.award-fill')
+                ->icon('bs.award')
                 ->permission('platform.systems.users')
                 ->route('platform.specialists'),
+
+            Menu::make('Kategorie')
+                ->icon('bs.book')
+                ->permission('platform.systems.users')
+                ->route('platform.categories'),
                 
             Menu::make(__('Roles'))
                 ->icon('bs.shield')
