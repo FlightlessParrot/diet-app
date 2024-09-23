@@ -1,5 +1,5 @@
 <script setup>
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import ApplicationWhiteLogo from "@/Components/ApplicationWhiteLogo.vue";
 import QuestMenu from "@/Components/Menu/QuestMenu.vue";
 import Foot from "@/Components/Foot.vue";
 import NavLink from "@/Components/NavLink.vue";
@@ -19,6 +19,18 @@ const items = [
                 active: route().current('guest.specialist.index')
             },
             {
+                label: 'Dla pacjenta',
+                icon: 'pi pi-tablet',
+                href: route('about.client'),
+                active: route().current('about.client')
+            },
+            {
+                label: 'Dla dietetyka',
+                icon: 'pi pi-tablet',
+                href: route('about.dietician'),
+                active: route().current('about.dietician')
+            },
+            {
                 label: 'Zaloguj',
                 icon: 'pi pi-user',
                 href: '/login'
@@ -31,15 +43,15 @@ const items = [
         ]
 </script>
 <template>
-    <div class="flex items-center justify-between sm:justify-start  p-2 md:p-4 bg-brightGreen">
-        <ApplicationLogo class="w-8 h-12"></ApplicationLogo> 
-        <QuestMenu class="sm:hidden"/>
-        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+    <div class=" bg-brightGreen p-2 md:p-4">
+      <div class="max-w-6xl mx-auto flex items-center justify-between md:justify-start  "><ApplicationWhiteLogo class="w-10 h-10" /> 
+        <QuestMenu class="md:hidden"/>
+        <div class="hidden space-x-8 sm:-my-px sm:ms-10 md:flex">
                                 <NavLink v-for="item in items" :href="item.href" :active="item.active">
                                     {{ item.label }}
                                 </NavLink>
                                
-                            </div>
+                            </div></div>  
     </div>
     
     <div class="bg-gray-100 md:p-6 lg:p-12">

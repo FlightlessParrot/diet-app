@@ -1,7 +1,8 @@
 <script setup>
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 import Tile from "@/Components/Tile.vue";
 import GuestLayoutForPages from "@/Layouts/GuestLayoutForPages.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
 </script>
 <template>
     <GuestLayoutForPages>
@@ -22,7 +23,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 10pt;
-                        margin-left: 0.5in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -46,9 +47,9 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
-                        text-indent: -0.25in;
+                        
                         line-height: 115%;
                     "
                 >
@@ -72,9 +73,9 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
-                        text-indent: -0.25in;
+                        
                         line-height: 115%;
                     "
                 >
@@ -98,9 +99,9 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
-                        text-indent: -0.25in;
+                        
                         line-height: 115%;
                     "
                 >
@@ -124,9 +125,9 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
-                        text-indent: -0.25in;
+                        
                         line-height: 115%;
                     "
                 >
@@ -150,7 +151,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -166,7 +167,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 10pt;
-                        margin-left: 0.5in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -214,7 +215,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 10pt;
-                        margin-left: 0.5in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -238,9 +239,9 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
-                        text-indent: -0.25in;
+                        
                         line-height: 115%;
                     "
                 >
@@ -263,9 +264,9 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
-                        text-indent: -0.25in;
+                        
                         line-height: 115%;
                     "
                 >
@@ -289,9 +290,9 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
-                        text-indent: -0.25in;
+                        
                         line-height: 115%;
                     "
                 >
@@ -315,7 +316,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -345,7 +346,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 10pt;
-                        margin-left: 0.5in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -361,7 +362,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 10pt;
-                        margin-left: 0.5in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -449,7 +450,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 10pt;
-                        margin-left: 0.5in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -466,7 +467,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 10pt;
-                        margin-left: 0.5in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -484,7 +485,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 10pt;
-                        margin-left: 0.5in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -502,7 +503,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 10pt;
-                        margin-left: 0.5in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -522,7 +523,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 10pt;
-                        margin-left: 0.5in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -546,9 +547,9 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
-                        text-indent: -0.25in;
+                        
                         line-height: 115%;
                     "
                 >
@@ -572,9 +573,9 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
-                        text-indent: -0.25in;
+                        
                         line-height: 115%;
                     "
                 >
@@ -597,9 +598,9 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
-                        text-indent: -0.25in;
+                        
                         line-height: 115%;
                     "
                 >
@@ -622,7 +623,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -638,7 +639,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 10pt;
-                        margin-left: 0.5in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -660,7 +661,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 10pt;
-                        margin-left: 0.5in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -677,7 +678,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 10pt;
-                        margin-left: 0.5in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -693,7 +694,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 10pt;
-                        margin-left: 0.5in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -717,9 +718,9 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
-                        text-indent: -0.25in;
+                        
                         line-height: 115%;
                     "
                 >
@@ -742,9 +743,9 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
-                        text-indent: -0.25in;
+                        
                         line-height: 115%;
                     "
                 >
@@ -767,9 +768,9 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                      
                         text-align: justify;
-                        text-indent: -0.25in;
+                        
                         line-height: 115%;
                     "
                 >
@@ -792,7 +793,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -804,7 +805,7 @@ import { Head } from "@inertiajs/vue3";
 
                 <p
                     class="MsoNormal"
-                    style="margin-left: 35.4pt; text-align: justify"
+                    style=" text-align: justify"
                 >
                     <span lang="pl" style="font-family: 'Arial', sans-serif"
                         >Dietetyka to nie tylko konsultacje ze specjalistą, ale
@@ -819,7 +820,7 @@ import { Head } from "@inertiajs/vue3";
 
                 <p
                     class="MsoNormal"
-                    style="margin-left: 35.4pt; text-align: justify"
+                    style=" text-align: justify"
                 >
                     <span lang="pl" style="font-family: 'Arial', sans-serif"
                         >Dlatego nie trać okazji na zdobycie przydatnej wiedzy i
@@ -837,32 +838,21 @@ import { Head } from "@inertiajs/vue3";
 
                 <p
                     class="MsoNormal"
-                    style="margin-left: 35.4pt; text-align: justify"
+                    style=" text-align: justify"
                 >
                     <span lang="pl" style="font-family: 'Arial', sans-serif"
                         >&nbsp;</span
                     >
                 </p>
+                
+                <a class="ms-4 sm:ms-12 md:ms-24 " href="/storage/handbooks/Dietetyk-poradnik-Poznaj_Dietetyka_pl.pdf">
+                    <SecondaryButton as="span" class="flex items-center gap-2">
+                <i class="pi pi-download"></i>Poradnik - poznaj dietetyka</SecondaryButton>
+                    </a>
 
                 <p
                     class="MsoNormal"
-                    style="margin-left: 35.4pt; text-align: justify"
-                >
-                    <span
-                        lang="pl"
-                        style="
-                            font-family: 'Arial', sans-serif;
-                            background: red;
-                            color: white;
-                            padding: 1rem;
-                        "
-                        >PDF do pobrania</span
-                    >
-                </p>
-
-                <p
-                    class="MsoNormal"
-                    style="margin-left: 35.4pt; text-align: justify"
+                    style=" text-align: justify"
                 >
                     <span lang="pl" style="font-family: 'Arial', sans-serif"
                         >&nbsp;</span
@@ -875,7 +865,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 10pt;
-                        margin-left: 0.5in;
+                       
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -899,9 +889,9 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
-                        text-indent: -0.25in;
+                        
                         line-height: 115%;
                     "
                 >
@@ -924,9 +914,9 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
-                        text-indent: -0.25in;
+                        
                         line-height: 115%;
                     "
                 >
@@ -949,7 +939,7 @@ import { Head } from "@inertiajs/vue3";
                         margin-top: 0in;
                         margin-right: 0in;
                         margin-bottom: 0in;
-                        margin-left: 1in;
+                        
                         text-align: justify;
                         line-height: 115%;
                     "
@@ -980,7 +970,7 @@ import { Head } from "@inertiajs/vue3";
 
                 <p
                     class="MsoNormal"
-                    style="margin-left: 35.4pt; text-align: justify"
+                    style=" text-align: justify"
                 >
                     <span lang="PL">&nbsp;</span>
                 </p>

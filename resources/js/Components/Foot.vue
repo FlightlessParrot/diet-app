@@ -1,6 +1,6 @@
 <script setup>
 import {Link} from "@inertiajs/vue3";
-import ApplicationLogo from "./ApplicationLogo.vue";
+import ApplicationLogo from "./ApplicationGreenLogo.vue";
 
 const links = [
     [
@@ -42,8 +42,8 @@ const links = [
 </script>
 
 <template>
-    <footer class=" bg-white flex-col md:flex-row p-8 flex shadow  md:p-4  justify-around">
-            <ApplicationLogo class="w-16"/>
+    <footer class=" bg-white flex-col md:flex-row gap-2 p-8 flex shadow items-center  md:p-4  justify-around">
+            <div ><ApplicationLogo class="w-16 h-16"/></div>
             <div v-for="itemsArray in links" >
                 <Link v-for="item in itemsArray" class="block mt-2 text-blue-700"  :href="item.url">{{
                     item.label

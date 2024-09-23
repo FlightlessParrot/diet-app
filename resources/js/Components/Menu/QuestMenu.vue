@@ -17,6 +17,18 @@ const items = ref([
                 command: () => router.get(route('guest.specialist.index'))
             },
             {
+                label: 'Dla pacjenta',
+                icon: 'pi pi-tablet',
+                href: route('about.client'),
+                active: route().current('about.client')
+            },
+            {
+                label: 'Dla dietetyka',
+                icon: 'pi pi-tablet',
+                href: route('about.dietician'),
+                active: route().current('about.dietician')
+            },
+            {
                 label: 'Zaloguj',
                 icon: 'pi pi-user',
                 command: () => router.get('/login')

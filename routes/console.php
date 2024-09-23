@@ -11,11 +11,13 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::call(function (){
-    $now=new DateTime();
+    
     $tomorrow = new DateTime();
     $tomorrow->modify('+1 day');
-    $bookings=Booking::where('start_date','>',$now->format('Y-m-d H:i:s'))
-    ->where('start_date','<',$$tomorrow->format('Y-m-d H:i:s'))
+    $twoDaysLater=new DateTime();
+    $twoDaysLater->modify('+2 days');
+    $bookings=Booking::where('start_date','>',$tomorrow->format('Y-m-d H:i:s'))
+    ->where('start_date','<',$twoDaysLater->format('Y-m-d H:i:s'))
     ->has('user')->get();
     foreach($bookings as $booking)
     {
