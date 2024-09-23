@@ -4,6 +4,7 @@ import QuestMenu from "@/Components/Menu/QuestMenu.vue";
 import Foot from "@/Components/Foot.vue";
 import NavLink from "@/Components/NavLink.vue";
 import { router } from "@inertiajs/vue3";
+import Messager from "@/Components/Messager.vue";
 const items = [
             {
                 label: 'O nas',
@@ -40,7 +41,9 @@ const items = [
                                
                             </div>
     </div>
+    
     <div class="bg-gray-100 md:p-6 lg:p-12">
+        <Messager />
         <div class="text-black-800 ">
             <slot></slot>
         </div>

@@ -25,7 +25,7 @@ Route::middleware(["auth", "spec"])->group(function () {
     Route::get("/utworz-specjaliste", [SpecialistController::class, 'create'])->WithoutMiddleware('spec')->name('specialist.create');
 
     Route::post('/specialist/{specialist}/address', [AddressController::class, 'storeForSpecialist'])->name('specialist.address.store');
-    Route::get('/specjalista/address', [AddressController::class, 'create'])->name('specialist.address.create');
+    Route::get('dla-specjalisty/specjalista/address', [AddressController::class, 'create'])->name('specialist.address.create');
     Route::delete('/specialist/{specialist}', [SpecialistController::class, 'destroy'])->name('specialist.remove');
 
     Route::get('/twoje-szkolenia',[CourseController::class,'create' ])->name('course.create');
@@ -37,14 +37,14 @@ Route::middleware(["auth", "spec"])->group(function () {
     Route::get('/wybierz-miejsce-uslugi', [ServiceController::class, 'index'])->name('service.form');
     Route::post('/specialist/{specialist}/services', [ServiceController::class, 'store'])->name('store.services');
 
-    Route::get("/specjalista/tablica", SpecialistDashboardController::class)->name('specialist.dashboard');
+    Route::get("/dla-specjalisty/moja/tablica", SpecialistDashboardController::class)->name('specialist.dashboard');
 
     
 
-    Route::get('/specjalista/jezyki',[LanguageController::class, 'create'])->name('language.create');
+    Route::get('dla-specjalisty/specjalista/jezyki',[LanguageController::class, 'create'])->name('language.create');
 });
 
-Route::middleware(["auth", "spec"])->group(function () {
+Route::middleware(["auth", "spec"])->prefix('dla-specjalisty')->group(function () {
     Route::put('/specialist/{specialist}', [SpecialistController::class, 'update'])->name('specialist.profile.update');
     Route::put('/specialist/{specialist}/address/{address}', [AddressController::class, 'updateForSpecialist'])->name('specialist.address.update');
     Route::get('/specjalista/{specialist}/profil', [SpecialistController::class, 'edit'])->name('specialist.profile.edit');
@@ -106,7 +106,7 @@ Route::middleware(["auth", "spec"])->group(function () {
     
 });
 
-Route::middleware(["auth", "spec"])->prefix('specjalista')->group(function () {
+Route::middleware(["auth", "spec"])->prefix('dla-specjalisty')->group(function () {
     Route::get('/platnosci',[PaymentController::class,'create'])->name('payment.create');
     Route::get('offer/{offer}/transaction/{code?}',[PaymentController::class,'buy'])->name('payment.buy');
 
@@ -116,7 +116,7 @@ Route::middleware(["auth", "spec"])->prefix('specjalista')->group(function () {
     Route::get('/platnosci/sukces',[PaymentController::class,'success'])->name('payment.success');
     Route::get('/platnosci/niepowodzenie',[PaymentController::class,'fail'])->name('payment.fail');
 });
-Route::middleware(["auth", "spec"])->prefix('specjalista')->group(function () {
+Route::middleware(["auth", "spec"])->prefix('dla-specjalisty')->group(function () {
     Route::post('social-media',[SocialMediaController::class,'store'])->name('socialMedia.store');
     Route::put('social-media/{socialMedia}',[SocialMediaController::class,'update'])->name('socialMedia.update');
     Route::delete('social-media/{socialMedia}',[SocialMediaController::class,'destroy'])->name('socialMedia.destroy');

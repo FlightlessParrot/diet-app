@@ -99,7 +99,7 @@ const chosenRoute = computed(()=> props.guest ? route('guest.specialist.index'):
             </Tile>
            
             <ElementsWrapper>
-                <SpecialistCard class="h-full" v-for="specialist in paginatedSpecialists.data" :specialist="specialist" />
+                <SpecialistCard :guest="guest" class="h-full" v-for="specialist in paginatedSpecialists.data" :specialist="specialist" />
             </ElementsWrapper>
         
             <Pager v-if="paginatedSpecialists.links.length>3" :last-page-url="paginatedSpecialists.last_page_url" 

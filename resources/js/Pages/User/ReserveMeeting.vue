@@ -1,5 +1,5 @@
 <script setup>
-import { useForm, Head, usePage, router } from "@inertiajs/vue3";
+import { Head, router } from "@inertiajs/vue3";
 import { DatePicker } from 'v-calendar';
 import 'v-calendar/style.css';
 import { computed, ref, watch, watchEffect } from 'vue';
@@ -52,7 +52,7 @@ const modal = ref(false)
 watchEffect(()=>attrs.value=useBookingsIntoVCalendarAttributes(props.bookings))
 </script>
 <template>
-     <Head> <title>Twoja dyspozycyjność</title></Head>
+     <Head> <title>Zarezerwuj wizytę</title></Head>
      <AuthenticatedLayout>
     
    
@@ -76,7 +76,8 @@ watchEffect(()=>attrs.value=useBookingsIntoVCalendarAttributes(props.bookings))
                   <div class="p-4">
                      <b class="block p-4 text-center">Czy na pewno chcesz zarezerwować wizytę?</b>
                      <div class="md:flex justify-between">
-                     <SecondaryButton @click="modal=null">Nie</SecondaryButton><PrimaryButton @click="router.patch(route('bookings.reserve',[specialist.id]))">Tak</PrimaryButton>
+                     <SecondaryButton @click="modal=null">Nie</SecondaryButton>
+                     <PrimaryButton @click="router.patch(route('bookings.reserve',[booking.id]))">Tak</PrimaryButton>
                   </div>
                   </div>
                </Modal>

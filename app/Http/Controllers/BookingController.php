@@ -8,7 +8,9 @@ use App\Events\BookingSet;
 use App\Http\Requests\PatchBookingStatus;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
+use App\Models\Anonym;
 use App\Models\Booking;
+use App\Models\Phone;
 use App\Models\Province;
 use App\Models\Specialist;
 use App\Supports\FindBookings\FindBookings;
@@ -44,7 +46,7 @@ class BookingController extends Controller
     public function create() : Response
     {
         $specialist=Auth::user()->specialist;
-        $bookings=$specialist->bookings()->with(['user'])->get();
+        $bookings=$specialist->bookings()->with(['user','anonym'])->get();
         // foreach($bookings as $booking)
         //     {
         //         $booking->user;
@@ -128,6 +130,13 @@ class BookingController extends Controller
         ->where('start_date','>',$formattedToday)->get()]);
     }
 
+    public function showSpecialistReservationPageForAnonym(Specialist $specialist) : Response
+    {
+        $today=new DateTime();
+        $formattedToday=$today->format('Y-m-d H:i:s');
+        return Inertia::render('Guest/ReserveMeeting',['specialist'=>$specialist,'bookings'=>$specialist->bookings()->where('status','created')
+        ->where('start_date','>',$formattedToday)->get()]);
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -192,6 +201,28 @@ class BookingController extends Controller
             BookingSet::dispatch($booking);
 
             return  redirect()->back()->with('message', ['text' => 'Zarezerwowano spotkanie.', 'status' => 'success']);
+
+        }else{
+            return  redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
+        }
+    }
+
+    public function reserveBookingForAnonym(Request $request, Booking $booking) : RedirectResponse
+    {
+        
+        if($booking->status === 'created')
+        {
+            $phone = new Phone();
+            $phone->number=$request->number;
+            
+            $anonym = Anonym::create(['full_name'=>$request->full_name,'email'=>$request->email,'booking_id'=>$booking->id]);
+            $anonym->phone()->save($phone);
+            $booking->status = 'pending';
+            $booking->save();
+            
+            BookingSet::dispatch($booking);
+
+            return  redirect()->back()->with('message', ['text' => 'Zarezerwowano spotkanie.', 'status' => 'success','anonym'=>$anonym]);
 
         }else{
             return  redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);

@@ -37,6 +37,7 @@ Route::get('/dla-pacjentow', function () {
 })->name('about.client');
 Route::get('/tablica', UserDashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/specjalisci',[FindSpecialistController::class, 'unregisteredUserFind'])->name('guest.specialist.index');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profil', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -48,9 +49,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/znajdz-specialiste',[FindSpecialistController::class, 'find'])->name('specialist.index');
     
     //fn () => Inertia::render('FindSpecialist',['categories'=>Category::all(),'services'=>ServiceKind::all()])
-    Route::get('/specialista/{specialist}', SpecialistViewController::class)->name('specialist.visit');
+    Route::get('/specjalista/{specialist}', [SpecialistViewController::class, 'user'])->name('specialist.visit');
     Route::patch('/specialist/booking/{booking}/reserve', [BookingController::class, 'reserveBooking'])->name('bookings.reserve');
-    Route::get('/specialista/{specialist}/rezerwacje',[BookingController::class, 'showSpecialistReservationPage'])->name('user.book.specialist');
+    Route::get('/specjalista/{specialist}/rezerwacje',[BookingController::class, 'showSpecialistReservationPage'])->name('user.book.specialist');
     Route::get('/wizyty',[BookingController::class, 'index'])->name('user.bookings.index');
 
     Route::post('/review/specialist/{specialist}',[ReviewController::class,'store'])->name('review.store');
@@ -60,6 +61,18 @@ Route::middleware('auth')->group(function () {
     Route::patch('/notification/{notificationId}',[NotificationController::class, 'userNotificationMarkAsRead'])->name('specialist.notification.mark');
     Route::put('/phone/{phone}',[PhoneController::class,'update'])->name('phone.update');
 });
+
+
+//Anonym
+Route::get('/specjalista/{specialist}/rezerwacje',[BookingController::class, 'showSpecialistReservationPageForAnonym'])
+->name('guest.book.specialist');
+Route::get('/dietetyk/{specialist}', [SpecialistViewController::class, 'guest'])->name('guest.specialist.visit');
+Route::patch('anonym/specialist/booking/{booking}/reserve', [BookingController::class, 'reserveBookingForAnonym'])
+->name('guest.bookings.reserve');
+Route::get('/dolacz-do-nas/{specialist}', function (Specialist $specialist) {
+    return Inertia::render('Guest/MaybeLogin',['specialist'=>$specialist]);
+})->name('maybe.login');
+//END Anonym
 
 Route::prefix('payment')->group(
 function (){

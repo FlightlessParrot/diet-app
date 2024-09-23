@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Discount>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Anonym>
  */
-class DiscountFactory extends Factory
+class AnonymFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,8 @@ class DiscountFactory extends Factory
     public function definition(): array
     {
         return [
-            'amount'=>10,
-            'code'=>fake()->unique()->word(),
+            'email'=>fake()->email(),
+            'full_name'=>fake()->name()
         ];
     }
 }

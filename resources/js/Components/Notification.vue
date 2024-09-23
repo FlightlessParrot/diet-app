@@ -14,8 +14,8 @@ const props = defineProps({
 
 const routeToMark = computed(()=> 
 props.specialist ? 
-route('specialist.notification.mark',[notification.notifiable_id]) : 
-route('user.notification.mark',[notification.notifiable_id]) 
+route('specialist.notification.mark',[props.notification.id]) : 
+route('user.notification.mark',[props.notification.id]) 
 );
 </script>
 <template>

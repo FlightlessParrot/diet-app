@@ -25,7 +25,7 @@ class OffersRoutesTest extends TestCase
         $response = $this->actingAs($user)->get(route('offers.index'))->assertInertia(fn (Assert $page) => $page
         ->component('Specialist/Commerce/Offers')
         ->has('offers'));;
-
+        
         $response->assertStatus(200);
     }
 

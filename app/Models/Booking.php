@@ -7,6 +7,7 @@ use App\Events\BookingUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Booking extends Model
 {
@@ -33,6 +34,9 @@ class Booking extends Model
     {
         return $this->belongsTo(Address::class);
     }
-
+    public function anonym() : HasOne
+    {
+        return $this->hasOne(Anonym::class);
+    }
 
 }

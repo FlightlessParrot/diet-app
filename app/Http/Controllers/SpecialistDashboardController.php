@@ -13,7 +13,7 @@ class SpecialistDashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $notifications = Auth::user()->specialist->notifications()->paginate();
+        $notifications = Auth::user()->specialist->notifications()->orderBy('updated_at','desc')->paginate();
         return Inertia::render('Specialist/SpecialistDashboard',['notifications'=>$notifications]);
     }
 }

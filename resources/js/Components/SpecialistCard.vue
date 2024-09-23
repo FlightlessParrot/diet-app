@@ -12,6 +12,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    guest: {
+        type: Boolean,
+        default: false
+    }
 });
 
 const unmodifiedFullName = computed(
@@ -19,7 +23,8 @@ const unmodifiedFullName = computed(
 );
 
 const fullName = useCapitalizeFirstLetterOfEveryWord(unmodifiedFullName.value);
-const url = computed(()=>"/specialista/"+props.specialist.id)
+const url = computed(()=>props.guest? route('guest.specialist.visit',props.specialist.id) :route('specialist.visit',props.specialist.id) )
+
 const followOrNot = ()=>{
     if(!props.specialist.favourite)
     {
@@ -34,7 +39,7 @@ const followOrNot = ()=>{
         
         <Card class="h-full relative top-0">
             <template #title>
-                <div class="sm:absolute z-10 flex justify-end top-4 right-8 block">
+                <div v-if="!guest" class="sm:absolute z-10 flex justify-end top-4 right-8 ">
                 <HeartButton :filled="specialist.favourite" @click.stop.prevent="followOrNot" ></HeartButton>
                 </div>
                 <div class="my-2 flex align-center gap-2">

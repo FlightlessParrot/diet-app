@@ -53,6 +53,13 @@ const reserved = computed(()=>{
     <Column field="phone.number" header="Telefon"></Column>
         </DataTable>
         </div>
+        <div v-if="booking.anonym" class="md:w-3/4 ">
+            <DataTable :value="[booking.anonym]" >
+    <Column field="full_name" header="Mów mi"></Column>
+    <Column field="email" header="Adres e-mail"></Column>
+    <Column field="phone.number" header="Telefon"></Column>
+        </DataTable>
+        </div>
         <p><span class="pi pi-user"></span> {{reserved}}</p>
         
         <slot />

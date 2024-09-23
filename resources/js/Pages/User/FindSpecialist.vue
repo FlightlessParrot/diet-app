@@ -1,7 +1,6 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import Title from "@/Components/Title.vue";
 import FindSpecialistTemplate from "@/Parts/FindSpecialistTemplate.vue"
 
 

@@ -25,7 +25,11 @@ class SendConfirmBookingNotification
         $booking = $event->booking;
         $user = $booking->user;
         $specialist = $booking->specialist;
-        $user->notify(new ConfirmBooking($event->booking));
+        if($user)
+        {
+            $user->notify(new ConfirmBooking($event->booking));
+        }
+        
         $specialist->notify(new ConfirmBooking($event->booking));
     }
 }

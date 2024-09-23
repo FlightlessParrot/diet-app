@@ -24,8 +24,12 @@ class SendSetBookingNotification
     {
         $booking = $event->booking;
         $user = $booking->user()->first();
+
         $specialist = $event->booking->specialist;
-        $user->notify(new SetBooking($event->booking));
+        if($user)
+        {
+            $user->notify(new SetBooking($event->booking));
+        }
         $specialist->notify(new SetBooking($event->booking));
     }
 }

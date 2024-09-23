@@ -14,7 +14,7 @@ class SpecialistViewController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Specialist $specialist) : Response
+    public function user(Specialist $specialist) : Response
     {
         $user=Auth::user();
 
@@ -54,6 +54,46 @@ class SpecialistViewController extends Controller
         //socialMedias
         $socialMedias = $specialist->socialMedias()->get();
         return Inertia::render('User/SpecialistView',['specialist'=>$specialist, 'reviews'=>$reviews, 'myReview'=>$myReview, 
+        'courses' =>$courses, 'languages'=>$languages, 'socialMedias'=>$socialMedias]);
+    }
+
+    public function guest(Specialist $specialist) : Response
+    {
+        //specialist details
+        $specialist->imageUrl=count($specialist->attachment) ? $specialist->attachment[0]->url :null;
+        $specialist->services = $specialist->serviceKinds()->get();
+        $specialist->cities = $specialist->serviceCities()->get();
+        $specialist->stationaryAddresses = $specialist->addresses()->get();
+        $specialist->servicePrices = $specialist->prices()->get();
+        $specialist->fullDescription = $specialist?->description?->full;
+        $specialist->targets=$specialist->targets()->get();
+        $specialist->user;
+        //reviews
+        $reviews = $specialist->reviews()->paginate(20);
+
+
+        //courses
+        $courses = $specialist->courses()->orderByDesc('start_date')->get();
+
+        //languages
+        $languages = $specialist->languages()->get();
+        //create statistic model if it does not exit
+        if(!$specialist->statistic)
+        {
+            $specialist->statistic()->create();
+        }
+
+        //increment view counter on statistic model
+        $statistic=$specialist->statistic;
+        $statistic->view_counter++;
+        $statistic->save();
+
+        //get statistic
+        $specialist->statistic;
+        
+        //socialMedias
+        $socialMedias = $specialist->socialMedias()->get();
+        return Inertia::render('Guest/SpecialistView',['specialist'=>$specialist, 'reviews'=>$reviews,  
         'courses' =>$courses, 'languages'=>$languages, 'socialMedias'=>$socialMedias]);
     }
 }

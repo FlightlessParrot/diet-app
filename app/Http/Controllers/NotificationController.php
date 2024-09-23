@@ -9,16 +9,16 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 class NotificationController extends Controller
 {
-    public function specialistNotificationMarkAsRead(int $notifactionId) : RedirectResponse
+    public function specialistNotificationMarkAsRead(string $notifactionId) : RedirectResponse
     {
-        $notification=Auth::user()->specialist->notifications()->where('notifiable_id', $notifactionId)->first();
+        $notification=Auth::user()->specialist->notifications()->find($notifactionId);
         $notification->markAsRead();
         return  redirect()->back()->with('message', ['text' => 'Oznaczono jako przeczytane.', 'status' => 'success']);
     }
 
-    public function userNotificationMarkAsRead(int $notifactionId) : RedirectResponse
+    public function userNotificationMarkAsRead(string $notifactionId) : RedirectResponse
     {
-        $notification=Auth::user()->notifications()->where('notifiable_id', $notifactionId)->first();
+        $notification=Auth::user()->notifications()->find($notifactionId);
         $notification->markAsRead();
         return  redirect()->back()->with('message', ['text' => 'Oznaczono jako przeczytane.', 'status' => 'success']);
     }

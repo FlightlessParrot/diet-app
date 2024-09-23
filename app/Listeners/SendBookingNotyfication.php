@@ -25,7 +25,11 @@ class SendBookingNotyfication
     {
         $booking=$event->booking;
         $user = $booking->user()->first();
-        $user->notify(new BookingIsCommingNotification($event->booking));
+        if($user)
+        {
+           $user->notify(new BookingIsCommingNotification($event->booking)); 
+        }
+        
         $date=new \DateTime($booking->start_date);
         $response = Http::withToken(env('SMS_TOKEN'))->post('https://api.smsapi.pl/sms.do',
         [

@@ -22,7 +22,19 @@ class SpecialistVisitPageTest extends TestCase
         $specialist = Specialist::first();
         $response = $this->actingAs($user)->get(route('specialist.visit',[$specialist->id]))->assertInertia(fn (Assert $page) => $page
         ->component('User/SpecialistView')
-        ->has('specialist'));
+        ->has('specialist')->has('reviews')->has('myReview')->has('courses')->has('languages')->has('socialMedias'));
+       
+        $response->assertStatus(200);
+    }
+
+    public function test_guest_can_see_specialist_visit_page(): void
+    {
+        $this->seed(TestSeeder::class);
+  
+        $specialist = Specialist::first();
+        $response = $this->get(route('guest.specialist.visit',[$specialist->id]))->assertInertia(fn (Assert $page) => $page
+        ->component('Guest/SpecialistView')
+        ->has('specialist')->has('reviews')->has('courses')->has('languages')->has('socialMedias'));
        
         $response->assertStatus(200);
     }

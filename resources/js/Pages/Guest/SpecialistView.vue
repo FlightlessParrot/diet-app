@@ -1,9 +1,9 @@
 <script setup>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head,} from "@inertiajs/vue3";
 
 import SpecialistViewTemplate from "@/Parts/SpecialistViewTemplate.vue";
 import { computed } from "vue";
+import GuestLayoutForPages from "@/Layouts/GuestLayoutForPages.vue";
 
 const props = defineProps({
     specialist: {
@@ -11,9 +11,6 @@ const props = defineProps({
         required: true,
     },
     reviews: {
-        type: Object,
-    },
-    myReview: {
         type: Object,
     },
     courses: {
@@ -40,10 +37,8 @@ const title = computed(
     <Head>
         <title>Specialista - {{ title }}</title>
     </Head>
-    <AuthenticatedLayout>
-     <SpecialistViewTemplate 
-     :specialist="specialist" :social-medias="socialMedias" 
-     :languages="languages" :courses="courses" :my-review="myReview"
-     :reviews="reviews"/>
-    </AuthenticatedLayout>
+    <GuestLayoutForPages>
+     <SpecialistViewTemplate :specialist="specialist":social-medias="socialMedias" :languages="languages" :courses="courses" 
+     :reviews="reviews" :guest="true"/>
+    </GuestLayoutForPages>
 </template>

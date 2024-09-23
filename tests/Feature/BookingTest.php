@@ -6,6 +6,7 @@ use App\Events\BookingConfirmed;
 use App\Events\BookingDeleted;
 use App\Events\BookingSet;
 use App\Models\Address;
+use App\Models\Anonym;
 use App\Models\Booking;
 use App\Models\Specialist;
 use App\Models\User;
@@ -155,7 +156,27 @@ class BookingTest extends TestCase
         $this->assertSame($user->id, $booking->user->id);
         Event::assertDispatched(BookingSet::class);
     }
+    public function test_guest_can_book(): void
+    {
+        $this->seed(TestSeeder::class);
+        Event::fake();
+     
+ 
+        $booking=Booking::Where('status','created')->firstOrFail();
 
+
+        $response = $this->patch(route('guest.bookings.reserve',[$booking->id]),['full_name'=>'Thomas','email'=>'thomas@email.com','number'=>'123123123']);
+        
+        $booking->refresh();
+        $anonym = $booking->anonym()->firstOrFail();
+        $response->assertRedirect();
+        $this->assertSame($booking->status,'pending');
+        $this->assertNotNull($anonym);
+        $this->assertSame('Thomas',$anonym->full_name);
+        $this->assertSame('thomas@email.com',$anonym->email);
+        $this->assertSame('123123123',$anonym->phone->number);
+        Event::assertDispatched(BookingSet::class);
+    }
     public function test_specialist_can_change_status(): void
     {
         $this->seed(TestSeeder::class);

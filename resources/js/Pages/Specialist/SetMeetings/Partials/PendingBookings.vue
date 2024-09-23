@@ -52,7 +52,7 @@ watchEffect(
     <Tile>
             <section>
                 <Title>
-                    <template v-slot:h2Title>Potwierdź rezerwacje</template>
+                    <template v-slot:h2Title>Potwierdź rezerwacje</template>
                     <template v-slot:desc>
                         Potwierdź spotkanie z klientem.
                     </template>

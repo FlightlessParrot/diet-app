@@ -90,8 +90,8 @@ const rules = ref({
                         </TabPanel>
                        
                     </TabView>
-                    <WhichDayOfWeekRadios v-model="form.day" :error="form.errors.day" />
-                    <PrimaryButton :disabled="form.processing"
+                    <WhichDayOfWeekRadios v-model="form.day" :error="form.errors.day" class="mt-4 mb-6"/>
+                    <PrimaryButton :disabled="form.processing" 
                         >Zapisz</PrimaryButton
                     >
                 </section>
