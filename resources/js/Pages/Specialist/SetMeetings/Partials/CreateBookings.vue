@@ -42,7 +42,7 @@ const rules = ref({
         <Tile>
             <form
                 @submit.prevent="
-                    form.transform((data)=>({...data,address: data.address>0 ? addresses[data.address].id : null
+                    form.transform((data)=>({...data, address: (data.address>0 ? addresses[data.address-1].id : null)
                     })).post(route('bookings.store', [specialist.id]), {
                         preserveScroll: false,
                         preserveState: false,
@@ -52,10 +52,11 @@ const rules = ref({
             >
                 <section>
                     <Title>
+                       
                         <template v-slot:h2Title>Podaj dyspozycyjność</template>
                         <template v-slot:desc>
                             Ustaw wizyty, na które mogą się zapisywać Twoi
-                            klienci.
+                            klienci. {{form}}
                         </template>
                     </Title>
                     <div class="my-8">
