@@ -64,7 +64,7 @@ Route::middleware('auth')->group(function () {
 
 
 //Anonym
-Route::get('/specjalista/{specialist}/rezerwacje',[BookingController::class, 'showSpecialistReservationPageForAnonym'])
+Route::get('anonym/specjalista/{specialist}/rezerwacje',[BookingController::class, 'showSpecialistReservationPageForAnonym'])
 ->name('guest.book.specialist');
 Route::get('/dietetyk/{specialist}', [SpecialistViewController::class, 'guest'])->name('guest.specialist.visit');
 Route::patch('anonym/specialist/booking/{booking}/reserve', [BookingController::class, 'reserveBookingForAnonym'])
