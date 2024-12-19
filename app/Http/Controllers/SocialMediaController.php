@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\SocialMedia as EnumsSocialMedia;
 use App\Http\Requests\StoreSocialMediaRequest;
 use App\Http\Requests\UpdateSocialMediaRequest;
 use App\Models\SocialMedia;
@@ -24,7 +25,10 @@ class SocialMediaController extends Controller
      */
     public function create()
     {
+        $user= Auth::user();
 
+        return Inertia::render('Specialist/CreateSocial',
+        ['socialMediaTypes'=> array_column(EnumsSocialMedia::cases(), 'value'),'socialMedias'=>$user->specialist->socialMedias()->get()]);
     }
 
     /**

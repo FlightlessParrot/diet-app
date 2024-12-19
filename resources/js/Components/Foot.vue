@@ -3,15 +3,34 @@ import {Link} from "@inertiajs/vue3";
 import ApplicationLogo from "./ApplicationGreenLogo.vue";
 
 const links = [
+    [{
+            label: "O portalu",
+            url: "/",
+        }
+    ,
+    {
+            label: "Dla pacjenta",
+            url: route('about.client'),
+        },
+        {
+            label: "Dla dietetyka",
+            url: route('about.dietician'),
+        },
+    ],
     [
+    {
+            label: "Regulamin",
+            url: "/",
+        },
         {
             label: "Polityka prywatności",
             url: "/",
         },
         {
-            label: "Regulamin",
-            url: "/",
-        },
+            label: "Dane osobowe",
+            url: "/"
+        }
+        
     ],
     [
         
@@ -23,20 +42,6 @@ const links = [
             label: "Zarejestruj",
             url: "/register",
         },
-    ],[
-    {
-            label: "O nas",
-            url: "/",
-        },
-    {
-            label: "Dla pacjenta",
-            url: route('about.client'),
-        },
-        {
-            label: "Dla dietetyka",
-            url: route('about.dietician'),
-        },
-       
     ]
 ];
 </script>

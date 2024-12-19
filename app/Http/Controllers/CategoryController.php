@@ -46,7 +46,7 @@ class CategoryController extends Controller
                 $category = Category::findOrFail($category_id);
                 $request->user()->specialist->categories()->attach($category);
             }
-            return to_route('dashboard')->with('message', ['text' => 'Uzupełniono dane specjalisty. Poczekaj na weryfikację profilu.', 'status' => 'success']);
+            return to_route('price.create');
         } else {
             return redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
         }

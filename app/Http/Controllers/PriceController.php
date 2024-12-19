@@ -6,6 +6,8 @@ use App\Http\Requests\StorePriceRequest;
 use App\Http\Requests\UpdatePriceRequest;
 use App\Models\Price;
 use App\Models\Specialist;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class PriceController extends Controller
 {
@@ -14,7 +16,7 @@ class PriceController extends Controller
      */
     public function index()
     {
-        //
+      
     }
 
     /**
@@ -22,7 +24,14 @@ class PriceController extends Controller
      */
     public function create()
     {
-        
+        $user=Auth::user();
+        if($user->can('create',Price::class))
+        {
+            
+            return Inertia::render('Specialist/CreatePrices',['prices'=>$user->specialist->prices()->get()]);
+        }else{
+            return redirect()->back()->withErrors(['text'=>'Coś poszło nie tak']);
+        }
     }
 
     /**

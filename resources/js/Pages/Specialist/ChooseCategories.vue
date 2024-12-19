@@ -62,7 +62,7 @@ const form = useForm({
                         </div>
                     </template>
                 </Card>
-                <PrimaryButton>Utwórz konto specjalisty</PrimaryButton>
+                <PrimaryButton>Dalej</PrimaryButton>
             </form>
         </Tile>
     </AuthenticatedLayout>

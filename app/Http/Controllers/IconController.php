@@ -8,8 +8,8 @@ use App\Models\Specialist;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class IconController extends Controller
 {
@@ -26,7 +26,9 @@ class IconController extends Controller
      */
     public function create()
     {
-        //
+        
+        return Inertia::render('Specialist/CreateImages',[ 'avatarUrl'=>Auth::user()->specialist->attachment()->first()?->url(), 'iconUrl'=>Auth::user()->specialist->icon?->url,
+    ]);
     }
 
     /**

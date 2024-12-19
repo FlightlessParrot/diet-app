@@ -17,10 +17,10 @@ const props = defineProps({
 
 const specialist = usePage().props.auth.specialist;
 const form = useForm({
-    full:''
+    full: props.description.full
 });
 
-watchEffect(()=>form.full=props.description.full)
+//watchEffect(()=>form.full=props.description.full)
 
 </script>
 <template>

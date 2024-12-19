@@ -29,7 +29,7 @@ const submit = () => {
         <Head title="Zarejestruj" />
 
         <form @submit.prevent="submit">
-            {{form}}
+            
             <div>
                 <InputLabel for="name" value="Imię" />
 

@@ -13,6 +13,7 @@ use App\Models\Course;
 use App\Models\Language;
 use App\Models\Phone;
 use App\Models\Target;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -168,5 +169,8 @@ class SpecialistController extends Controller
         return redirect()->back()->with('message',['text'=>'Pomyślnie edytowano dane.','status'=>'success']);
         
     }
-
+    public function displaySpecialistCreatedMessage() : RedirectResponse
+    {
+        return to_route('dashboard')->with('message', ['text' => 'Uzupełniono dane specjalisty. Poczekaj na weryfikację profilu.', 'status' => 'success']);
+    }
 }

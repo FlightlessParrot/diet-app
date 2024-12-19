@@ -31,6 +31,12 @@ const items = [
                 active: route().current('about.dietician')
             },
             {
+                label: 'Oferta',
+                icon: 'pi pi-tablet',
+                href: route('user.offers.index'),
+                active: route().current('user.offers.index')
+            },
+            {
                 label: 'Zaloguj',
                 icon: 'pi pi-user',
                 href: '/login'
@@ -43,7 +49,7 @@ const items = [
         ]
 </script>
 <template>
-    <div class=" bg-brightGreen p-2 md:p-4">
+    <div class=" bg-brightGreen p-2 md:p-4 ">
       <div class="max-w-6xl mx-auto flex items-center justify-between md:justify-start  "><ApplicationWhiteLogo class="w-10 h-10" /> 
         <QuestMenu class="md:hidden"/>
         <div class="hidden space-x-8 sm:-my-px sm:ms-10 md:flex">
@@ -54,7 +60,7 @@ const items = [
                             </div></div>  
     </div>
     
-    <div class="bg-gray-100 md:p-6 lg:p-12">
+    <div class="bg-gray-100 md:p-6 lg:p-12 min-h-screen">
         <Messager />
         <div class="text-black-800 ">
             <slot></slot>

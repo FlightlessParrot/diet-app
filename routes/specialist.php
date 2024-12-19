@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\SocialMedia;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\NotificationController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SpecialistDashboardController;
+use App\Models\Specialist;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(["auth", "spec"])->group(function () {
@@ -56,7 +58,12 @@ Route::middleware(["auth", "spec"])->prefix('dla-specjalisty')->group(function (
     Route::post('/specialist/{specialist}/price',[PriceController::class, 'store'])->name('specialist.price.store');
     Route::delete('/specialist/{specialist}/price/{price}',[PriceController::class, 'destroy'])->name('specialist.price.delete');
     Route::put('/specialist/{specialist}/price/{price}',[PriceController::class, 'update'])->name('specialist.price.update');
-    
+
+    Route::get('/podaj-ceny',[PriceController::class,'create'])->name('price.create');
+    Route::get('/utworz-opis',[DescriptionController::class,'create'])->name('description.create');
+    Route::get('/podaj-social-media',[SocialMediaController::class,'create'])->name('socialMedia.create');
+    Route::get('/twoje-zdjecia',[IconController::class,'create'])->name('images.create');
+    Route::get('/created',[SpecialistController::class,'displaySpecialistCreatedMessage'])->name('specialist.created.message');
 });
 Route::middleware(["auth", "spec"])->group(function () {
     Route::post('/specialist/{specialist}/avatar',[SpecialistController::class, 'storeAvatar'])->name('avatar.store');

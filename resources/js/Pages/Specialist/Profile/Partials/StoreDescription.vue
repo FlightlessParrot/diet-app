@@ -7,6 +7,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import Title from "@/Components/Title.vue";
 import Editor from 'primevue/editor';
+import Textarea from 'primevue/textarea';
 
 const specialist = usePage().props.auth.specialist;
 
@@ -29,8 +30,8 @@ const form = useForm({
         >
             <div>
 
-                <Editor v-model="form.full" editorStyle="height: 320px" />
-
+                <!-- <Editor v-model="form.full" editorStyle="height: 320px" /> -->
+                <Textarea v-model = 'form.full' class="w-full h-[320px]" />
                 <InputError class="mt-2" :message="form.errors.full" />
             </div>
             

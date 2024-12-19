@@ -13,6 +13,7 @@ import Tile from "@/Components/Tile.vue";
 import Divider from "primevue/divider";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Documents from "@/Parts/Documents.vue";
+import InputError from "@/Components/InputError.vue";
 const props = defineProps({
     courses: {
         type: Object,
@@ -76,6 +77,7 @@ const selectedCourse = ref(null);
             <DangerButton v-show="selectedCourse !== null">Usuń</DangerButton></div>
         </form>
         <PrimaryButton @click="showStoreModal=true">Utwórz</PrimaryButton>
+        <InputError class="mt-2" v-if="!courses.length" message="Musisz podać swoją edukację." />
         <Divider />
     
         <div class="my-16">
@@ -84,10 +86,10 @@ const selectedCourse = ref(null);
             <Documents :documents="documents"/>
         </div>
         <div >
-        
+            <InputError class="mt-2" v-if="!documents.length" message="Musisz przesłać dokumenty stwierdzające Twoją edukację." />
             <Divider />
       
-        <Link :href = "route('specialist.address.create')" class="bg-green-500 mx-auto inline-block p-2 px-4 font-bold  text-white mt-4 w-48 text-center rounded">
+        <Link v-if="documents.length && courses.length" :href = "route('specialist.address.create')" class="bg-green-500 mx-auto inline-block p-2 px-4 font-bold  text-white mt-4 w-48 text-center rounded">
             Dalej
         </Link>
     </div>

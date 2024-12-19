@@ -8,6 +8,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ShowOffersController;
 use App\Http\Controllers\SpecialistViewController;
 use App\Http\Controllers\UserDashboardController;
 use App\Models\Category;
@@ -79,6 +80,7 @@ function (){
     Route::post('notifications',[PaymentController::class,'notify']);
 }
 );
-
+Route::get('/zobacz/oferty',[ShowOffersController::class,'indexForClient'])->name('user.offers.index');
+Route::get('zobacz/oferta/{offer}',[ShowOffersController::class,'showForClient'])->name('user.offer.show');
 require __DIR__.'/auth.php';
 require __DIR__.'/specialist.php';

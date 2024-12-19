@@ -8,6 +8,7 @@ use App\Models\Description;
 use App\Models\Specialist;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 use function PHPUnit\Framework\isInstanceOf;
 
@@ -18,7 +19,7 @@ class DescriptionController extends Controller
      */
     public function index()
     {
-        //
+      
     }
 
     /**
@@ -26,7 +27,12 @@ class DescriptionController extends Controller
      */
     public function create()
     {
-        //
+        if (Auth::user()->can('update', Auth::user()->specialist)) {
+            return Inertia::render('Specialist/CreateDescription',['description'=>Auth::user()->specialist->description]);
+          
+        } else {
+            return  redirect()->back()->with('message', ['text' => 'Coś poszło nie tak.', 'status' => 'error']);
+        }
     }
 
     /**

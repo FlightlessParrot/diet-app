@@ -33,4 +33,15 @@ class ShowOffersController extends Controller
         
         return Inertia::render('Specialist/Commerce/Offer',['offer'=>$offer, 'discount'=>$discount,'missing'=>$missing,'code'=>$request->code, 'discounts'=>Discount::all()]);
     }
+
+    public function showForClient(Offer $offer)
+    {
+      return Inertia::render('User/Commerce/Offer',['offer'=>$offer]);
+    }
+
+    public function indexForClient(Request $request)
+    {
+        
+        return Inertia::render('User/Commerce/Offers',['offers'=>Offer::all()]);
+    }
 }

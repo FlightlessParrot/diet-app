@@ -94,7 +94,7 @@ const chosenRoute = computed(()=> props.guest ? route('guest.specialist.index'):
                             </div>
                         </div>
                     </div>
-                    <PrimaryButton>Wyszukaj</PrimaryButton>
+                    <PrimaryButton>Poznaj</PrimaryButton>
                 </form>
             </Tile>
            
