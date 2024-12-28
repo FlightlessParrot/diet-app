@@ -23,6 +23,7 @@ import DangerButton from "@/Components/DangerButton.vue";
 import Address from "@/Components/Address.vue";
 
 import Chip from 'primevue/chip';
+import { useSocialMediaIcons } from "@/Composables/useSocialMediaIcons";
 const props = defineProps({
     specialist: {
         type: Object,
@@ -74,19 +75,6 @@ watch(
 
 const imageUrl = computed(() => props.specialist?.imageUrl);
 
-const getIcon = 
-    (type)=>
-{
-    switch(type)
-    {
-    case 'x':
-        return 'twitter';
-    case 'tiktok':
-        return 'tiktok'
-    default:
-        return type;
-    }
-}
 
 const title = computed(
     () =>
@@ -266,7 +254,7 @@ const actionUrl = computed(()=>props.guest ? route('maybe.login',[props.speciali
                 </Accordion>
                 <div class="flex flex-wrap gap-2 mt-8 ms-4 p-2 border-t border-gray-200">
                 <a rel="nofollow" v-for="socialMedia in socialMedias" :href="socialMedia.url" class=" flex gap-2 items-center">
-                    <i :class="'pi pi-'+getIcon(socialMedia.type)+' text-darkGreen text-2xl'"></i>
+                    <i :class="'pi pi-'+useSocialMediaIcons(socialMedia)+' text-darkGreen text-2xl'"></i>
                     <span class = 'text-blue-500 underline'>{{ socialMedia.type }}</span></a>
             </div>
             </section>

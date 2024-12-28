@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('social_media', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->enum('type',['facebook','x','instagram','youtube','tiktok','linkedin']);
+            $table->enum('type',['facebook','x','instagram','youtube','tiktok','linkedin', 'strona internetowa']);
             $table->string('url');
             $table->foreignIdFor(Specialist::class);
         });

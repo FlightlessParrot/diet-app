@@ -5,7 +5,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { router, useForm } from "@inertiajs/vue3";
-
+import { useSocialMediaIcons } from '@/Composables/useSocialMediaIcons';
 import DangerButton from "./DangerButton.vue";
 import { computed } from 'vue';
 const props = defineProps({
@@ -23,18 +23,7 @@ const form = useForm({
     type: props.socialMedia.type,
 });
 const icon = computed(
-    ()=>
-{
-    switch(form.type)
-    {
-    case 'x':
-        return 'twitter';
-    case 'tiktok':
-        return 'tiktok'
-    default:
-        return form.type;
-    }
-}
+    ()=>useSocialMediaIcons(form)
 )
 
 </script>
