@@ -194,4 +194,9 @@ class Specialist extends Model
     {
         return $this->hasMany(SocialMedia::class);
     }
+
+    public function specializations() : BelongsToMany
+    {
+        return $this->belongsToMany(Specialization::class);
+    }
 }

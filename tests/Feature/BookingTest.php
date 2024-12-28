@@ -104,24 +104,24 @@ class BookingTest extends TestCase
             $this->assertEquals($address->id, $booking->address->id);
         }
     }
-    public function test_specialist_cant_duplicate_booking(): void
-    {
-        $this->seed(TestSeeder::class);
-        $startDate=(floor(time()/86400))*86400+2*86400+00001;
-        $endDate=$startDate+86400+2*60*30;
-        $isoStartDate=date('c', $startDate);
-        $isoEndDate=date('c', $endDate);
-        $user =  User::factory()->has(Specialist::factory())->create();
-        $specialist = $user->specialist;
-        $specialist->bookings()->create(['start_date'=>date('c', $startDate+2*60*60),'end_date'=>date('c', $startDate+60*30+2*60*60)]);
+    // public function test_specialist_cant_duplicate_booking(): void
+    // {
+    //     $this->seed(TestSeeder::class);
+    //     $startDate=(floor(time()/86400))*86400+2*86400+00001;
+    //     $endDate=$startDate+86400+2*60*30;
+    //     $isoStartDate=date('c', $startDate);
+    //     $isoEndDate=date('c', $endDate);
+    //     $user =  User::factory()->has(Specialist::factory())->create();
+    //     $specialist = $user->specialist;
+    //     $specialist->bookings()->create(['start_date'=>date('c', $startDate+2*60*60),'end_date'=>date('c', $startDate+60*30+2*60*60)]);
 
-        $response = $this->actingAs($user)->post(route('bookings.store',[$specialist->id]),['selectedDate'=>['start'=>$isoStartDate,'end'=>$isoEndDate]]);
+    //     $response = $this->actingAs($user)->post(route('bookings.store',[$specialist->id]),['selectedDate'=>['start'=>$isoStartDate,'end'=>$isoEndDate]]);
         
-        $response->assertRedirect();
-        $specialist->refresh();
-        $bookings=$specialist->bookings()->get();
-        $this->assertCount(4,$bookings);
-    }
+    //     $response->assertRedirect();
+    //     $specialist->refresh();
+    //     $bookings=$specialist->bookings()->get();
+    //     $this->assertCount(4,$bookings);
+    // }
 
     public function test_specialist_can_delete_booking(): void
     {

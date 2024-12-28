@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\Language;
 use App\Models\Phone;
+use App\Models\Specialization;
 use App\Models\Target;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -60,6 +61,12 @@ class SpecialistController extends Controller
            $user->myRole()->associate(MyRole::where('name','specialist')->first());
            $user->save();
 
+           foreach($request->specializations as $specializationName)
+           {
+               $specialization=Specialization::where('name',$specializationName)->firstOrFail();
+               $specialist->specializations()->attach($specialization->id);
+           }
+
            $specialist->targets()->detach();
            foreach($request->targets as $target)
            {
@@ -91,13 +98,24 @@ class SpecialistController extends Controller
         }
         if(Auth::user()->can('view',$specialist))
         {
-            return Inertia::render('Specialist/Profile/EditSpecialist',['targets'=>Target::all(),'specialistTargetIds'=>$specialist->targets()->get()->map(fn (Target $target)=>$target->id),'provinces'=>Province::All(), 'addresses'=> $specialist->addresses()->get(), 
-            'serviceCities'=>$specialist->serviceCities()->get(),'serviceKinds'=>$specialist->serviceKinds()->get(), 
+            return Inertia::render('Specialist/Profile/EditSpecialist',
+            [
+            'targets'=>Target::all(),
+            'specialistTargetIds'=>$specialist->targets()->get()->map(fn (Target $target)=>$target->id),
+            'provinces'=>Province::All(), 
+            'specializations'=>$specialist->specializations()->get(),
+            'addresses'=> $specialist->addresses()->get(), 
+            'serviceCities'=>$specialist->serviceCities()->get(),
+            'serviceKinds'=>$specialist->serviceKinds()->get(), 
             'checkedCategories'=>$specialist->categories()->get()->map(fn ($e) => $e->id),
-            'categories'=>Category::all(), 'prices'=>$specialist->prices()->get(), 
+            'categories'=>Category::all(), 
+            'prices'=>$specialist->prices()->get(), 
             'avatarUrl'=>Auth::user()->specialist->attachment()->first()?->url(),
-            'iconUrl'=>$iconUrl, 'description'=>$specialist->description, 'courses'=>$specialist->courses()->orderByDesc('start_date')->get(),
-            'languages'=>$specialist->languages()->get(),'documents'=>$specialist->documents()->get(),
+            'iconUrl'=>$iconUrl, 
+            'description'=>$specialist->description, 
+            'courses'=>$specialist->courses()->orderByDesc('start_date')->get(),
+            'languages'=>$specialist->languages()->get(),
+            'documents'=>$specialist->documents()->get(),
             'socialMediaTypes'=> array_column(SocialMedia::cases(), 'value'),'socialMedias'=>$specialist->socialMedias()->get()]);
         }else{
             return response('Nie masz uprawnień, aby wykonać tę akcje.',401);
@@ -114,8 +132,15 @@ class SpecialistController extends Controller
             $specialist->name=$request->name;
             $specialist->surname = $request->surname;
             $specialist->title = $request->title;
-            $specialist->specialization = $request->specialization;
             $specialist->update();
+            $specialist->specializations()->detach();
+
+            foreach($request->specializations as $specializationName)
+            {
+                $specialization=Specialization::where('name',$specializationName)->firstOrFail();
+                $specialist->specializations()->attach($specialization->id);
+
+            }
 
             $specialist->targets()->detach();
             foreach($request->targets as $target)

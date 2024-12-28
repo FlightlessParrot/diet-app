@@ -6,11 +6,11 @@ const props = defineProps(['error'])
 const titles =[
     {
         name: 'lic.',
-        value: 'lic'
+        value: 'lic.'
     },
     {
         name: 'inż.',
-        value: 'inz'
+        value: 'inz.'
     },
     {
         name: 'mgr',
@@ -18,7 +18,7 @@ const titles =[
     },
     {
         name: 'mgr inż.',
-        value: 'mgr_inż'
+        value: 'mgr inż.'
     },
     {
         name: 'dr',
@@ -26,11 +26,11 @@ const titles =[
     },
     {
         name: 'dr hab.',
-        value: 'dr_hab'
+        value: 'dr hab.'
     },
     {
         name: 'prof. dr hab.',
-        value: 'prof'
+        value: 'prof. dr hab.'
     },
 ]
 

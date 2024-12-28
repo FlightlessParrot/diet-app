@@ -46,7 +46,12 @@ const props = defineProps({
     guest: {
         type: Boolean,
         default: false
+    },
+    specializations: {
+        type: Array,
+        required: true
     }
+
 });
 const form = useForm({
     text: "",
@@ -84,8 +89,7 @@ const getIcon =
 }
 
 const title = computed(
-    () =>props.specialist.specialization +
-        " " +
+    () =>
         props.specialist.title +
         " " +
         props.specialist.name +
@@ -121,7 +125,8 @@ const actionUrl = computed(()=>props.guest ? route('maybe.login',[props.speciali
                         <a  :href="'tel:'+specialist.phone.number">tel. {{ specialist.phone.number }}</a>
                         <a  :href="'mailto:'+ specialist.user.email " >email: {{ specialist.user.email }}</a>
                         </div>
-                       
+                        <div v-html="specialist.fullDescription"></div>
+                        
                     </template>
                 </Title>
             </div>
@@ -180,6 +185,7 @@ const actionUrl = computed(()=>props.guest ? route('maybe.login',[props.speciali
                             </TabPanel>
                         </TabView>
                     </AccordionTab>
+                    
                     <AccordionTab
                         v-if="languages.length"
                         header="Języki, w których mówię"
@@ -195,6 +201,19 @@ const actionUrl = computed(()=>props.guest ? route('maybe.login',[props.speciali
                         </DataTable>
                     </AccordionTab>
                     <AccordionTab
+                        v-if="
+                            specializations.length > 0 
+                        "
+                        header="Moje specjalizacje"
+                    >
+                        <div v-for="specialization in specializations">
+                            <div class="space-x-2">
+                                <i class="pi pi-book"></i
+                                ><span>{{ specialization.name }}</span>
+                            </div>
+                        </div>
+                    </AccordionTab>
+                    <AccordionTab
                         v-if="courses.length"
                         header="Moje wykształcenie"
                     >
@@ -204,10 +223,10 @@ const actionUrl = computed(()=>props.guest ? route('maybe.login',[props.speciali
                             selectionMode="single"
                             dataKey="id"
                         >
-                            <Column field="name" header="Kurs"></Column>
-                            <Column field="start_date" header="Początek">
-                            </Column>
-                            <Column field="end_date" header="Koniec"> </Column>
+                            <Column field="name" header="Wykształcenie"></Column>
+                            <!-- <Column field="start_date" header="Początek">
+                            </Column> -->
+                            <Column field="end_date" header="Ukończono"> </Column>
                         </DataTable>
                     </AccordionTab>
                     <AccordionTab
@@ -238,12 +257,12 @@ const actionUrl = computed(()=>props.guest ? route('maybe.login',[props.speciali
                         <Chip v-for="target in specialist.targets" :label="target.name" />
                     </div>
                     </AccordionTab>
-                    <AccordionTab
+                    <!-- <AccordionTab
                         v-if="specialist.fullDescription"
                         header="O mnie"
                     >
                         <div v-html="specialist.fullDescription"></div>
-                    </AccordionTab>
+                    </AccordionTab> -->
                 </Accordion>
                 <div class="flex flex-wrap gap-2 mt-8 ms-4 p-2 border-t border-gray-200">
                 <a rel="nofollow" v-for="socialMedia in socialMedias" :href="socialMedia.url" class=" flex gap-2 items-center">

@@ -15,6 +15,7 @@ use App\Models\Province;
 use App\Models\ServiceKind;
 use App\Models\SocialMedia;
 use App\Models\Specialist;
+use App\Models\Specialization;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -32,7 +33,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([MyRolesSeeder::class, ProvinceSeeder::class, CategorySeeder::class, 
+        $this->call([SpecializationSeeder::class, MyRolesSeeder::class, ProvinceSeeder::class, CategorySeeder::class, 
         ServiceKindSeeder::class, OfferSeeder::class, DiscountSeeder::class]);
 
         User::factory(30)->has(Phone::factory())->create();
@@ -80,6 +81,9 @@ class DatabaseSeeder extends Seeder
             }
 
             $user->specialist->categories()->attach($categories->random(2));
+
+            $specializations=Specialization::all();
+            $user->specialist->specializations()->attach($specializations->random(2));
         }
 
 
@@ -98,6 +102,8 @@ class DatabaseSeeder extends Seeder
                 'email' => 'shrimpinweb@gmail.com',
                 'password' => Hash::make('Password123'),
             ]);
+        $specialization=Specialization::first();
+        $user->specialist->specializations()->attach($specialization);
         $this->call([BookingSeeder::class, ReviewSeeder::class,  StatisticSeeder::class, CourseSeeder::class, TargetSeeder::class, 
         DocumentSeeder::class, FollowersSeeder::class, FavouritePriceSeeder::class, CommerceSeeder::class, SocialMediaSeeder::class]);
     }

@@ -31,7 +31,7 @@ const form = useForm({
             <template #desc> Zarządzaj linkami do social mediów. </template>
         </Title>
         <form @submit.prevent="form.post(route('socialMedia.store'))">
-    
+            
             <div class="space-y-4 my-4">
                 <i class="pi pi-instagram"/>
 

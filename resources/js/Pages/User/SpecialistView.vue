@@ -24,11 +24,14 @@ const props = defineProps({
     },
     socialMedias: {
         type: Array
+    },
+    specializations: {
+        type: Array,
+        required: true
     }
 });
 const title = computed(
-    () =>props.specialist.specialization +
-        " " +
+    () =>
         props.specialist.title +
         " " +
         props.specialist.name +
@@ -41,7 +44,7 @@ const title = computed(
         <title>Specialista - {{ title }}</title>
     </Head>
     <AuthenticatedLayout>
-     <SpecialistViewTemplate 
+     <SpecialistViewTemplate :specializations="specializations"
      :specialist="specialist" :social-medias="socialMedias" 
      :languages="languages" :courses="courses" :my-review="myReview"
      :reviews="reviews"/>

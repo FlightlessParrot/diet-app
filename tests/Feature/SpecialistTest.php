@@ -49,7 +49,7 @@ class SpecialistTest extends TestCase
         $targets=Target::all();
         $response = $this->actingAs($user)->post(route("specialist.store"),[
             'title'=>Title::MGR_INZ->value,
-            'specialization'=>Specialization::DK->value,
+            'specializations'=>[Specialization::DK->value],
             'name' => fake()->name(),
             'surname' => fake()->lastName(),
             'number' => $number,
@@ -66,7 +66,7 @@ class SpecialistTest extends TestCase
         $this->assertCount(2,$specialistTargets);
         $this->assertNotNull($specialistTargets->find($targets[0]->id));
         $this->assertNotNull($specialistTargets->find($targets[1]->id));
-        $this->assertSame($specialist->specialization,Specialization::DK->value);
+        $this->assertSame($specialist->specializations()->first()->name,Specialization::DK->value);
         $this->assertSame($specialist->title,Title::MGR_INZ->value);
         $this->assertEquals(MyRole::where('name','specialist')->first(), $user->myRole);
     }
@@ -77,7 +77,7 @@ class SpecialistTest extends TestCase
         $user = User::has("specialist")->first();
         $response = $this->actingAs($user)->post(route("specialist.store"),[
             'title'=>Title::MGR_INZ->value,
-            'specialization'=>Specialization::DK->value,
+            'specializations'=>[Specialization::DK->value],
             'name' => fake()->name(),
             'surname' => fake()->lastName(),
             'number' => '12342232'
@@ -109,7 +109,7 @@ class SpecialistTest extends TestCase
         $targets=Target::all();
         $specialist=$user->specialist()->save(Specialist::make([
             'title'=>Title::MGR_INZ->value,
-            'specialization'=>Specialization::DK->value,
+            'specializations'=>[Specialization::DK->value],
             'name' => 'John',
             'surname' => 'Smith',
             
@@ -118,7 +118,7 @@ class SpecialistTest extends TestCase
         $specialization = Specialization::DK;
         $response = $this->actingAs($user)->from(route('specialist.profile.edit',$specialist->id))->put(route('specialist.profile.update',$specialist->id),[
             'title'=>$title->value,
-            'specialization'=>$specialization->value,
+            'specializations'=>[$specialization->value],
             'name' => 'Johannes',
             'surname' => 'Smith',
             'targets'=>[$targets[0]->id,$targets[1]->id]
@@ -128,7 +128,7 @@ class SpecialistTest extends TestCase
 
         $response->assertRedirectToRoute('specialist.profile.edit',$specialist->id);
         $this->assertSame($specialist->title,$title->value);
-        $this->assertSame($specialist->specialization,$specialization->value);
+        $this->assertSame($specialist->specializations()->first()->name,$specialization->value);
         $this->assertSame($specialist->name,'Johannes');
         $this->assertSame($specialist->surname,'Smith');
 

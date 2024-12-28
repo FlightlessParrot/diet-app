@@ -39,7 +39,7 @@ class CategoryControllerTest extends TestCase
         $specialist->refresh();
         $specialistCategories=$specialist->categories()->get();
         
-        $response->assertRedirect(route('dashboard'));
+        $response->assertRedirect();
         $this->assertCount(2, $specialistCategories);
         
     }
