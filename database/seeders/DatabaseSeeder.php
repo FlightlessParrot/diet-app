@@ -105,6 +105,7 @@ class DatabaseSeeder extends Seeder
         $specialization=Specialization::first();
         $user->specialist->specializations()->attach($specialization);
         $this->call([BookingSeeder::class, ReviewSeeder::class,  StatisticSeeder::class, CourseSeeder::class, TargetSeeder::class, 
-        DocumentSeeder::class, FollowersSeeder::class, FavouritePriceSeeder::class, CommerceSeeder::class, SocialMediaSeeder::class]);
+        DocumentSeeder::class, FollowersSeeder::class, FavouritePriceSeeder::class, CommerceSeeder::class, SocialMediaSeeder::class, 
+        SpecialistPaymentMethodsSeeder::class]);
     }
 }

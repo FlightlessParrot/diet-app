@@ -55,7 +55,7 @@ const icon = computed(
                     <InputError class="mt-2" :message="form.errors.type" />
                 </div>
                 <div class="flex gap-6 flex-wrap">
-                <PrimaryButton>Update</PrimaryButton>
+                <PrimaryButton>Edytujw</PrimaryButton>
                 <DangerButton @click.prevent="router.delete(route('socialMedia.destroy', socialMedia.id))">Usuń</DangerButton>
                 </div>
             </div>

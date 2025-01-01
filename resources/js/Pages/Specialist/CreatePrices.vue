@@ -5,12 +5,17 @@ import {Head, Link } from "@inertiajs/vue3";
 
 import Title from "@/Components/Title.vue";
 import PriceListForm from "./Profile/Partials/PriceListForm.vue";
+import SpecialistsPaymentMethodsTemplate from "@/Parts/SpecialistsPaymentMethodsTemplate.vue";
 
 const props = defineProps({
     prices: {
         type: Array,
         required: true
-    }
+    },
+    paymentMethods: {
+        type: Array,
+        required: true
+    },
 })
 </script>
 <template>
@@ -24,7 +29,14 @@ const props = defineProps({
                 </template>
             </Title>
            <PriceListForm :prices="prices" />
-           <Link :href = "route('description.create')" class="bg-green-500 mx-auto inline-block p-2 px-4 font-bold  text-white mt-4 w-48 text-center rounded">
+           
+           
+        </Tile>
+        <Tile>
+            <SpecialistsPaymentMethodsTemplate :payment-methods="paymentMethods"/>
+        </Tile>
+        <Tile>
+            <Link :href = "route('description.create')" class="bg-green-500 mx-auto inline-block p-2 px-4 font-bold  text-white mt-4 w-48 text-center rounded">
             Dalej
         </Link>
         </Tile>

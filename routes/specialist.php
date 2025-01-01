@@ -19,6 +19,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SpecialistDashboardController;
+use App\Http\Controllers\SpecialistPaymentMethodsController;
 use App\Models\Specialist;
 use Illuminate\Support\Facades\Route;
 
@@ -127,4 +128,8 @@ Route::middleware(["auth", "spec"])->prefix('dla-specjalisty')->group(function (
     Route::post('social-media',[SocialMediaController::class,'store'])->name('socialMedia.store');
     Route::put('social-media/{socialMedia}',[SocialMediaController::class,'update'])->name('socialMedia.update');
     Route::delete('social-media/{socialMedia}',[SocialMediaController::class,'destroy'])->name('socialMedia.destroy');
+});
+Route::middleware(["auth", "spec"])->prefix('dla-specjalisty')->group(function () {
+    Route::put('payments-methods',SpecialistPaymentMethodsController::class)->name('specialist.payments');
+    
 });

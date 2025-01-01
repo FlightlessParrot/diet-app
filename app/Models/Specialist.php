@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Orchid\Filters\Filterable;
 use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\Where;
@@ -198,5 +199,15 @@ class Specialist extends Model
     public function specializations() : BelongsToMany
     {
         return $this->belongsToMany(Specialization::class);
+    }
+
+    public function paymentMethods():HasMany
+    {
+        return $this->hasMany(SpecialistPaymentMethod::class);
+    }
+
+    public function paymentMethodsNames() : Collection
+    {
+        return $this->hasMany(SpecialistPaymentMethod::class)->get()->map(fn (SpecialistPaymentMethod $paymentMethod)=>$paymentMethod->name);
     }
 }

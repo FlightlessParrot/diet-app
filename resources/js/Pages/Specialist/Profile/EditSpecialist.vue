@@ -20,6 +20,7 @@ import Languages from "@/Parts/Language/Languages.vue";
 import SpecialistLayout from "@/Layouts/SpecialistLayout.vue";
 import Documents from "@/Parts/Documents.vue";
 import SocialMedia from "./Partials/SocialMedia.vue";
+import SpecialistsPaymentMethodsTemplate from "@/Parts/SpecialistsPaymentMethodsTemplate.vue";
 const page = usePage();
 defineProps({
     addresses: {
@@ -83,6 +84,10 @@ defineProps({
     },
     specializations: {
         type: Array
+    },
+    paymentMethods: {
+        type: Array,
+        required: true
     }
 }); 
 
@@ -153,6 +158,9 @@ defineProps({
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <PriceListForm class="max-w-xl" :prices="prices"  />
                 </div>
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <SpecialistsPaymentMethodsTemplate :payment-methods="paymentMethods" />
+                </div> 
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <CategoriesForm class="max-w-xl" :all-categories="categories" :checked-categories="checkedCategories"/>
                 </div>

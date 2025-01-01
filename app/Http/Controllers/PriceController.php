@@ -28,7 +28,8 @@ class PriceController extends Controller
         if($user->can('create',Price::class))
         {
             
-            return Inertia::render('Specialist/CreatePrices',['prices'=>$user->specialist->prices()->get()]);
+            return Inertia::render('Specialist/CreatePrices',['prices'=>$user->specialist->prices()->get(), 
+            'paymentMethods'=>$user->specialist->paymentMethodsNames()]);
         }else{
             return redirect()->back()->withErrors(['text'=>'Coś poszło nie tak']);
         }

@@ -116,7 +116,10 @@ class SpecialistController extends Controller
             'courses'=>$specialist->courses()->orderByDesc('start_date')->get(),
             'languages'=>$specialist->languages()->get(),
             'documents'=>$specialist->documents()->get(),
-            'socialMediaTypes'=> array_column(SocialMedia::cases(), 'value'),'socialMedias'=>$specialist->socialMedias()->get()]);
+            'socialMediaTypes'=> array_column(SocialMedia::cases(), 'value'),
+            'socialMedias'=>$specialist->socialMedias()->get(),
+            'paymentMethods'=>$specialist->paymentMethodsNames(),
+            ]);
         }else{
             return response('Nie masz uprawnień, aby wykonać tę akcje.',401);
         }
