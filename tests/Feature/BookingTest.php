@@ -30,7 +30,8 @@ class BookingTest extends TestCase
         $specialist = $user->specialist;
         
 
-        $response = $this->actingAs($user)->post(route('bookings.store',[$specialist->id]),['selectedDate'=>['start'=>$isoStartDate,'end'=>$isoEndDate]]);
+        $response = $this->actingAs($user)->post(route('bookings.store',[$specialist->id]),['selectedDate'=>['start'=>$isoStartDate,'end'=>$isoEndDate],
+        'days'=>[]]);
         
         $response->assertSessionHasErrors();
         $specialist->refresh();
@@ -47,13 +48,15 @@ class BookingTest extends TestCase
         $user =  User::factory()->has(Specialist::factory())->create();
         $specialist = $user->specialist;
         
-
-        $response = $this->actingAs($user)->post(route('bookings.store',[$specialist->id]),['selectedDate'=>['start'=>$isoStartDate,'end'=>$isoEndDate]]);
+        
+        $response = $this->actingAs($user)->post(route('bookings.store',[$specialist->id]),
+        ['days'=>array(),'selectedDate'=>['start'=>$isoStartDate,'end'=>$isoEndDate],]);
         
         $response->assertSessionHas(['message'=>[
             'text' => 'Pomiędzy początkową, a końcową godziną musi być przynajmniej 30 minut.',
             'status' => 'error'
         ]]);
+        
         $bookings=$specialist->bookings()->get();
         $this->assertCount(0,$bookings);
     }
@@ -68,7 +71,8 @@ class BookingTest extends TestCase
         $specialist = $user->specialist;
         $address = $specialist->addresses()->first();
 
-        $response = $this->from('/example/url')->actingAs($user)->post(route('bookings.store',[$specialist->id]),['selectedDate'=>['start'=>$isoStartDate,'end'=>$isoEndDate],'address'=>$address->id]);
+        $response = $this->from('/example/url')->actingAs($user)->post(route('bookings.store',[$specialist->id]),
+        ['selectedDate'=>['start'=>$isoStartDate,'end'=>$isoEndDate],'address'=>$address->id,'days'=>[]]);
         
         $response->assertRedirect('/example/url');
         $specialist->refresh();
@@ -83,8 +87,8 @@ class BookingTest extends TestCase
     public function test_specialist_can_store_booking_by_day_of_week(): void
     {
         $this->seed(TestSeeder::class);
-        $startDate=(floor(2544472800/86400))*86400+3*86400;
-        $endDate=$startDate+86400*7+2*60*30;
+        $startDate=(floor(time()/86400))*86400+13*86400;
+        $endDate=$startDate+86400*7+2*60*35;
         $isoStartDate=date('c', $startDate);
         $isoEndDate=date('c', $endDate);
         $user =  User::factory()->has(Specialist::factory()->has(Address::factory()))->create();
@@ -93,7 +97,7 @@ class BookingTest extends TestCase
         $address = $specialist->addresses()->first();
 
         $response = $this->from('/example/url')->actingAs($user)->post(route('bookings.store',[$specialist->id]),
-        ['selectedDate'=>['start'=>$isoStartDate,'end'=>$isoEndDate],'address'=>$address->id,'day'=>(int)date('N',$startDate)]);
+        ['selectedDate'=>['start'=>$isoStartDate,'end'=>$isoEndDate],'address'=>$address->id,'days'=>[(int)date('N',$startDate)]]);
         
         $response->assertRedirect('/example/url');
         $specialist->refresh();
@@ -130,7 +134,7 @@ class BookingTest extends TestCase
         $startDate=(floor(time()/86400))*86400+2*86400+00001;
         $user =  User::factory()->has(Specialist::factory())->create();
         $specialist = $user->specialist;
-        $booking=$specialist->bookings()->create(['start_date'=>date('c', $startDate+2*60*60),'end_date'=>date('c', $startDate+60*30+2*60*60)]);
+        $booking=$specialist->bookings()->create(['start_date'=>date('c', $startDate+2*60*60),'end_date'=>date('c', $startDate+60*30+2*60*60),'days'=>[]]);
 
         $response = $this->actingAs($user)->delete(route('bookings.destroy',[$specialist->id,$booking->id]));
         

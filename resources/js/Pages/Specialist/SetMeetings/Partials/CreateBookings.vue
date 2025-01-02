@@ -10,6 +10,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
 import Address from "@/Components/Address.vue"
+import WhichDayOfWeekCheckboxes from "@/Components/checkboxes/WhichDayOfWeekCheckboxes.vue";
 const props = defineProps({
     provinces: {
         type: Array,
@@ -30,7 +31,7 @@ const form = useForm({
         end: nextDay.toISOString(),
     },
     address: 0,
-    day: null
+    days: []
     
 });
 
@@ -91,7 +92,7 @@ const rules = ref({
                         </TabPanel>
                        
                     </TabView>
-                    <WhichDayOfWeekRadios v-model="form.day" :error="form.errors.day" class="mt-4 mb-6"/>
+                    <WhichDayOfWeekCheckboxes v-model="form.days" :error="form.errors.days" class="mt-4 mb-6"/>
                     <PrimaryButton :disabled="form.processing" 
                         >Zapisz</PrimaryButton
                     >

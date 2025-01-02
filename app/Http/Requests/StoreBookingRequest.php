@@ -29,7 +29,8 @@ class StoreBookingRequest extends FormRequest
             'selectedDate.start'=>'required|date|after_or_equal:tomorrow',
             'selectedDate.end'=>'required|date|after:selectedDate.start',
             'address'=>'nullable|exists:App\Models\Address,id',
-            'day'=>['nullable',Rule::enum(DaysOfWeek::class)]
+            'days'=>'array',
+            'days.*'=>[Rule::enum(DaysOfWeek::class)],
         ];
     }
 }

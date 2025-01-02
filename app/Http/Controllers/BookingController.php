@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Supports\DayClerk\DayClerk;
+use Error;
 
 class BookingController extends Controller
 {
@@ -84,23 +85,31 @@ class BookingController extends Controller
                 );
               
             }
+
+            //save Booking
             $dates = new Collection();
-            if(isset($request->day))
-            {
-                $day=DaysOfWeek::from($request->day);
-                $dates=$dateClerk->getByDayOfWeek($day);
-            }else{
-               $dates=$dateClerk->getAllDates(); 
-            }
-            
-            foreach($dates as [$startDate, $endDate])
-            {
+            $saveBooking= function ($dates,$specialist,$address){
+                foreach($dates as [$startDate, $endDate])
+                {
                 $booking = new Booking();
                 $booking->start_date = $startDate;
                 $booking->end_date = $endDate;
                 $booking->address()->associate($address);
                 $specialist->bookings()->save($booking);
+                }
+            };
+            foreach($request->days as $day)
+            {
+                $day=DaysOfWeek::from($day);
+                $dates=$dateClerk->getByDayOfWeek($day);
+                $saveBooking($dates, $specialist,$address);
             }
+            if(count($request->days)===0)
+            {
+               $dates=$dateClerk->getAllDates(); 
+               $saveBooking($dates, $specialist,$address);
+            }
+      
 
             return redirect()->back()->with('message', ['text' => 'Udało się', 'status' => 'success']);
         } else {
