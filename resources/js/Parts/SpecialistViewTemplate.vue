@@ -51,6 +51,10 @@ const props = defineProps({
     specializations: {
         type: Array,
         required: true
+    },
+    paymentMethods: {
+        type: Array,
+        required: true
     }
 
 });
@@ -65,7 +69,6 @@ watch(
     [props],
     () => {
         if (!props.guest && props.myReview) {
-            console.log(form);
             form.text = props.myReview.text;
             form.grade = props.myReview.grade * 1;
         }
@@ -236,6 +239,13 @@ const actionUrl = computed(()=>props.guest ? route('maybe.login',[props.speciali
                                 </template>
                             </Column>
                         </DataTable>
+                        <Divider class="mt-4">
+                        </Divider>
+                        <h3 class="font-bold block">Metody płatności</h3>
+                        <ul>
+                            <li v-for="paymentMethod in paymentMethods">{{ paymentMethod }}</li>
+
+                        </ul>
                     </AccordionTab>
                     <AccordionTab
                         header="Grupy docelowe"

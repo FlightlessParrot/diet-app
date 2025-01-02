@@ -54,7 +54,8 @@ class SpecialistViewController extends Controller
         //socialMedias
         $socialMedias = $specialist->socialMedias()->get();
         return Inertia::render('User/SpecialistView',['specialist'=>$specialist, 'reviews'=>$reviews, 'myReview'=>$myReview, 
-        'courses' =>$courses, 'languages'=>$languages, 'socialMedias'=>$socialMedias, 'specializations'=>$specialist->specializations()->get()]);
+        'courses' =>$courses, 'languages'=>$languages, 'socialMedias'=>$socialMedias, 'specializations'=>$specialist->specializations()->get(),
+        'paymentMethods'=>$specialist->paymentMethodsNames()]);
     }
 
     public function guest(Specialist $specialist) : Response
@@ -94,6 +95,7 @@ class SpecialistViewController extends Controller
         //socialMedias
         $socialMedias = $specialist->socialMedias()->get();
         return Inertia::render('Guest/SpecialistView',['specialist'=>$specialist, 'reviews'=>$reviews,  
-        'courses' =>$courses, 'languages'=>$languages, 'socialMedias'=>$socialMedias,'specializations'=>$specialist->specializations()->get()]);
+        'courses' =>$courses, 'languages'=>$languages, 'socialMedias'=>$socialMedias,'specializations'=>$specialist->specializations()->get(),
+        'paymentMethods'=>$specialist->paymentMethodsNames()]);
     }
 }

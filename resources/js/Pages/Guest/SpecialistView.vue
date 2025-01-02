@@ -25,6 +25,10 @@ const props = defineProps({
     specializations: {
         type: Array,
         required: true
+    },
+    paymentMethods: {
+        type: Array,
+        required: true
     }
 });
 const title = computed(
@@ -42,6 +46,6 @@ const title = computed(
     </Head>
     <GuestLayoutForPages>
      <SpecialistViewTemplate :specializations="specializations" :specialist="specialist":social-medias="socialMedias" :languages="languages" :courses="courses" 
-     :reviews="reviews" :guest="true"/>
+     :reviews="reviews" :guest="true" :payment-methods="paymentMethods"/>
     </GuestLayoutForPages>
 </template>
