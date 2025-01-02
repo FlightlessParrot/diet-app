@@ -23,7 +23,10 @@ class ReviewRequest extends FormRequest
     {
         return [
             'text'=>'max:600|string|required',
-            'grade'=>'integer|max:5|min:1'
+            'grade'=>'integer|max:5|min:1',
+            'grade_atmosphere'=>'integer|max:5|min:1',
+            'grade_punctuality'=>'integer|max:5|min:1',
+            'grade_explanation'=>'integer|max:5|min:1'
         ];
     }
 }

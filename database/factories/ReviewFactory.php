@@ -20,6 +20,9 @@ class ReviewFactory extends Factory
         return [
             'text'=>fake()->realText(800),
             'grade'=>random_int(1,5),
+            'grade_explanation'=>random_int(1,5),
+            'grade_punctuality'=>random_int(1,5),
+            'grade_atmosphere'=>random_int(1,5),
             'user_id'=>User::factory()->create()->id
             
         ];

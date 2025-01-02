@@ -40,6 +40,9 @@ class ReviewController extends Controller
             $review->user_id=$user->id;
             $review->text=$request->text;
             $review->grade = $request->grade;
+            $review->grade_atmosphere = $request->grade_atmosphere;
+            $review->grade_punctuality = $request->grade_punctuality;
+            $review->grade_explanation = $request->grade_explanation;
             $specialist->reviews()->save($review);
             $critic = new Critic($specialist);
             $critic->criticize();
@@ -81,6 +84,9 @@ class ReviewController extends Controller
         {
             $review->text=$request->text;
             $review->grade = $request->grade;
+            $review->grade_atmosphere = $request->grade_atmosphere;
+            $review->grade_punctuality = $request->grade_punctuality;
+            $review->grade_explanation = $request->grade_explanation;
             $review->save();
             $specialist = $review->specialist;
             $critic = new Critic($specialist);

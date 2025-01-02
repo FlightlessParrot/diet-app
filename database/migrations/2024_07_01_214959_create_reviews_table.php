@@ -20,6 +20,9 @@ return new class extends Migration
             $table->foreignIdFor(Specialist::class);
             $table->text('text');
             $table->enum('grade',[1,2,3,4,5]);
+            $table->enum('grade_atmosphere',[1,2,3,4,5]);
+            $table->enum('grade_punctuality',[1,2,3,4,5]);
+            $table->enum('grade_explanation',[1,2,3,4,5]);
         });
     }
 

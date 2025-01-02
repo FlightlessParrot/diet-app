@@ -61,6 +61,9 @@ const props = defineProps({
 const form = useForm({
     text: "",
     grade: 5,
+    grade_atmosphere: 5,
+    grade_punctuality: 5,
+    grade_explanation: 5,
 });
 
 const showUpdateForm = ref(false);
@@ -71,6 +74,9 @@ watch(
         if (!props.guest && props.myReview) {
             form.text = props.myReview.text;
             form.grade = props.myReview.grade * 1;
+            form.grade_atmosphere=props.myReview.grade_atmosphere * 1;
+            form.grade_punctuality = props.myReview.grade_punctuality * 1;
+            form.grade_explanation = props.myReview.grade_explanation * 1;
         }
     },
     { immediate: true }
@@ -280,6 +286,9 @@ const actionUrl = computed(()=>props.guest ? route('maybe.login',[props.speciali
                     <CommentForm
                         v-model:text="form.text"
                         v-model:grade="form.grade"
+                        v-model:grade_atmosphere="form.grade_atmosphere"
+                        v-model:grade_punctuality="form.grade_punctuality"
+                        v-model:grade_explanation="form.grade_explanation"
                     />
                     <PrimaryButton>Publikuj</PrimaryButton>
                 </form>
@@ -304,6 +313,10 @@ const actionUrl = computed(()=>props.guest ? route('maybe.login',[props.speciali
                     <CommentForm
                         v-model:text="form.text"
                         v-model:grade="form.grade"
+                        v-model:grade_atmosphere="form.grade_atmosphere"
+                        v-model:grade_punctuality="form.grade_punctuality"
+                        v-model:grade_explanation="form.grade_explanation"
+
                     />
                     <PrimaryButton>Edytuj</PrimaryButton>
                 </form>

@@ -25,7 +25,7 @@ class ReviewTest extends TestCase
         $statistic->review_grade = 3;
         $statistic->save();
 
-        $data=['text'=>'Some text','grade'=>2];
+        $data=['text'=>'Some text','grade'=>2,'grade_atmosphere'=>3,'grade_explanation'=>4,'grade_punctuality'=>5];
         $response = $this->actingAs($user)->post(route('review.store',[$specialist->id]),$data);
         $reviews = $user->reviews()->get();
         $review=$user->reviews()->first();
@@ -35,6 +35,9 @@ class ReviewTest extends TestCase
         $this->assertEquals($specialist->id, $review->specialist->id);
         $this->assertEquals($review->text,$data['text']);
         $this->assertEquals($review->grade,$data['grade']);
+        $this->assertEquals($review->grade_atmosphere,$data['grade_atmosphere']);
+        $this->assertEquals($review->grade_explanation,$data['grade_explanation']);
+        $this->assertEquals($review->grade_punctuality,$data['grade_punctuality']);
         $this->assertEquals($specialist->statistic->review_grade,$data['grade']);
     }
 
@@ -69,7 +72,7 @@ class ReviewTest extends TestCase
 
         $review= Review::factory()->make(['user_id'=>$user->id,'grade' => 2]);
         $specialist->reviews()->save($review);
-        $data=['text'=>'Some text','grade'=>2];
+        $data=['text'=>'Some text','grade'=>2,'grade_atmosphere'=>3,'grade_explanation'=>4,'grade_punctuality'=>5];
     
         $response = $this->actingAs($user)->put(route('review.update',[$review->id]),$data);
         $review->refresh();
@@ -79,6 +82,9 @@ class ReviewTest extends TestCase
         $this->assertEquals($specialist->id, $review->specialist->id);
         $this->assertEquals($review->text,$data['text']);
         $this->assertEquals($review->grade,$data['grade']);
+        $this->assertEquals($review->grade_atmosphere,$data['grade_atmosphere']);
+        $this->assertEquals($review->grade_explanation,$data['grade_explanation']);
+        $this->assertEquals($review->grade_punctuality,$data['grade_punctuality']);
         $this->assertEquals($specialist->statistic->review_grade,$data['grade']);
     }
 }
